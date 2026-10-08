@@ -60,7 +60,7 @@ export default function TermsPage() {
               <span>02. 현재 개발 중인 제품 웹사이트 명시 (Pre-Launch & Active Development Notice)</span>
             </h2>
             <p>
-              본 웹사이트에 명시된 모든 제품 기능, 기술 구조, 워크플로우 다이어그램 및 시각 자료는 **현재 활발히 연구·개발(Active Development) 중인 제품**에 관한 사전 정보 제공 및 스타트업 프로그램 신청을 위한 안내 목적입니다.
+              본 웹사이트에 명시된 모든 제품 기능, 기술 구조, 워크플로우 다이어그램 및 시각 자료는 **현재 활발히 연구·개발(Active Development) 중인 제품**에 관한 사전 정보 제공 및 제품 소개를 위한 안내 목적입니다.
             </p>
             <p className="text-xs text-slate-400">
               * &quot;Designed to support...&quot; 또는 &quot;Planned workflow&quot;로 표시된 항목은 개발 진행 상태에 따라 구체적 포맷 및 연동 사양이 발전하거나 변경될 수 있습니다.

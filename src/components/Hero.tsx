@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Sparkles, ArrowRight, ShieldCheck, Code, CheckCircle2 } from "lucide-react";
+import { ArrowRight, ShieldCheck, Code, CheckCircle2 } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -36,10 +36,6 @@ export default function Hero() {
           
           {/* Transparent Program & Development Badges */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-amber-500/30 text-amber-300 text-xs font-medium">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-              <span>Claude for Startups Program Candidate</span>
-            </div>
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700 text-slate-300 text-xs font-medium">
               <ShieldCheck className="w-3.5 h-3.5 text-sky-400" />
               <span>Early Stage Product in Active Development</span>
@@ -73,7 +69,7 @@ export default function Hero() {
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              Claude 3.5 Sonnet API Powered
+              Claude API Powered
             </span>
             <span className="flex items-center gap-1.5">
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
@@ -113,7 +109,7 @@ export default function Hero() {
               </div>
               <div className="flex items-center gap-2 text-xs text-slate-400 font-mono">
                 <Code className="w-3.5 h-3.5 text-sky-400" />
-                <span>Engine: Claude 3.5 Sonnet API</span>
+                <span>Engine: Claude API</span>
               </div>
             </div>
 

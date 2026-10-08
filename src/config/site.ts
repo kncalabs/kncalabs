@@ -16,18 +16,18 @@ export const siteConfig = {
     description: "KNCA is currently under active development. We are building the core automation infrastructure first, with a focus on reliability, modular workflows, and scalable content operations.",
     statusList: [
       { step: "Phase 01", title: "Core Infrastructure & Architecture", status: "Completed" },
-      { step: "Phase 02", title: "Claude 3.5 Sonnet API Integration", status: "Development — Active" },
-      { step: "Phase 03", title: "Claude for Startups Application & Closed Beta", status: "Next up" },
+      { step: "Phase 02", title: "Claude API Integration", status: "Development — Active" },
+      { step: "Phase 03", title: "Closed Beta & Enterprise Preview", status: "Next up" },
       { step: "Phase 04", title: "Multi-Channel Automation Expansion", status: "Planned workflow" },
     ]
   },
   claudeStartup: {
-    title: "Claude API 기반 기술 아키텍처 및 지원 프로그램 신청",
-    subtitle: "Anthropic의 Claude 3.5 Sonnet API 모델 역량을 활용한 콘텐츠 자동화 플랫폼 개발 및 Claude for Startups 신청용 웹사이트",
+    title: "Claude API 기반 기술 아키텍처 및 연동 구조",
+    subtitle: "Anthropic의 Claude API 역량을 활용한 엔터프라이즈 콘텐츠 자동화 플랫폼 기술 아키텍처",
     highlights: [
       {
-        title: "Claude 3.5 Sonnet API 연동",
-        description: "복잡한 비즈니스 로직 분석과 맥락 추론을 위해 Anthropic의 Claude 3.5 Sonnet API를 핵심 인공지능 엔진으로 채택하여 개발 중입니다."
+        title: "Claude API 연동",
+        description: "복잡한 비즈니스 로직 분석과 맥락 추론을 위해 Anthropic의 Claude API를 핵심 인공지능 엔진으로 채택하여 개발 중입니다."
       },
       {
         title: "하이브리드 RAG & Tool Calling",

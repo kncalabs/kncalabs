@@ -23,7 +23,7 @@ export default function ContactSection() {
             </div>
 
             <p className="text-slate-300 text-base leading-relaxed">
-              Anthropic 스타트업 지원 프로그램 담당자, 기술 제휴, Closed Beta 사전 신청 문의 등 모든 안내를 신속히 전달 드립니다.
+              기술 제휴, 솔루션 연동 문의, Closed Beta 사전 신청 문의 등 모든 문의를 신속히 안내해 드립니다.
             </p>
 
             <div className="space-y-4 pt-4">
@@ -84,7 +84,7 @@ export default function ContactSection() {
                   <label className="block text-xs font-medium text-slate-300 mb-1">문의 내용</label>
                   <textarea
                     rows={4}
-                    placeholder="Anthropic 지원 프로그램 문의, 기술 협력, Closed Beta 사전 신청 내용을 자유롭게 작성해 주세요."
+                    placeholder="기술 협력, 솔루션 연동, Closed Beta 사전 신청 등 문의 내용을 자유롭게 작성해 주세요."
                     className="w-full px-4 py-3 rounded-xl bg-[#080c14] border border-slate-800 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-sky-500"
                   />
                 </div>

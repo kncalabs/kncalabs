@@ -14,7 +14,7 @@ export default function ProductShowcase() {
       badge: "Analysis Engine",
       summary: "원천 콘텐츠를 분석하고 핵심 정보와 구조를 추출한다.",
       details: [
-        "Claude 3.5 Sonnet API 기반 원본 텍스트 및 아티클 인덱싱",
+        "Claude API 기반 원본 텍스트 및 아티클 인덱싱",
         "핵심 주제, 키워드, 서사 맥락(Narrative Context) 자동 분해",
         "도메인 용어 및 세만틱 구조 정밀 보존"
       ],
@@ -174,7 +174,7 @@ const workflowStatus = await kncaPipeline.manageChannels({
                   <span className="text-xs font-mono text-slate-400">knca-architecture.ts</span>
                   <div className="flex items-center gap-1.5">
                     <Code className="w-3.5 h-3.5 text-sky-400" />
-                    <span className="text-xs text-sky-300 font-mono">Claude 3.5 Sonnet Engine</span>
+                    <span className="text-xs text-sky-300 font-mono">Claude API Engine</span>
                   </div>
                 </div>
                 <pre className="p-5 font-mono text-xs text-slate-300 overflow-x-auto leading-relaxed">

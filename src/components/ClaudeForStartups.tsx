@@ -13,7 +13,7 @@ export default function ClaudeForStartups() {
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-semibold tracking-wide">
             <Sparkles className="w-4 h-4 text-amber-400" />
-            <span>Claude for Startups 프로그램 신청 제출용 가이드</span>
+            <span>Anthropic Claude API Technical Architecture</span>
           </div>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
             {siteConfig.claudeStartup.title}
@@ -78,7 +78,7 @@ export default function ClaudeForStartups() {
               <h3 className="text-xl font-bold text-white">AI / Claude API 활용 방식</h3>
             </div>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Claude 3.5 Sonnet API의 대용량 컨텍스트와 Prompt Caching, Function Calling을 핵심 기반으로 삼아 분석 및 생성을 최적화하고 있습니다.
+              Claude API의 대용량 컨텍스트와 Prompt Caching, Function Calling을 핵심 기반으로 삼아 분석 및 생성을 최적화하고 있습니다.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ export default function ClaudeForStartups() {
               <h3 className="text-xl font-bold text-white">개발 진척 상황</h3>
             </div>
             <p className="text-sm text-slate-300 leading-relaxed">
-              현재 코어 엔진 알파 테스트를 진행 중이며, Claude for Startups 프로그램 지원과 함께 Closed Beta를 준비하고 있습니다.
+              현재 코어 엔진 알파 테스트를 진행 중이며, 기술 검증과 함께 Closed Beta를 준비하고 있습니다.
             </p>
           </div>
 
@@ -103,10 +103,10 @@ export default function ClaudeForStartups() {
             </div>
             <div className="space-y-1">
               <span className="text-xs font-mono text-indigo-400">Pillar 06 — 공식 채널</span>
-              <h3 className="text-xl font-bold text-white">소통 및 신청 채널</h3>
+              <h3 className="text-xl font-bold text-white">소통 및 파트너십 채널</h3>
             </div>
             <p className="text-sm text-slate-300 leading-relaxed">
-              Anthropic 프로그램 담당자가 직접 제품 개발 상황을 확인하고 소통할 수 있도록 공식 채널(founder@kncalabs.com)을 유지합니다.
+              엔터프라이즈 파트너 및 기술 제휴 문의에 신속하게 소통할 수 있도록 공식 채널(founder@kncalabs.com)을 운영합니다.
             </p>
           </div>
 
@@ -117,17 +117,17 @@ export default function ClaudeForStartups() {
           <div className="space-y-2 text-left">
             <div className="flex items-center gap-2 text-amber-400 font-mono text-xs font-semibold">
               <Sparkles className="w-4 h-4" />
-              <span>Claude for Startups Application Statement</span>
+              <span>Anthropic Claude API Integration Statement</span>
             </div>
             <h4 className="text-xl font-bold text-white">
-              Anthropic Claude API 크레딧 및 스타트업 지원 프로그램 신청 목적
+              Anthropic Claude API 기반 엔터프라이즈 인텔리전스 구현
             </h4>
             <p className="text-sm text-slate-300 max-w-2xl">
-              KNCA는 Anthropic의 Claude 스타트업 지원 프로그램을 신청하기 위한 목적으로 본 공식 웹사이트를 작성하였으며, Claude API 기반의 제품을 투명하고 성실하게 개발해 나가고 있습니다.
+              KNCA는 Anthropic의 최신 Claude API 모델 역량을 중심으로 설계되었으며, 안정적이고 정밀한 콘텐츠 자동화 파이프라인을 구축해 나가고 있습니다.
             </p>
           </div>
           <a
-            href="mailto:founder@kncalabs.com?subject=[Claude%20for%20Startups%20Inquiry]%20KNCA%20Application"
+            href="mailto:founder@kncalabs.com?subject=[Claude%20API%20Inquiry]%20KNCA%20Contact"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-sm transition-all whitespace-nowrap shadow-lg shadow-amber-500/20"
           >
             <span>담당자 문의하기</span>

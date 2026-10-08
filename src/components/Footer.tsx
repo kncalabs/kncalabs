@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { Cpu, Sparkles } from "lucide-react";
+import { Cpu } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -27,11 +27,6 @@ export default function Footer() {
             <p className="text-slate-400 max-w-sm leading-relaxed text-xs">
               KNCA Labs is an independent software studio focused on building practical AI-powered automation tools for content creation and digital workflows.
             </p>
-
-            <div className="flex items-center gap-1.5 text-amber-400 font-mono text-[11px] pt-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Claude for Startups Candidate Web Showcase</span>
-            </div>
           </div>
 
           {/* Links */}

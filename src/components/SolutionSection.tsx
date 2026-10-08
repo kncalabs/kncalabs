@@ -18,7 +18,7 @@ export default function SolutionSection() {
       icon: Brain,
       title: "UNDERSTAND",
       subtitle: "Claude API 추론 파악",
-      desc: "Anthropic Claude 3.5 Sonnet API가 핵심 인사이트와 문맥을 분석합니다.",
+      desc: "Anthropic Claude API가 핵심 인사이트와 문맥을 분석합니다.",
       badge: "Analysis"
     },
     {

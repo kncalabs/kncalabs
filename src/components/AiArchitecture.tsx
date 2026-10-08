@@ -8,7 +8,7 @@ export default function AiArchitecture() {
     {
       icon: Cpu,
       title: "Content Analysis & Reasoning",
-      desc: "Claude 3.5 Sonnet API의 대용량 추론 역량을 바탕으로 원천 문맥 및 핵심 의미를 파악합니다."
+      desc: "Claude API의 대용량 추론 역량을 바탕으로 원천 문맥 및 핵심 의미를 파악합니다."
     },
     {
       icon: RefreshCw,
@@ -35,7 +35,7 @@ export default function AiArchitecture() {
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono font-semibold">
             <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span>Claude for Startups Technical Showcase</span>
+            <span>Anthropic Claude API Technical Showcase</span>
           </div>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight">
@@ -57,7 +57,7 @@ export default function AiArchitecture() {
             &quot;Claude is being integrated into the KNCA development and content-processing workflow for tasks such as content analysis, transformation, generation, reasoning, and quality control.&quot;
           </p>
           <p className="text-xs text-slate-400">
-            * 본 웹사이트는 Anthropic Claude for Startups 지원 프로그램 심사를 위해 구체적인 기술 적용 방식과 비전을 성실히 기술한 공식 페이지입니다.
+            * 본 웹사이트는 KNCA Labs의 핵심 기술 아키텍처 및 Claude API 연동 파이프라인을 기술한 공식 페이지입니다.
           </p>
         </div>
 

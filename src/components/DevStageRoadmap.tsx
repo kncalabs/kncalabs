@@ -13,15 +13,15 @@ export default function DevStageRoadmap() {
     },
     {
       phase: "Phase 02",
-      title: "Claude 3.5 Sonnet API Integration",
+      title: "Claude API Integration",
       status: "Development — Active",
       desc: "Anthropic Claude API 오케스트레이션 및 Prompt Caching 연동 알파 테스트 진행 중."
     },
     {
       phase: "Phase 03",
-      title: "Claude for Startups Application & Closed Beta",
+      title: "Closed Beta & Partner Preview",
       status: "Next up",
-      desc: "스타트업 지원 프로그램 검토 및 Closed Beta 사전 신청 접수 진행."
+      desc: "Closed Beta 사전 신청 접수 및 엔터프라이즈 프리뷰 진행."
     },
     {
       phase: "Phase 04",
