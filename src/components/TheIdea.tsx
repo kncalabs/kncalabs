@@ -20,7 +20,7 @@ export default function TheIdea() {
         <div className="inline-flex items-center justify-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-white/10 text-slate-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-            <span className="tracking-widest uppercase text-[11px]">4. THE IDEA</span>
+            <span className="tracking-widest uppercase text-[11px]">THE IDEA</span>
           </div>
         </div>
 

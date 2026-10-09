@@ -55,12 +55,12 @@ export default function TrustAndConversion() {
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300 text-xs font-mono font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>5. COMPANY</span>
+              <span className="tracking-widest uppercase text-[11px]">ACCESS</span>
             </div>
 
             <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
-              Build Once. <br />
-              <span className="text-gradient">Automate More.</span>
+              Deploy Your <br />
+              <span className="text-gradient">Content System.</span>
             </h2>
 
             <p className="text-base sm:text-xl text-slate-400 leading-relaxed font-normal">
@@ -232,7 +232,7 @@ export default function TrustAndConversion() {
             <div>
               <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-wider">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>5. COMPANY · OPERATING ENTITY</span>
+                <span>COMPANY · OPERATING ENTITY</span>
               </div>
               <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1.5">
                 KNCA Labs
