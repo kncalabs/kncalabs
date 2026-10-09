@@ -47,7 +47,7 @@ export default function Navbar() {
               href="#capabilities"
               className="hover:text-white transition-colors"
             >
-              Capabilities
+              Publishing
             </Link>
             <Link
               href="#the-idea"
@@ -101,7 +101,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block text-slate-400 hover:text-white py-1"
             >
-              Capabilities
+              Publishing
             </Link>
             <Link
               href="#the-idea"

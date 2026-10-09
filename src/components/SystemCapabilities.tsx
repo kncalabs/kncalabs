@@ -103,16 +103,15 @@ export default function SystemCapabilities() {
 
       <div className="max-w-6xl mx-auto w-full space-y-14 sm:space-y-18 relative z-10">
         
-        {/* Header: Unified What We Do & Capabilities Specification */}
+        {/* Header: Unified Publishing Architecture */}
         <div className="text-center max-w-4xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-            <span className="tracking-widest uppercase text-[11px]">WHAT WE DO · CAPABILITIES</span>
+            <span className="tracking-widest uppercase text-[11px]">CAPABILITIES</span>
           </div>
 
-          <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
-            Four Stages. <br />
-            <span className="text-gradient">One Autonomous Pipeline.</span>
+          <h2 className="text-5xl sm:text-7xl md:text-8xl font-black text-white tracking-tight leading-[0.98]">
+            Publishing<span className="text-gradient">.</span>
           </h2>
 
           <p className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto font-normal leading-relaxed">
