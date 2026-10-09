@@ -4,6 +4,7 @@ import ProblemFriction from "@/components/ProblemFriction";
 import TheShift from "@/components/TheShift";
 import WhatWeDo from "@/components/WhatWeDo";
 import HowItWorks from "@/components/HowItWorks";
+import OneSourceManyOutputs from "@/components/OneSourceManyOutputs";
 import TangibleOutcomes from "@/components/TangibleOutcomes";
 import Capabilities from "@/components/Capabilities";
 import FutureBusiness from "@/components/FutureBusiness";
@@ -30,10 +31,13 @@ export default function Home() {
       {/* 4. What We Do: 4대 핵심 역량 에디토리얼 서사 쇼케이스 */}
       <WhatWeDo />
 
-      {/* 4. Visual Workflow: 복잡한 서비스를 4단계 시각적 플로우로 쉽게 설명 (How It Works) */}
+      {/* 5. How It Works: 4단계 연속 연결 파이프라인 (01 Capture -> 02 Understand -> 03 Transform -> 04 Distribute) */}
       <HowItWorks />
 
-      {/* 5. Concrete Tangible Results: 실제 사용 결과물과 절감 지표 시연 (Tangible Deliverables) */}
+      {/* 6. One Source -> Many Outputs: 핵심 제품 개념 매트릭스 (Left: Source -> Center: AI -> Right: Outputs) */}
+      <OneSourceManyOutputs />
+
+      {/* 7. Tangible Outcomes: 1개의 원천이 만드는 실제 결과물 콘솔 */}
       <TangibleOutcomes />
 
       {/* 6. Capabilities: 현재 구축 중인 핵심 엔진 아키텍처 (What We’re Building) */}
