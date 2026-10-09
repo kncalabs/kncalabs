@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
-  ShieldCheck,
   Code2,
   Layers,
   Cpu,
@@ -88,47 +87,46 @@ export default function Hero() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
-        <div className="text-center max-w-4xl mx-auto space-y-6 sm:space-y-7">
+        <div className="text-center max-w-5xl mx-auto space-y-6 sm:space-y-8">
           
-          {/* Top Status & Integrity Badges */}
-          <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 border border-sky-500/30 text-sky-300 text-[11px] sm:text-xs font-mono font-medium shadow-sm backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-ping hidden sm:inline-block" />
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
-              <span>AI CONTENT AUTOMATION</span>
-            </div>
-
-            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-slate-300 text-[11px] sm:text-xs font-medium backdrop-blur-md">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-              <span>Early Stage Product in Active Development</span>
+          {/* Top Status Pill - High Impact Tech AI Pulse */}
+          <div className="inline-flex items-center justify-center">
+            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
+              </span>
+              <span className="tracking-widest uppercase">AI CONTENT ORCHESTRATION</span>
+              <span className="text-slate-600">|</span>
+              <span className="text-slate-400 font-normal">Active Alpha</span>
             </div>
           </div>
 
           {/* Main Headline - Massive, commanding hierarchy */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black tracking-tight text-white leading-[1.0] break-words">
-            Build Once. <br className="hidden sm:inline" />
+          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black tracking-tight text-white leading-[0.98] break-words">
+            Build Once. <br />
             <span className="text-gradient">Automate More.</span>
           </h1>
 
           {/* Value Proposition Description - Crisp, Single Punch */}
-          <p className="text-xl sm:text-2xl md:text-3xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed">
+          <p className="text-xl sm:text-2xl md:text-3xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed">
             단 하나의 원천에서 수십 개의 채널별 콘텐츠를 자율 생성합니다.
           </p>
 
           {/* Primary & Secondary Call to Actions */}
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
             <Link
               href="#how-it-works"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:px-7 sm:py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-sky-950/20 active:scale-[0.99] transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-extrabold text-base shadow-2xl shadow-sky-400/20 active:scale-[0.99] transition-all group"
             >
               <span>Explore the Workflow</span>
-              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
-              href="#capabilities"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:px-7 sm:py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-sm sm:text-base transition-all"
+              href="#the-shift"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-base transition-all"
             >
-              <span>What We Build</span>
+              <span>The Paradigm Shift</span>
               <ArrowRight className="w-4 h-4 text-slate-400" />
             </Link>
           </div>
