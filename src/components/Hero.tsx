@@ -60,11 +60,15 @@ export default function Hero() {
 
       </div>
 
-      {/* Gentle Scroll Hint */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 text-xs font-mono opacity-60 hover:opacity-100 transition-opacity">
-        <span>SCROLL DOWN</span>
-        <div className="w-1 h-4 rounded-full bg-slate-600 animate-pulse" />
-      </div>
+      {/* Downward Scroll Indicator Cue: ↓ */}
+      <a
+        href="#the-idea"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
+        aria-label="Scroll to The Idea"
+      >
+        <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">EXPLORE</span>
+        <span className="text-lg font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
+      </a>
 
     </section>
   );
