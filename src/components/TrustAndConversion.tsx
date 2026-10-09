@@ -237,11 +237,14 @@ export default function TrustAndConversion() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.08]">
-              Founded 2023 · South Korea
+            <h3 className="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight leading-[1.02]">
+              KNCA Labs<span className="text-gradient">.</span>
             </h3>
-            <p className="text-sm sm:text-base font-mono text-slate-400">
-              KNCA Labs · Operated by Stay C Jeju (스테이씨 제주)
+            <p className="text-xl sm:text-2xl md:text-3xl font-medium text-slate-300 tracking-tight">
+              Founded 2023 · South Korea
+            </p>
+            <p className="text-xs sm:text-sm font-mono text-slate-500 pt-1">
+              Operated by Stay C Jeju (스테이씨 제주)
             </p>
           </div>
 
