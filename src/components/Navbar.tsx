@@ -14,14 +14,10 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 20);
 
       const sections = [
-        "problem-friction",
         "the-shift",
-        "what-we-do",
         "how-it-works",
-        "one-source-many-outputs",
         "product-visualization",
         "capabilities",
-        "future-business",
         "future-vision",
         "about",
         "waitlist"
@@ -76,7 +72,7 @@ export default function Navbar() {
             <Link
               href="#the-shift"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "the-shift" || activeSection === "problem-friction"
+                activeSection === "the-shift"
                   ? "text-sky-400 font-bold"
                   : "text-slate-300 hover:text-white"
               }`}
@@ -90,14 +86,6 @@ export default function Navbar() {
               }`}
             >
               Pipeline
-            </Link>
-            <Link
-              href="#one-source-many-outputs"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "one-source-many-outputs" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
-              }`}
-            >
-              Matrix
             </Link>
             <Link
               href="#product-visualization"
@@ -118,7 +106,7 @@ export default function Navbar() {
             <Link
               href="#future-vision"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "future-vision" || activeSection === "future-business"
+                activeSection === "future-vision"
                   ? "text-sky-400 font-bold"
                   : "text-slate-300 hover:text-white"
               }`}
@@ -146,83 +134,78 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
-            aria-label="Toggle Navigation Menu"
-          >
-            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile Menu Button */}
+          <div className="md:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white"
+              aria-label="Toggle Navigation Menu"
+            >
+              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
-      </div>
 
-      {/* Mobile Menu Dropdown */}
-      {mobileMenuOpen && (
-        <div className="md:hidden bg-[#080c14]/95 border-b border-slate-800 px-4 pt-3 pb-6 space-y-4 backdrop-blur-xl">
-          <nav className="flex flex-col gap-3">
+        {/* Mobile Dropdown Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden mt-4 pb-4 border-t border-slate-800/80 pt-4 space-y-3">
             <Link
               href="#the-shift"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "the-shift" || activeSection === "problem-friction" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
               The Shift
             </Link>
             <Link
               href="#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "how-it-works" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Pipeline (How It Works)
-            </Link>
-            <Link
-              href="#one-source-many-outputs"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "one-source-many-outputs" ? "text-sky-400 font-bold" : "text-slate-300"}`}
-            >
-              Matrix (OSMO)
+              Pipeline
             </Link>
             <Link
               href="#product-visualization"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "product-visualization" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Console (Prototype)
+              Console
             </Link>
             <Link
               href="#capabilities"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "capabilities" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
               Capabilities
             </Link>
             <Link
               href="#future-vision"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "future-vision" || activeSection === "future-business" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Vision (Infrastructure)
+              Vision
             </Link>
             <Link
               href="#about"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 text-sm font-medium ${activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Company (About)
+              Company
             </Link>
-          </nav>
-          <div className="pt-2">
-            <Link
-              href="#how-it-works"
-              onClick={() => setMobileMenuOpen(false)}
-              className="w-full justify-center inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-900 border border-slate-700 py-3 rounded-xl"
-            >
-              <span>Explore Workflow</span>
-              <ArrowRight className="w-4 h-4 text-sky-400" />
-            </Link>
+            <div className="pt-2">
+              <Link
+                href="#how-it-works"
+                onClick={() => setMobileMenuOpen(false)}
+                className="w-full inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-xl"
+              >
+                <span>Explore Workflow</span>
+                <ArrowRight className="w-4 h-4 text-sky-400" />
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+      </div>
     </header>
   );
 }
