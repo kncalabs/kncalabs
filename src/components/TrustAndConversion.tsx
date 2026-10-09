@@ -59,8 +59,8 @@ export default function TrustAndConversion() {
             </div>
 
             <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
-              만들기는 한 번만. <br />
-              <span className="text-gradient">확장은 자동으로.</span>
+              Build Once. <br />
+              <span className="text-gradient">Automate More.</span>
             </h2>
 
             <p className="text-base sm:text-xl text-slate-400 leading-relaxed font-normal">
