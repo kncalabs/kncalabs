@@ -2,119 +2,122 @@
 
 import React, { useState } from "react";
 import {
-  ArrowRight,
-  Loader2,
-  Copy,
-  Check,
   Video,
   FileText,
   Mic,
+  Cpu,
   Share2,
   Sparkles,
+  Layers,
+  CheckCircle2,
 } from "lucide-react";
 
 export default function MonumentalEngine() {
-  const [selectedSourceType, setSelectedSourceType] = useState<"video" | "article" | "podcast">("video");
-  const [sourceUrl, setSourceUrl] = useState("https://youtube.com/watch?v=ai-content-workflow");
-  const [isSynthesized, setIsSynthesized] = useState(false);
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [activeOutputTab, setActiveOutputTab] = useState<"shorts" | "article" | "social">("shorts");
-  const [copied, setCopied] = useState(false);
+  const [selectedSource, setSelectedSource] = useState<0 | 1 | 2>(0);
+  const [activeOutput, setActiveOutput] = useState<0 | 1 | 2>(0);
 
-  const sourcePresets = {
-    video: {
-      url: "https://youtube.com/watch?v=ai-content-workflow",
-      title: "제품 소개 영상 (45분 유튜브 영상)",
-      format: "영상 링크",
+  const sources = [
+    {
+      id: "video",
+      title: "영상 원문",
+      label: "45m Video",
       icon: Video,
+      color: "from-sky-500 to-blue-600",
+      accent: "text-sky-400",
+      border: "border-sky-500/40",
+      bg: "bg-sky-500/10",
+      preview: "YouTube 4K · 45:12",
     },
-    article: {
-      url: "https://blog.kncalabs.com/autonomous-content",
-      title: "기술 심층 칼럼 (블로그 글)",
-      format: "글 원문",
+    {
+      id: "article",
+      title: "장문 칼럼",
+      label: "Tech Article",
       icon: FileText,
+      color: "from-indigo-500 to-purple-600",
+      accent: "text-indigo-400",
+      border: "border-indigo-500/40",
+      bg: "bg-indigo-500/10",
+      preview: "Markdown · 3,420 words",
     },
-    podcast: {
-      url: "https://podcasts.apple.com/interview",
-      title: "인터뷰 대담 (30분 음성 녹취)",
-      format: "음성 녹취",
+    {
+      id: "audio",
+      title: "음성 녹취",
+      label: "Podcast Audio",
       icon: Mic,
+      color: "from-teal-500 to-emerald-600",
+      accent: "text-teal-400",
+      border: "border-teal-500/40",
+      bg: "bg-teal-500/10",
+      preview: "WAV Audio · 32:04",
     },
-  };
+  ];
 
-  const outputsData = {
-    shorts: {
-      title: "숏폼 대본 (0~60초)",
-      channel: "유튜브 쇼츠 · 인스타그램 릴스 · 틱톡",
-      formatBadge: "0-60초 대본",
-      content: `[00:00] "채널마다 글을 새로 쓰느라 지치셨나요?"
-
-[00:10] 영상 1개만 넣으세요.
-AI가 쇼츠 대본, 블로그 글, SNS 요약본까지 단번에 완성합니다.
-
-[00:40] 더 이상 복사하지 마세요.
-한 번 만들고, 나머지는 시스템에 맡기세요.`,
+  const outputs = [
+    {
+      id: "shorts",
+      title: "숏폼 대본",
+      platform: "Shorts · Reels · TikTok",
+      badge: "0~60초",
+      highlight: "핵심 훅 추출 완료",
+      color: "border-sky-500/40 bg-sky-950/20 text-sky-300",
+      contentSnippet: `[00:00] "채널마다 글을 새로 쓰느라 지치셨나요?"
+[00:12] 영상 1개만 넣으면 AI가 쇼츠, 블로그, SNS로 자동 분해합니다.
+[00:45] 더 이상 복사하지 마세요. 나머지는 시스템에 맡기세요.`,
     },
-    article: {
-      title: "블로그 심층 칼럼",
-      channel: "네이버 블로그 · 벨로그 · 테크 블로그",
-      formatBadge: "장문 칼럼",
-      content: `# 더 많이 쓰는 시대는 끝났습니다: 하나의 원천으로 시작하기
+    {
+      id: "blog",
+      title: "블로그 칼럼",
+      platform: "네이버 · 벨로그 · 미디엄",
+      badge: "장문 칼럼",
+      highlight: "구조화 완료",
+      color: "border-indigo-500/40 bg-indigo-950/20 text-indigo-300",
+      contentSnippet: `# 더 많이 쓰는 시대의 종말: 하나의 원천으로 시작하기
 
-콘텐츠 제작에서 가장 지치는 일은 글쓰기가 아닙니다.
-완성된 글 하나를 채널마다 줄여 쓰는 '반복 노동'입니다.
-
-1. 한 번만 만드세요.
-2. 채널별 변환은 시스템에 맡기세요.
-3. 쇼츠, 블로그, SNS가 동시에 완성됩니다.`,
+1. 한 번만 제작하세요.
+2. 각 플랫폼 맞춤 재작성은 시스템이 수행합니다.
+3. 쇼츠 대본과 장문 칼럼이 동시에 완성됩니다.`,
     },
-    social: {
-      title: "SNS 요약 스레드",
-      channel: "X(트위터) · 링크드인 · 인스타그램",
-      formatBadge: "3줄 핵심 요약",
-      content: `콘텐츠 생산의 70%는 채널별 복사에 낭비됩니다.
+    {
+      id: "social",
+      title: "SNS 스레드",
+      platform: "X · 링크드인 · 인스타",
+      badge: "3줄 요약",
+      highlight: "배포 준비 완료",
+      color: "border-emerald-500/40 bg-emerald-950/20 text-emerald-300",
+      contentSnippet: `콘텐츠 생산의 70%는 채널별 복사에 낭비됩니다.
 
-1. 영상 1개로 충분합니다.
-2. 모든 채널 맞춤 글이 즉시 생성됩니다.
-3. 반복 노동을 멈추세요.`,
+• 원천 1개로 전 채널 동시 발행
+• 반복 노동 완전 제거
+• Build Once. Automate More.`,
     },
-  };
+  ];
 
-  const handleExecute = () => {
-    setIsProcessing(true);
-    setTimeout(() => {
-      setIsProcessing(false);
-      setIsSynthesized(true);
-    }, 1600);
-  };
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(outputsData[activeOutputTab].content);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const CurrentSourceIcon = sources[selectedSource].icon;
 
   return (
     <section
       id="core-engine"
-      className="relative pt-44 pb-36 md:pt-56 md:pb-48 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
+      className="relative pt-44 pb-36 md:pt-56 md:pb-52 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
     >
-      {/* Precision Ambient Grid */}
-      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-30" aria-hidden="true">
+      {/* Precision Ambient Background Grid */}
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-25" aria-hidden="true">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="hero-precision-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255, 255, 255, 0.035)" strokeWidth="1" />
-              <circle cx="48" cy="48" r="1" fill="rgba(56, 189, 248, 0.3)" />
+            <pattern id="workflow-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+              <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" />
+              <circle cx="48" cy="48" r="1" fill="rgba(56, 189, 248, 0.25)" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#hero-precision-grid)" />
+          <rect width="100%" height="100%" fill="url(#workflow-grid)" />
         </svg>
       </div>
 
-      <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 w-full space-y-16 sm:space-y-24 relative z-10">
+      {/* Floating Ambient Aura */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[500px] bg-sky-500/10 blur-[180px] pointer-events-none -z-10 rounded-full" />
+
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 w-full space-y-16 sm:space-y-24 relative z-10">
         
-        {/* 1. MONUMENTAL HEADLINE (7rem) */}
+        {/* 1. MONUMENTAL DISPLAY TYPOGRAPHY */}
         <div className="text-center max-w-4xl mx-auto space-y-8 sm:space-y-10">
           <div className="inline-flex items-center justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
@@ -133,140 +136,214 @@ AI가 쇼츠 대본, 블로그 글, SNS 요약본까지 단번에 완성합니�
           </p>
         </div>
 
-        {/* 2. THE SINGULAR FOCUSED ACTION ARTIFACT: 쉬운 말로 직관적 동작 */}
-        <div className="max-w-3xl mx-auto">
-          {!isSynthesized ? (
-            /* STATE A: 입력 단계 */
-            <div className="rounded-3xl bg-slate-950/90 border border-sky-500/40 p-6 sm:p-8 space-y-5 shadow-2xl shadow-sky-950/40 backdrop-blur-xl">
-              
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
-                <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
-                  01. 원천 콘텐츠 선택
-                </span>
-
-                {/* 3 Source Options */}
-                <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs">
-                  {(["video", "article", "podcast"] as const).map((type) => {
-                    const preset = sourcePresets[type];
-                    const Icon = preset.icon;
-                    const isSelected = selectedSourceType === type;
-
-                    return (
-                      <button
-                        key={type}
-                        type="button"
-                        onClick={() => {
-                          setSelectedSourceType(type);
-                          setSourceUrl(preset.url);
-                        }}
-                        className={`px-3.5 py-1.5 rounded-lg transition-colors flex items-center gap-1.5 capitalize font-medium ${
-                          isSelected
-                            ? "bg-sky-500/20 text-sky-300 border border-sky-500/40 font-bold"
-                            : "text-slate-400 hover:text-white"
-                        }`}
-                      >
-                        <Icon className="w-3.5 h-3.5" />
-                        <span>{preset.format}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* URL Input & Execution */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <input
-                  type="text"
-                  value={sourceUrl}
-                  onChange={(e) => setSourceUrl(e.target.value)}
-                  placeholder="콘텐츠 링크를 입력하세요..."
-                  className="flex-1 px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white text-xs sm:text-sm focus:outline-hidden focus:border-sky-500 transition-colors font-mono"
-                />
-
-                <button
-                  type="button"
-                  onClick={handleExecute}
-                  disabled={isProcessing}
-                  className="px-8 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-sky-500/25 active:scale-[0.98] disabled:opacity-50 shrink-0"
-                >
-                  {isProcessing ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>변환 중...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>한 번에 만들기</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
-              </div>
-
-              <div className="flex items-center justify-between text-xs text-slate-400 pt-1">
-                <span>예시: {sourcePresets[selectedSourceType].title}</span>
-                <span className="text-emerald-400 font-medium">준비 완료</span>
-              </div>
+        {/* 2. THE SINGULAR MONUMENTAL AI WORKFLOW VISUALIZATION */}
+        <div className="relative rounded-3xl sm:rounded-[2.5rem] border border-sky-500/30 bg-slate-950/80 p-6 sm:p-10 lg:p-12 backdrop-blur-2xl shadow-2xl shadow-sky-950/40">
+          
+          {/* Header pill within canvas */}
+          <div className="flex items-center justify-between pb-8 mb-8 border-b border-slate-800/80">
+            <div className="flex items-center gap-3">
+              <span className="flex h-3 w-3 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
+              </span>
+              <span className="text-xs sm:text-sm font-mono text-slate-300 font-semibold tracking-wider">
+                LIVE PIPELINE ARCHITECTURE
+              </span>
             </div>
-          ) : (
-            /* STATE B: 생성 결과 확인 */
-            <div className="rounded-3xl bg-slate-950/95 border border-emerald-500/40 p-6 sm:p-8 space-y-5 shadow-2xl shadow-emerald-950/30 backdrop-blur-xl animate-fade-in-up">
-              
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">
-                    02. 완성된 다채널 결과물
-                  </span>
-                </div>
 
-                <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs">
-                  {(["shorts", "article", "social"] as const).map((tab) => (
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-mono text-slate-500 hidden sm:inline">INPUT SOURCE:</span>
+              <div className="inline-flex p-1 rounded-xl bg-slate-900 border border-slate-800">
+                {sources.map((src, idx) => {
+                  const Icon = src.icon;
+                  return (
                     <button
-                      key={tab}
-                      onClick={() => setActiveOutputTab(tab)}
-                      className={`px-3.5 py-1.5 rounded-lg transition-colors capitalize ${
-                        activeOutputTab === tab ? "bg-slate-800 text-sky-300 font-bold" : "text-slate-400 hover:text-white"
+                      key={src.id}
+                      type="button"
+                      onClick={() => setSelectedSource(idx as 0 | 1 | 2)}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-1.5 ${
+                        selectedSource === idx
+                          ? "bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm"
+                          : "text-slate-400 hover:text-white"
                       }`}
                     >
-                      {tab === "shorts" ? "숏폼 대본" : tab === "article" ? "블로그 칼럼" : "SNS 요약본"}
+                      <Icon className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">{src.title}</span>
                     </button>
-                  ))}
-                </div>
+                  );
+                })}
               </div>
+            </div>
+          </div>
 
+          {/* VISUAL DIAGRAM CANVAS */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative">
+            
+            {/* STAGE 1: ONE INPUT SOURCE (4 cols) */}
+            <div className="lg:col-span-4 flex flex-col justify-center">
               <div className="space-y-3">
-                <div className="flex items-center justify-between text-xs text-slate-400">
-                  <span className="text-white font-semibold">{outputsData[activeOutputTab].title} ({outputsData[activeOutputTab].channel})</span>
-                  <button
-                    onClick={handleCopy}
-                    className="px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
-                  >
-                    {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
-                    <span>{copied ? "복사됨" : "복사"}</span>
-                  </button>
+                <div className="text-[11px] font-mono font-bold text-sky-400 tracking-wider flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">STEP 01</span>
+                  <span>단 하나의 원천</span>
                 </div>
 
-                <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-xs text-slate-300 leading-relaxed whitespace-pre-line max-h-56 overflow-y-auto">
-                  {outputsData[activeOutputTab].content}
+                {/* The Ingest Chamber */}
+                <div
+                  className={`p-6 rounded-2xl border transition-all duration-300 relative overflow-hidden ${
+                    sources[selectedSource].border
+                  } bg-gradient-to-br from-slate-900 via-slate-900/90 to-slate-950 shadow-xl`}
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`p-4 rounded-xl ${sources[selectedSource].bg} ${sources[selectedSource].accent}`}>
+                      <CurrentSourceIcon className="w-7 h-7" />
+                    </div>
+                    <div>
+                      <span className="text-base sm:text-lg font-bold text-white block">
+                        {sources[selectedSource].title}
+                      </span>
+                      <span className="text-xs font-mono text-slate-400 block mt-0.5">
+                        {sources[selectedSource].preview}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
+                    <span className="text-slate-400">STATUS</span>
+                    <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      원천 준비 완료
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* STAGE 2: THE AI TRANSFORMATION ENGINE (4 cols - Center Nexus) */}
+            <div className="lg:col-span-4 flex flex-col items-center justify-center relative py-4 lg:py-0">
+              
+              {/* Desktop Connecting SVG Beams */}
+              <div className="hidden lg:block absolute inset-0 pointer-events-none -z-10">
+                <svg className="w-full h-full" viewBox="0 0 300 200" fill="none">
+                  {/* Left Beam */}
+                  <path
+                    d="M 0 100 L 150 100"
+                    stroke="rgba(56, 189, 248, 0.4)"
+                    strokeWidth="2"
+                    strokeDasharray="4 4"
+                    className="animate-flow-dash"
+                  />
+                  {/* Right Beam */}
+                  <path
+                    d="M 150 100 L 300 100"
+                    stroke="rgba(56, 189, 248, 0.4)"
+                    strokeWidth="2"
+                    strokeDasharray="4 4"
+                    className="animate-flow-dash"
+                  />
+                </svg>
+              </div>
+
+              {/* The Core Nexus Monolith */}
+              <div className="relative group">
+                {/* Radiant Halo */}
+                <div className="absolute -inset-4 bg-gradient-to-r from-sky-500/20 via-indigo-500/20 to-purple-500/20 rounded-full blur-xl animate-pulse" />
+
+                <div className="relative w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-slate-950 border-2 border-sky-400/60 p-3 shadow-2xl shadow-sky-500/20 flex flex-col items-center justify-center text-center space-y-2">
+                  {/* Rotating Ring Indicator */}
+                  <div className="absolute inset-1 rounded-full border border-sky-500/20 border-t-sky-400 animate-spin" style={{ animationDuration: "8s" }} />
+                  
+                  <div className="p-3 rounded-full bg-sky-500/10 text-sky-300">
+                    <Cpu className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse text-sky-400" />
+                  </div>
+
+                  <div>
+                    <span className="text-[11px] font-mono tracking-widest text-sky-400 font-bold block">
+                      AI WORKFLOW
+                    </span>
+                    <span className="text-xs font-semibold text-white block">
+                      자동 분해·재구성
+                    </span>
+                  </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
-                <button
-                  type="button"
-                  onClick={() => setIsSynthesized(false)}
-                  className="text-slate-400 hover:text-white transition-colors"
-                >
-                  ← 다른 콘텐츠로 다시 시도
-                </button>
-                <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
-                  <Share2 className="w-3.5 h-3.5" />
-                  3개 채널 배포 준비 완료
+              <div className="mt-4 text-center">
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-mono text-slate-300">
+                  <Layers className="w-3 h-3 text-sky-400" />
+                  1회 변환으로 3개 채널 완성
                 </span>
               </div>
             </div>
-          )}
+
+            {/* STAGE 3: MULTI-CHANNEL ADAPTIVE OUTPUTS (4 cols) */}
+            <div className="lg:col-span-4 flex flex-col justify-center space-y-3">
+              <div className="text-[11px] font-mono font-bold text-emerald-400 tracking-wider flex items-center justify-between">
+                <span className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">STEP 02</span>
+                  <span>다채널 자율 완성</span>
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono">3 CHANNELS</span>
+              </div>
+
+              {/* 3 Output Channels Fanout */}
+              <div className="space-y-2.5">
+                {outputs.map((out, idx) => {
+                  const isSelected = activeOutput === idx;
+                  return (
+                    <div
+                      key={out.id}
+                      onClick={() => setActiveOutput(idx as 0 | 1 | 2)}
+                      className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                        isSelected
+                          ? `${out.color} shadow-lg ring-1 ring-sky-500/40`
+                          : "border-slate-800/80 bg-slate-900/60 hover:bg-slate-900 text-slate-400"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2.5">
+                          <Share2 className="w-4 h-4 text-sky-400 shrink-0" />
+                          <div>
+                            <span className="text-xs font-bold text-white block leading-tight">
+                              {out.title}
+                            </span>
+                            <span className="text-[10px] text-slate-400 block font-mono">
+                              {out.platform}
+                            </span>
+                          </div>
+                        </div>
+
+                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950/80 border border-slate-800 text-emerald-400 font-semibold">
+                          {out.badge}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+          </div>
+
+          {/* Expanded Preview Drawer at Canvas Bottom */}
+          <div className="mt-8 pt-6 border-t border-slate-800/80 rounded-2xl bg-slate-900/40 p-5 sm:p-6 border border-slate-800/60">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-mono text-slate-400">PREVIEW OUTPUT:</span>
+                <span className="text-xs font-bold text-sky-300 font-mono">
+                  {outputs[activeOutput].title} ({outputs[activeOutput].platform})
+                </span>
+              </div>
+              <span className="text-[11px] font-mono text-emerald-400 font-semibold flex items-center gap-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                즉시 발행 가능
+              </span>
+            </div>
+
+            <div className="mt-3 text-xs sm:text-sm text-slate-300 font-mono whitespace-pre-line leading-relaxed max-h-40 overflow-y-auto">
+              {outputs[activeOutput].contentSnippet}
+            </div>
+          </div>
+
         </div>
 
       </div>
