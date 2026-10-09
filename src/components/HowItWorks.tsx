@@ -16,31 +16,31 @@ export default function HowItWorks() {
   const steps = [
     {
       number: "01",
-      title: "Capture",
-      desc: "Collect your source content.",
+      title: "One Source",
+      desc: "단일 텍스트, 아티클, 영상 기획 등 하나의 원천 데이터 수집.",
       icon: FileInput,
-      badge: "INPUT"
+      badge: "SOURCE INPUT"
     },
     {
       number: "02",
-      title: "Understand",
-      desc: "AI analyzes context and meaning.",
+      title: "AI Understanding",
+      desc: "Claude AI 엔진 기반 핵심 맥락, 논점 및 도메인 지식 정밀 분석.",
       icon: Brain,
-      badge: "ANALYSIS"
+      badge: "REASONING"
     },
     {
       number: "03",
-      title: "Transform",
-      desc: "Generate platform-specific content.",
+      title: "Content Transformation",
+      desc: "원천 맥락을 보존하며 채널별 포맷 규격으로 자율 구조화 및 재구성.",
       icon: RefreshCw,
-      badge: "TRANSFORM"
+      badge: "TRANSFORMATION"
     },
     {
       number: "04",
-      title: "Distribute",
-      desc: "Publish across multiple channels.",
+      title: "Multi-Channel Distribution",
+      desc: "블로그, SNS, 뉴스레터, 숏폼 등 다채널 동시 발행 파이프라인 가동.",
       icon: SendHorizontal,
-      badge: "DISTRIBUTE"
+      badge: "MULTI-CHANNEL"
     }
   ];
 
