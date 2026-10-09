@@ -52,11 +52,11 @@ export default function TrustAndConversion() {
 
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 space-y-20 sm:space-y-24">
         
-        {/* 1. UNIFIED CONVERSION HERO CARD */}
-        <div className="rounded-3xl border border-sky-500/40 p-10 sm:p-20 relative overflow-hidden bg-gradient-to-b from-slate-900/90 via-slate-900/95 to-slate-950/90 backdrop-blur-xl shadow-2xl shadow-sky-950/50">
-          <div className="max-w-3xl mx-auto text-center space-y-5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-mono font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
+        {/* 1. UNIFIED CONVERSION HERO CARD: Linear / Vercel Monolith */}
+        <div className="rounded-3xl border border-white/10 p-10 sm:p-20 relative overflow-hidden bg-[#070b14]/90 backdrop-blur-2xl shadow-2xl">
+          <div className="max-w-3xl mx-auto text-center space-y-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300 text-xs font-mono font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               <span>THE CONVERSION POINT</span>
             </div>
 
@@ -65,35 +65,35 @@ export default function TrustAndConversion() {
               <span className="text-gradient">확장은 자동으로.</span>
             </h2>
 
-            <p className="text-base sm:text-xl text-slate-300 leading-relaxed font-normal">
+            <p className="text-base sm:text-xl text-slate-400 leading-relaxed font-normal">
               반복 작업을 멈추고 시스템을 시작하세요.
             </p>
 
             {/* Brand Equation Spine */}
-            <div className="pt-1 flex items-center justify-center">
-              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-sky-500/30 text-xs font-mono text-sky-300 font-semibold tracking-wider">
+            <div className="pt-2 flex items-center justify-center">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-white/10 text-xs font-mono text-slate-300 font-medium tracking-wider">
                 <span>ONE SOURCE</span>
-                <span className="text-slate-500">→</span>
+                <span className="text-slate-600">→</span>
                 <span>AI</span>
-                <span className="text-slate-500">→</span>
+                <span className="text-slate-600">→</span>
                 <span>MANY CONTENTS</span>
-                <span className="text-slate-500">→</span>
+                <span className="text-slate-600">→</span>
                 <span>MANY CHANNELS</span>
               </span>
             </div>
 
             {/* Assurance Badges */}
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono text-slate-300">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-slate-800">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono text-slate-400">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-white/5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" />
                 신용카드 등록 없음
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-slate-800">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-white/5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" />
                 자동 결제 없음
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-slate-800">
-                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-white/5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" />
                 Closed Beta 데모 우선 제공
               </span>
             </div>

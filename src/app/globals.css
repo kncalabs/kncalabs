@@ -4,8 +4,8 @@
 @tailwindcss utilities;
 
 :root {
-  --background: #080c14;
-  --foreground: #f3f4f6;
+  --background: #030712;
+  --foreground: #f9fafb;
 }
 
 html {
@@ -17,7 +17,7 @@ html {
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: "Pretendard Variable", Pretendard, var(--font-inter), -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Pretendard Variable", Pretendard, system-ui, sans-serif;
   overflow-x: hidden;
   word-break: keep-all;
   overflow-wrap: break-word;
@@ -27,21 +27,21 @@ body {
 
 /* Branded Text Selection */
 ::selection {
-  background: rgba(56, 189, 248, 0.25);
+  background: rgba(255, 255, 255, 0.2);
   color: #ffffff;
 }
 
 /* Accessible focus ring for keyboard navigation */
 :focus-visible {
-  outline: 2px solid #38bdf8 !important;
+  outline: 2px solid rgba(255, 255, 255, 0.4) !important;
   outline-offset: 2px !important;
 }
 
-/* Minimalist Restrained Glass & Panels */
+/* Apple / Linear Style Refined Glass & Panels */
 .glass-panel {
-  background: rgba(13, 18, 30, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 15, 28, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -49,25 +49,25 @@ body {
   transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .glass-panel-hover:hover {
-  background: rgba(21, 29, 46, 0.85);
-  border-color: rgba(56, 189, 248, 0.28);
+  background: rgba(17, 24, 39, 0.8);
+  border-color: rgba(255, 255, 255, 0.16);
   transform: translateY(-1px);
 }
 
-/* Precision Editorial Typography */
+/* Precision Editorial Typography (SF / Linear Spec) */
 .heading-display {
-  letter-spacing: -0.035em;
-  line-height: 1.04;
+  letter-spacing: -0.04em;
+  line-height: 1.02;
 }
 
 .heading-section {
-  letter-spacing: -0.025em;
-  line-height: 1.15;
+  letter-spacing: -0.03em;
+  line-height: 1.12;
 }
 
 .text-editorial-body {
-  letter-spacing: -0.011em;
-  line-height: 1.65;
+  letter-spacing: -0.015em;
+  line-height: 1.6;
 }
 
 .mono-spec {
@@ -75,23 +75,23 @@ body {
   font-feature-settings: "zero" 1, "tnum" 1;
 }
 
-/* Restrained 1px Borders */
+/* Restrained 1px Precision Borders */
 .border-subtle {
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .border-subtle-accent {
-  border: 1px solid rgba(56, 189, 248, 0.2);
+  border: 1px solid rgba(56, 189, 248, 0.24);
 }
 
 .text-gradient {
-  background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 60%, #94a3b8 100%);
+  background: linear-gradient(180deg, #ffffff 10%, #d1d5db 70%, #9ca3af 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .bg-radial-glow {
-  background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.07) 0%, rgba(139, 92, 246, 0.025) 40%, transparent 70%);
+  background: radial-gradient(circle at 50% 10%, rgba(56, 189, 248, 0.04) 0%, rgba(15, 23, 42, 0) 65%);
 }
 
 /* GPU-friendly hardware acceleration classes */

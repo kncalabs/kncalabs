@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Sparkles, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   return (
@@ -28,33 +28,33 @@ export default function Hero() {
       {/* Hero Core Monolith: 오직 핵심만 남긴 순수 브랜드 경험 */}
       <div className="max-w-5xl mx-auto text-center space-y-10 sm:space-y-12 relative z-10">
         
-        {/* Subtle Category Pill */}
+        {/* Subtle Category Pill: Linear / Anthropic Style */}
         <div className="inline-flex items-center justify-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
-            <Sparkles className="w-3.5 h-3.5 text-sky-400" />
-            <span className="tracking-widest uppercase">KNCA LABS · AUTONOMOUS CONTENT</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-white/10 text-slate-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+            <span className="tracking-widest uppercase text-[11px]">KNCA LABS · AUTONOMOUS CONTENT</span>
           </div>
         </div>
 
-        {/* Monumental Display Headline: Automate More. */}
+        {/* Monumental Display Headline: Apple/Linear Spec */}
         <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[7.5rem] xl:text-[8.5rem] font-black tracking-tight text-white leading-[0.94] break-words">
           Build Once. <br />
           <span className="text-gradient">Automate More.</span>
         </h1>
 
-        {/* Single Punchy Subtitle: 장황한 설명 배제 */}
-        <p className="text-2xl sm:text-3xl md:text-4xl text-slate-200 max-w-2xl mx-auto font-medium leading-tight tracking-tight">
+        {/* Single Punchy Subtitle: Monochromatic & Crisp */}
+        <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 max-w-2xl mx-auto font-normal leading-relaxed tracking-tight">
           원천 하나로 모든 채널을 완성합니다.
         </p>
 
-        {/* Guided CTA: Explore the Workflow → */}
-        <div className="pt-4 sm:pt-6 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {/* Guided CTA: Vercel / Linear Style High-Contrast Monolith Button */}
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#the-workflow"
-            className="px-8 py-4.5 rounded-2xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-base sm:text-lg transition-all flex items-center gap-3 shadow-2xl shadow-sky-500/30 hover:shadow-sky-500/50 hover:scale-[1.02] active:scale-[0.98] group"
+            className="px-7 py-3.5 rounded-full bg-white hover:bg-slate-200 text-black font-semibold text-sm sm:text-base transition-all flex items-center gap-2.5 shadow-lg shadow-white/5 active:scale-[0.98] group"
           >
             <span>Explore the Workflow</span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1.5 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
 

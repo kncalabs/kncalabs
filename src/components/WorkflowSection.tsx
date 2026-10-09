@@ -7,7 +7,6 @@ import {
   Mic,
   Cpu,
   Share2,
-  Sparkles,
   Layers,
   CheckCircle2,
 } from "lucide-react";
@@ -103,38 +102,37 @@ export default function WorkflowSection() {
         
         {/* Section Header: 3. THE WORKFLOW */}
         <div className="text-center max-w-4xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-xs font-semibold tracking-wider text-sky-300">
-            <Sparkles className="w-4 h-4 text-sky-400" />
-            <span className="font-mono uppercase">3. THE WORKFLOW</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-white/10 text-xs font-semibold tracking-wider text-slate-300">
+            <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
+            <span className="font-mono uppercase text-[11px]">THE WORKFLOW</span>
           </div>
 
           <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
             원천 1개, 전 채널 자동 동기화.
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal">
+          <p className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto font-normal">
             입력과 동시에 모든 플랫폼 규격으로 변환됩니다.
           </p>
         </div>
 
         {/* Dedicated Monumental AI Workflow Canvas */}
-        <div className="relative rounded-3xl sm:rounded-[2.5rem] border border-sky-500/30 bg-slate-950/80 p-6 sm:p-10 lg:p-12 backdrop-blur-2xl shadow-2xl shadow-sky-950/40">
+        <div className="relative rounded-3xl sm:rounded-[2rem] border border-white/10 bg-[#070b14]/90 p-6 sm:p-10 lg:p-12 backdrop-blur-2xl shadow-2xl">
           
           {/* Header pill within canvas */}
-          <div className="flex items-center justify-between pb-8 mb-8 border-b border-slate-800/80">
+          <div className="flex items-center justify-between pb-8 mb-8 border-b border-white/5">
             <div className="flex items-center gap-3">
-              <span className="flex h-3 w-3 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
+              <span className="flex h-2 w-2 relative">
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
               </span>
-              <span className="text-xs sm:text-sm font-mono text-slate-300 font-semibold tracking-wider">
+              <span className="text-xs sm:text-sm font-mono text-slate-300 font-medium tracking-wider">
                 THE WORKFLOW
               </span>
             </div>
 
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-mono text-slate-500 hidden sm:inline">INPUT SOURCE:</span>
-              <div className="inline-flex p-1 rounded-xl bg-slate-900 border border-slate-800">
+              <div className="inline-flex p-1 rounded-xl bg-slate-900/80 border border-white/10">
                 {sources.map((src, idx) => {
                   const Icon = src.icon;
                   return (
@@ -144,7 +142,7 @@ export default function WorkflowSection() {
                       onClick={() => setSelectedSource(idx as 0 | 1 | 2)}
                       className={`px-3 py-1.5 rounded-lg text-xs font-mono font-medium transition-all flex items-center gap-1.5 ${
                         selectedSource === idx
-                          ? "bg-sky-500/20 text-sky-300 border border-sky-500/40 shadow-sm"
+                          ? "bg-white/10 text-white border border-white/20 shadow-sm"
                           : "text-slate-400 hover:text-white"
                       }`}
                     >
