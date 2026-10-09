@@ -196,7 +196,7 @@ export default function WorkflowSection() {
                 <div className="text-[11px] font-mono font-bold text-slate-300 tracking-wider flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white font-mono">01</span>
-                    <span className="tracking-widest">SOURCE</span>
+                    <span className="tracking-widest">ONE SOURCE</span>
                   </div>
                   <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
