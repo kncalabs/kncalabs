@@ -83,21 +83,6 @@ export default function TrustAndConversion() {
               </span>
             </div>
 
-            {/* Assurance Badges */}
-            <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono text-slate-400">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-white/5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" />
-                신용카드 등록 없음
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-white/5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" />
-                자동 결제 없음
-              </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-950/80 border border-white/5">
-                <CheckCircle2 className="w-3.5 h-3.5 text-slate-300" />
-                Closed Beta 데모 우선 제공
-              </span>
-            </div>
           </div>
 
           {/* Action Console: Mode Switcher & Form */}

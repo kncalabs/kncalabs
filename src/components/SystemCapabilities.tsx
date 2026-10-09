@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Brain, Sparkles, SlidersHorizontal, SendHorizontal, CheckCircle2 } from "lucide-react";
+import { Brain, Sparkles, SlidersHorizontal, SendHorizontal } from "lucide-react";
 
 export default function SystemCapabilities() {
   const [activeStage, setActiveStage] = useState(0);
@@ -169,65 +169,34 @@ export default function SystemCapabilities() {
           <div className="pt-8 sm:pt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             {/* Left Narrative & Capabilities Detail (7 cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-3">
-                <div className="flex items-center gap-2 text-xs font-mono">
-                  <span className={`px-2.5 py-0.5 rounded-full ${current.glow} border ${current.border} ${current.accent} font-bold`}>
-                    STAGE {current.number} · {current.category}
-                  </span>
-                  <span className="text-slate-500 font-mono">Status: {current.status}</span>
-                </div>
+            <div className="lg:col-span-7 space-y-4">
+              <span className="text-xs font-mono text-slate-400 uppercase tracking-widest block">
+                STAGE {current.number} · {current.category}
+              </span>
 
-                <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-                  {current.tagline}
-                </h3>
+              <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-snug">
+                {current.tagline}
+              </h3>
 
-                <p className="text-sm sm:text-base text-slate-400 leading-relaxed font-sans">
-                  {current.description}
-                </p>
-              </div>
-
-              {/* Verified Architectural Specifications */}
-              <div className="space-y-2.5 pt-2">
-                {current.specs.map((spec, i) => (
-                  <div key={i} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-300 font-mono">
-                    <CheckCircle2 className={`w-4 h-4 ${current.accent} flex-shrink-0`} />
-                    <span>{spec}</span>
-                  </div>
-                ))}
-              </div>
+              <p className="text-sm sm:text-base text-slate-400 leading-relaxed font-sans">
+                {current.description}
+              </p>
             </div>
 
             {/* Right Live Stage Artifact Console (5 cols) */}
             <div className="lg:col-span-5">
-              <div className={`rounded-2xl border ${current.border} bg-[#040711] p-6 space-y-5 shadow-2xl relative overflow-hidden`}>
+              <div className={`rounded-2xl border ${current.border} bg-[#040711] p-6 space-y-4 shadow-2xl relative overflow-hidden`}>
                 
-                <div className="flex items-center justify-between border-b border-white/5 pb-3">
-                  <div className="flex items-center gap-2">
-                    <CurrentIcon className={`w-4 h-4 ${current.accent}`} />
-                    <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
-                      {current.title}
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-400/10 text-emerald-400 border border-emerald-400/20">
-                    ONLINE
+                <div className="flex items-center gap-2 border-b border-white/5 pb-3">
+                  <CurrentIcon className={`w-4 h-4 ${current.accent}`} />
+                  <span className="text-xs font-mono font-bold text-white uppercase tracking-wider">
+                    {current.title}
                   </span>
                 </div>
 
                 {/* Pipeline Output Rail */}
-                <div className="space-y-2">
-                  <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block">
-                    PIPELINE DELIVERABLE
-                  </span>
-                  <div className="p-3.5 rounded-xl bg-slate-900/60 border border-white/5 font-mono text-xs text-sky-300">
-                    {current.output}
-                  </div>
-                </div>
-
-                {/* Micro Pipeline Step Connectivity */}
-                <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                  <span>Architecture</span>
-                  <span className="text-slate-300 font-semibold">Continuous Pipeline Rails</span>
+                <div className="p-4 rounded-xl bg-slate-900/60 border border-white/5 font-mono text-xs text-sky-300">
+                  {current.output}
                 </div>
 
               </div>

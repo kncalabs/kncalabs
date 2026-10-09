@@ -7,9 +7,6 @@ import {
   Mic,
   Share2,
   Mail,
-  Play,
-  Heart,
-  Repeat2,
 } from "lucide-react";
 
 export default function Hero() {
@@ -137,8 +134,7 @@ export default function Hero() {
             {/* LEFT: THE ONE SOURCE (Single Ingestion Unit) */}
             <div className="lg:col-span-5 flex flex-col justify-center space-y-3">
               <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
-                <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">01 · ONE SOURCE</span>
-                <span className="text-emerald-400 font-mono text-[10px]">INGEST READY</span>
+                <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">ONE SOURCE</span>
               </div>
               <div className={`rounded-2xl border ${currentSource.border} bg-gradient-to-br from-[#0c1426] to-[#050812] p-6 shadow-2xl relative overflow-hidden group`}>
                 
@@ -151,8 +147,7 @@ export default function Hero() {
                       <SourceIcon className={`w-4 h-4 ${currentSource.color}`} />
                       {currentSource.title}
                     </span>
-                    <span className="text-emerald-400 flex items-center gap-1 text-[11px]">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span className="text-slate-400 text-[11px]">
                       {currentSource.spec}
                     </span>
                   </div>
@@ -178,13 +173,6 @@ export default function Hero() {
                         className="h-full bg-sky-400 rounded-full transition-all duration-500"
                         style={{ width: `${(pulseTick * 2) % 100}%` }}
                       />
-                    </div>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-500">
-                      <span className="flex items-center gap-1 text-slate-400">
-                        <Play className="w-2.5 h-2.5 fill-current text-sky-400" />
-                        01 원천 입력
-                      </span>
-                      <span>단일 원본</span>
                     </div>
                   </div>
 
@@ -215,45 +203,38 @@ export default function Hero() {
             {/* RIGHT: MANY POSSIBILITIES (4 Deliverables Showcase) */}
             <div className="lg:col-span-6 space-y-3">
               <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
-                <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">02 · MANY POSSIBILITIES</span>
-                <span className="text-sky-400 font-mono text-[10px]">4 CHANNELS ACTIVE</span>
+                <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">MANY POSSIBILITIES</span>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
               {/* 1. SHORTS */}
-              <div className="rounded-2xl border border-sky-500/30 bg-[#090e1c] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-sky-500/60 transition-all">
+              <div className="rounded-2xl border border-white/10 bg-[#090e1c] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-sky-500/40 transition-all">
                 <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5 text-sky-300 font-bold">
-                    <Video className="w-3.5 h-3.5" />
+                  <span className="flex items-center gap-1.5 text-white font-bold">
+                    <Video className="w-3.5 h-3.5 text-sky-400" />
                     Shorts
                   </span>
-                  <span className="text-[10px] text-slate-500">9:16 세로형</span>
                 </div>
 
                 <div className="h-28 rounded-xl bg-black/60 border border-white/10 p-3 flex flex-col justify-between relative overflow-hidden">
-                  <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono">
-                    <span className="text-sky-400 font-bold">00:42</span>
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                  </div>
-                  <div className="text-center px-1">
-                    <span className="text-xs font-bold text-white bg-black/80 px-2 py-1 rounded border border-white/10 inline-block leading-snug">
-                      “콘텐츠 제작의 90%가 끝납니다”
+                  <div className="text-center px-1 my-auto">
+                    <span className="text-xs font-medium text-slate-200 inline-block leading-snug">
+                      콘텐츠 제작의 90%를 자동화하는 파이프라인
                     </span>
                   </div>
-                  <div className="h-1 w-full bg-sky-500/30 rounded-full overflow-hidden">
+                  <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
                     <div className="h-full bg-sky-400 w-3/4 rounded-full" />
                   </div>
                 </div>
               </div>
 
               {/* 2. BLOG */}
-              <div className="rounded-2xl border border-indigo-500/30 bg-[#0a0d1d] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-indigo-500/60 transition-all">
+              <div className="rounded-2xl border border-white/10 bg-[#0a0d1d] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-indigo-500/40 transition-all">
                 <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5 text-indigo-300 font-bold">
-                    <FileText className="w-3.5 h-3.5" />
+                  <span className="flex items-center gap-1.5 text-white font-bold">
+                    <FileText className="w-3.5 h-3.5 text-indigo-400" />
                     Blog
                   </span>
-                  <span className="text-[10px] text-slate-500">3,800자 SEO</span>
                 </div>
 
                 <div className="h-28 rounded-xl bg-black/60 border border-white/10 p-3 flex flex-col justify-between">
@@ -262,93 +243,54 @@ export default function Hero() {
                       원천 하나로 완성하는 자동화 파이프라인
                     </p>
                     <p className="text-[10px] text-slate-400 leading-tight line-clamp-2">
-                      단일 원본 인제스트와 플랫폼별 자율 재구성 기술 아키텍처 분석.
+                      단일 원본 인제스트와 플랫폼별 자율 재구성 기술 아키텍처.
                     </p>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-indigo-400 border-t border-white/5 pt-1.5">
-                    <span>H1 · H2 · SEO 구조화</span>
-                    <span className="text-emerald-400 font-semibold">완료</span>
+                  <div className="text-[10px] font-mono text-slate-500 border-t border-white/5 pt-1">
+                    Structured Article
                   </div>
                 </div>
               </div>
 
               {/* 3. NEWSLETTER */}
-              <div className="rounded-2xl border border-purple-500/30 bg-[#0d0a1d] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-purple-500/60 transition-all">
+              <div className="rounded-2xl border border-white/10 bg-[#0d0a1d] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-purple-500/40 transition-all">
                 <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5 text-purple-300 font-bold">
-                    <Mail className="w-3.5 h-3.5" />
+                  <span className="flex items-center gap-1.5 text-white font-bold">
+                    <Mail className="w-3.5 h-3.5 text-purple-400" />
                     Newsletter
                   </span>
-                  <span className="text-[10px] text-slate-500">주간 레터</span>
                 </div>
 
                 <div className="h-28 rounded-xl bg-black/60 border border-white/10 p-3 flex flex-col justify-between">
-                  <div className="text-[10px] font-mono text-slate-400 border-b border-white/5 pb-1">
-                    <span>Subject: 이번 주 핵심 인사이트 3선</span>
+                  <div className="space-y-1 text-[10px] text-slate-300">
+                    <div className="truncate text-slate-400">이번 주 핵심 인사이트 3선</div>
+                    <div className="truncate text-slate-300">· 영상 핵심 훅 추출</div>
+                    <div className="truncate text-slate-300">· SEO 테크 칼럼 구조화</div>
                   </div>
-                  <div className="space-y-1 pl-1 text-[10px] text-slate-300">
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className="text-purple-400 font-bold">01</span>
-                      <span className="truncate">45분 영상 핵심 훅 추출</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className="text-purple-400 font-bold">02</span>
-                      <span className="truncate">3,800자 SEO 테크 칼럼</span>
-                    </div>
-                    <div className="flex items-center gap-1.5 truncate">
-                      <span className="text-purple-400 font-bold">03</span>
-                      <span className="truncate">바이럴 7편 연속 스레드</span>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-purple-400 border-t border-white/5 pt-1">
-                    <span>발송 템플릿 완성</span>
-                    <span className="text-emerald-400 font-semibold">큐레이션</span>
+                  <div className="text-[10px] font-mono text-slate-500 border-t border-white/5 pt-1">
+                    Direct Email
                   </div>
                 </div>
               </div>
 
               {/* 4. SOCIAL */}
-              <div className="rounded-2xl border border-emerald-500/30 bg-[#071311] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-emerald-500/60 transition-all">
+              <div className="rounded-2xl border border-white/10 bg-[#071311] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-emerald-500/40 transition-all">
                 <div className="flex items-center justify-between text-xs font-mono text-slate-400">
-                  <span className="flex items-center gap-1.5 text-emerald-300 font-bold">
-                    <Share2 className="w-3.5 h-3.5" />
+                  <span className="flex items-center gap-1.5 text-white font-bold">
+                    <Share2 className="w-3.5 h-3.5 text-emerald-400" />
                     Social
                   </span>
-                  <span className="text-[10px] text-slate-500">X · LinkedIn · Threads</span>
                 </div>
 
                 <div className="h-28 rounded-xl bg-black/60 border border-white/10 p-3 flex flex-col justify-between">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center text-[9px] text-emerald-300 font-bold">
-                        K
-                      </div>
-                      <span className="text-[10px] font-mono text-slate-300 font-medium">@kncalabs</span>
-                    </div>
-                    <span className="text-[10px] font-mono text-emerald-400">1/7 🧵</span>
-                  </div>
-
-                  <div className="pl-6 border-l border-emerald-500/30 ml-2 py-0.5 space-y-0.5">
-                    <p className="text-[11px] text-white font-medium leading-tight line-clamp-1">
-                      “원천 하나로 전 채널을 완성하는 법”
-                    </p>
-                    <p className="text-[10px] text-slate-400 leading-tight line-clamp-1">
-                      단 1회 입력으로 4개 플랫폼 규격 동시 변환.
+                  <div className="space-y-1">
+                    <div className="text-[10px] font-mono text-slate-400">@kncalabs</div>
+                    <p className="text-[11px] text-slate-200 font-medium leading-tight line-clamp-2">
+                      “원천 하나로 전 채널을 완성하는 법 — 자율 파이프라인”
                     </p>
                   </div>
-
-                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1 border-t border-white/5">
-                    <span className="flex items-center gap-2.5 text-[10px]">
-                      <span className="flex items-center gap-1 text-slate-400">
-                        <Heart className="w-2.5 h-2.5 text-rose-400 fill-current" />
-                        1.2k
-                      </span>
-                      <span className="flex items-center gap-1 text-slate-400">
-                        <Repeat2 className="w-2.5 h-2.5 text-emerald-400" />
-                        480
-                      </span>
-                    </span>
-                    <span className="text-emerald-400 font-semibold">스레드 7연작</span>
+                  <div className="text-[10px] font-mono text-slate-500 border-t border-white/5 pt-1">
+                    Multi-Platform Thread
                   </div>
                 </div>
               </div>
