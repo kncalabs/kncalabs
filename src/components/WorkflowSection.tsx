@@ -8,7 +8,6 @@ import {
   Share2,
   Mail,
   Play,
-  Sparkles,
   Heart,
   Repeat2,
 } from "lucide-react";
@@ -175,13 +174,16 @@ export default function WorkflowSection() {
                 <div className="h-0.5 w-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 relative">
                   <div className="absolute inset-0 bg-white/40 blur-[2px]" />
                 </div>
-                <div className="absolute w-8 h-8 rounded-full bg-[#050813] border border-white/20 flex items-center justify-center text-sky-400 shadow-xl">
-                  <Sparkles className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: "8s" }} />
+                <div className="absolute w-9 h-9 rounded-full bg-[#050813] border border-sky-400/40 flex items-center justify-center shadow-xl shadow-sky-500/20 group">
+                  <span className="text-[10px] font-mono font-bold text-sky-300 tracking-wider">AI</span>
                 </div>
               </div>
 
-              <div className="lg:hidden text-slate-600 text-xl font-light animate-bounce">
-                ↓
+              <div className="lg:hidden flex items-center gap-1.5 py-1">
+                <span className="px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-[10px] font-mono font-bold text-sky-400">
+                  AI
+                </span>
+                <span className="text-slate-600 text-sm font-light">↓</span>
               </div>
             </div>
 
