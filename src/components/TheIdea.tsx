@@ -37,10 +37,12 @@ export default function TheIdea() {
 
         {/* Clean Micro Thesis Spine */}
         <div className="pt-4 flex items-center justify-center">
-          <div className="inline-flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+          <div className="inline-flex items-center gap-2.5 sm:gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
             <span className="text-white font-semibold">ONE SOURCE</span>
             <span className="text-slate-600">→</span>
-            <span className="text-sky-300 font-semibold">AUTONOMOUS EXPANSION</span>
+            <span className="text-sky-300 font-semibold">CONTENT</span>
+            <span className="text-slate-600">→</span>
+            <span className="text-emerald-400 font-semibold">CHANNELS</span>
           </div>
         </div>
 

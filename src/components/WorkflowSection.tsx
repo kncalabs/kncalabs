@@ -293,7 +293,7 @@ export default function WorkflowSection() {
 
                   <div>
                     <span className="text-[10px] font-mono tracking-widest text-sky-400 font-bold block">
-                      AI REWRITE ENGINE
+                      AI CONTENT ENGINE
                     </span>
                     <span className="text-xs font-semibold text-white block mt-0.5">
                       자율 재구성 중
@@ -310,14 +310,14 @@ export default function WorkflowSection() {
               </div>
             </div>
 
-            {/* STAGE 3: CHANNELS (4 cols) */}
+            {/* STAGE 2: CONTENT & CHANNELS (4 cols) */}
             <div className="lg:col-span-4 flex flex-col justify-center space-y-2.5">
               <div className="text-[11px] font-mono font-bold text-slate-300 tracking-wider flex items-center justify-between">
                 <div className="flex items-center gap-2">
                   <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white font-mono">02</span>
-                  <span className="tracking-widest">CHANNELS</span>
+                  <span className="tracking-widest">CONTENT</span>
                 </div>
-                <span className="text-[10px] text-emerald-400 font-mono">4 ACTIVE</span>
+                <span className="text-[10px] text-emerald-400 font-mono">4 CHANNELS ACTIVE</span>
               </div>
 
               {/* 4 Output Channels Fanout */}
