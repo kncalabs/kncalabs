@@ -44,6 +44,12 @@ export default function Navbar() {
               Workflow
             </Link>
             <Link
+              href="#capabilities"
+              className="hover:text-white transition-colors"
+            >
+              Capabilities
+            </Link>
+            <Link
               href="#the-idea"
               className="hover:text-white transition-colors"
             >
@@ -89,6 +95,13 @@ export default function Navbar() {
               className="block text-slate-400 hover:text-white py-1"
             >
               Workflow
+            </Link>
+            <Link
+              href="#capabilities"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-slate-400 hover:text-white py-1"
+            >
+              Capabilities
             </Link>
             <Link
               href="#the-idea"
