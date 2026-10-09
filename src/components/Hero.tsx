@@ -32,7 +32,7 @@ export default function Hero() {
         <div className="inline-flex items-center justify-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-white/10 text-slate-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="tracking-widest uppercase text-[11px]">CONTENT SYSTEM</span>
+            <span className="tracking-widest uppercase text-[11px]">PUBLISHING INFRASTRUCTURE</span>
           </div>
         </div>
 

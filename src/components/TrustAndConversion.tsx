@@ -74,7 +74,7 @@ export default function TrustAndConversion() {
                 <span className="text-slate-600">→</span>
                 <span>AI</span>
                 <span className="text-slate-600">→</span>
-                <span>CONTENT SYSTEM</span>
+                <span>PUBLISHING INFRASTRUCTURE</span>
                 <span className="text-slate-600">→</span>
                 <span>CHANNELS</span>
               </span>
