@@ -41,7 +41,7 @@ export default function TheIdea() {
             <div className="inline-flex items-center gap-2.5 sm:gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
               <span className="text-white font-semibold">ONE SOURCE</span>
               <span className="text-slate-600">→</span>
-              <span className="text-sky-300 font-semibold">CONTENT</span>
+              <span className="text-sky-300 font-semibold">CONTENT SYSTEM</span>
               <span className="text-slate-600">→</span>
               <span className="text-emerald-400 font-semibold">CHANNELS</span>
             </div>
@@ -92,7 +92,7 @@ export default function TheIdea() {
               <div className="flex items-center justify-between border-b border-white/5 pb-4">
                 <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-wider">
                   <Zap className="w-4 h-4 text-sky-400" />
-                  <span>KNCA Labs: 자율 파이프라인</span>
+                  <span>KNCA Labs: 콘텐츠 시스템</span>
                 </div>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30 font-mono">
                   자동 완성
