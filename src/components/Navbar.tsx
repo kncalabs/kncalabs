@@ -162,39 +162,53 @@ export default function Navbar() {
         <div className="md:hidden bg-[#080c14]/95 border-b border-slate-800 px-4 pt-3 pb-6 space-y-4 backdrop-blur-xl">
           <nav className="flex flex-col gap-3">
             <Link
-              href="#what-we-do"
+              href="#the-shift"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "what-we-do" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className={`py-2 text-sm font-medium ${activeSection === "the-shift" || activeSection === "problem-friction" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
-              What We Do
+              The Shift
             </Link>
             <Link
               href="#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "how-it-works" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className={`py-2 text-sm font-medium ${activeSection === "how-it-works" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
-              How It Works
+              Pipeline (How It Works)
+            </Link>
+            <Link
+              href="#one-source-many-outputs"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`py-2 text-sm font-medium ${activeSection === "one-source-many-outputs" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+            >
+              Matrix (OSMO)
+            </Link>
+            <Link
+              href="#product-visualization"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`py-2 text-sm font-medium ${activeSection === "product-visualization" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+            >
+              Console (Prototype)
             </Link>
             <Link
               href="#capabilities"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "capabilities" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className={`py-2 text-sm font-medium ${activeSection === "capabilities" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
               Capabilities
             </Link>
             <Link
-              href="#future-business"
+              href="#future-vision"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "future-business" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className={`py-2 text-sm font-medium ${activeSection === "future-vision" || activeSection === "future-business" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
-              Future
+              Vision (Infrastructure)
             </Link>
             <Link
               href="#about"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className={`py-2 text-sm font-medium ${activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
-              Company
+              Company (About)
             </Link>
           </nav>
           <div className="pt-2">
