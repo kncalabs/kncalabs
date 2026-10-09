@@ -128,14 +128,14 @@ export default function MonumentalEngine() {
             </div>
           </div>
 
-          <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black tracking-tight text-white leading-[0.98] break-words">
+          <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[7.5rem] xl:text-[8.5rem] font-black tracking-tight text-white leading-[0.94] break-words">
             Build Once. <br />
             <span className="text-gradient">Automate More.</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-            원천 콘텐츠 1개를 넣으면, <br className="hidden sm:inline" />
-            모든 채널의 맞춤 콘텐츠가 완성됩니다.
+          <p className="text-2xl sm:text-3xl md:text-4xl text-slate-200 max-w-3xl mx-auto font-medium leading-tight tracking-tight">
+            원천 콘텐츠 1개로, <br className="hidden sm:inline" />
+            모든 채널의 콘텐츠를 완성합니다.
           </p>
         </div>
 
