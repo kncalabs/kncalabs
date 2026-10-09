@@ -10,10 +10,9 @@ import {
   Sparkles,
   Layers,
   CheckCircle2,
-  ArrowRight,
 } from "lucide-react";
 
-export default function MonumentalEngine() {
+export default function WorkflowSection() {
   const [selectedSource, setSelectedSource] = useState<0 | 1 | 2>(0);
   const [activeOutput, setActiveOutput] = useState<0 | 1 | 2>(0);
 
@@ -61,9 +60,6 @@ export default function MonumentalEngine() {
       badge: "0~60초",
       highlight: "핵심 훅 추출 완료",
       color: "border-sky-500/40 bg-sky-950/20 text-sky-300",
-      contentSnippet: `[00:00] "채널마다 글을 새로 쓰느라 지치셨나요?"
-[00:12] 영상 1개만 넣으면 AI가 쇼츠, 블로그, SNS로 자동 분해합니다.
-[00:45] 더 이상 복사하지 마세요. 나머지는 시스템에 맡기세요.`,
     },
     {
       id: "blog",
@@ -72,11 +68,6 @@ export default function MonumentalEngine() {
       badge: "장문 칼럼",
       highlight: "구조화 완료",
       color: "border-indigo-500/40 bg-indigo-950/20 text-indigo-300",
-      contentSnippet: `# 더 많이 쓰는 시대의 종말: 하나의 원천으로 시작하기
-
-1. 한 번만 제작하세요.
-2. 각 플랫폼 맞춤 재작성은 시스템이 수행합니다.
-3. 쇼츠 대본과 장문 칼럼이 동시에 완성됩니다.`,
     },
     {
       id: "social",
@@ -85,11 +76,6 @@ export default function MonumentalEngine() {
       badge: "3줄 요약",
       highlight: "배포 준비 완료",
       color: "border-emerald-500/40 bg-emerald-950/20 text-emerald-300",
-      contentSnippet: `콘텐츠 생산의 70%는 채널별 복사에 낭비됩니다.
-
-• 원천 1개로 전 채널 동시 발행
-• 반복 노동 완전 제거
-• Build Once. Automate More.`,
     },
   ];
 
@@ -97,58 +83,41 @@ export default function MonumentalEngine() {
 
   return (
     <section
-      id="core-engine"
-      className="relative pt-44 pb-36 md:pt-56 md:pb-52 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
+      id="the-workflow"
+      className="relative py-36 sm:py-52 overflow-hidden bg-[#070b14] border-b border-sky-950/60"
     >
-      {/* Precision Ambient Background Grid */}
+      {/* Precision Ambient Grid */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-25" aria-hidden="true">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <pattern id="workflow-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+            <pattern id="workflow-grid-dedicated" width="48" height="48" patternUnits="userSpaceOnUse">
               <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255, 255, 255, 0.03)" strokeWidth="1" />
               <circle cx="48" cy="48" r="1" fill="rgba(56, 189, 248, 0.25)" />
             </pattern>
           </defs>
-          <rect width="100%" height="100%" fill="url(#workflow-grid)" />
+          <rect width="100%" height="100%" fill="url(#workflow-grid-dedicated)" />
         </svg>
       </div>
 
-      {/* Floating Ambient Aura */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[900px] h-[500px] bg-sky-500/10 blur-[180px] pointer-events-none -z-10 rounded-full" />
-
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 w-full space-y-16 sm:space-y-24 relative z-10">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 w-full space-y-16 sm:space-y-20 relative z-10">
         
-        {/* 1. MONUMENTAL DISPLAY TYPOGRAPHY */}
-        <div className="text-center max-w-4xl mx-auto space-y-8 sm:space-y-10">
-          <div className="inline-flex items-center justify-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
-              <Sparkles className="w-3.5 h-3.5 text-sky-400" />
-              <span className="tracking-widest uppercase">THE WORKFLOW</span>
-            </div>
+        {/* Section Header: 3. THE WORKFLOW */}
+        <div className="text-center max-w-4xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-xs font-semibold tracking-wider text-sky-300">
+            <Sparkles className="w-4 h-4 text-sky-400" />
+            <span className="font-mono uppercase">3. THE WORKFLOW</span>
           </div>
 
-          <h1 className="text-7xl sm:text-8xl md:text-9xl lg:text-[7.5rem] xl:text-[8.5rem] font-black tracking-tight text-white leading-[0.94] break-words">
-            Build Once. <br />
-            <span className="text-gradient">Automate More.</span>
-          </h1>
+          <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
+            원천 1개, 전 채널 자동 동기화.
+          </h2>
 
-          <p className="text-2xl sm:text-3xl md:text-4xl text-slate-200 max-w-3xl mx-auto font-medium leading-tight tracking-tight">
-            원천 하나로 모든 채널을 완성합니다.
+          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal">
+            입력과 동시에 모든 플랫폼 규격으로 변환됩니다.
           </p>
-
-          {/* Primary Action CTA Button */}
-          <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <a
-              href="#trust-and-access"
-              className="px-8 py-4 rounded-2xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-base sm:text-lg transition-all flex items-center gap-3 shadow-2xl shadow-sky-500/30 hover:shadow-sky-500/50 hover:scale-[1.02] active:scale-[0.98] group"
-            >
-              <span>Closed Beta 지금 시작하기</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </a>
-          </div>
         </div>
 
-        {/* 2. THE SINGULAR MONUMENTAL AI WORKFLOW VISUALIZATION */}
+        {/* Dedicated Monumental AI Workflow Canvas */}
         <div className="relative rounded-3xl sm:rounded-[2.5rem] border border-sky-500/30 bg-slate-950/80 p-6 sm:p-10 lg:p-12 backdrop-blur-2xl shadow-2xl shadow-sky-950/40">
           
           {/* Header pill within canvas */}
@@ -336,7 +305,7 @@ export default function MonumentalEngine() {
 
           </div>
 
-          {/* Architectural Brand Telemetry Console (Brand Experience First) */}
+          {/* Architectural Brand Telemetry Console */}
           <div className="mt-10 pt-8 border-t border-slate-800/80 rounded-2xl bg-gradient-to-r from-slate-900/60 via-slate-900/30 to-indigo-950/20 p-6 sm:p-8 border border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">

@@ -14,7 +14,8 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 20);
 
       const sections = [
-        "core-engine",
+        "hero",
+        "the-workflow",
         "the-shift",
         "trust-and-access"
       ];
@@ -66,9 +67,9 @@ export default function Navbar() {
           {/* Middle/Right Nav Links */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
-              href="#core-engine"
+              href="#the-workflow"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "core-engine"
+                activeSection === "the-workflow"
                   ? "text-sky-400 font-bold"
                   : "text-slate-300 hover:text-white"
               }`}

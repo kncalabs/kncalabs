@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
-import MonumentalEngine from "@/components/MonumentalEngine";
+import Hero from "@/components/Hero";
+import WorkflowSection from "@/components/WorkflowSection";
 import TheShift from "@/components/TheShift";
 import TrustAndConversion from "@/components/TrustAndConversion";
 import Footer from "@/components/Footer";
@@ -10,13 +11,16 @@ export default function Home() {
     <main className="min-h-screen relative bg-[#080c14] overflow-hidden">
       <Navbar />
       
-      {/* 1. The Monumental Engine: 하나의 압도적 핵심 시각 요소 (7rem 타이포 + One Source 자율 런타임 콘솔) */}
-      <MonumentalEngine />
+      {/* 1. HERO: Automate More & Explore the Workflow → (설명하지 않고 감각시키는 첫 화면) */}
+      <Hero />
 
-      {/* 2. The Shift: 기존 수작업 쳇바퀴(Old Way) vs 자율 콘텐츠 시스템(Autonomous System) 대조 */}
+      {/* 3. THE WORKFLOW: 아름다운 단일 AI 파이프라인 시각화 */}
+      <WorkflowSection />
+
+      {/* 4. THE FUTURE: 일하는 방식의 전환 (Old Way vs Autonomous Way) */}
       <TheShift />
 
-      {/* 3. Trust & Conversion: 기업 실체(Stay C Jeju) + Closed Beta 전환 콘솔 완전 통합 */}
+      {/* Company & Closed Beta Conversion */}
       <TrustAndConversion />
 
       {/* Micro Footer & Back to Top */}
