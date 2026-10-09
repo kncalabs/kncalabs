@@ -220,7 +220,7 @@ export default function Hero() {
                   {/* Motion Diagram Flow (Desktop / Tablet) */}
                   <div className="relative z-10 hidden sm:flex items-center justify-between gap-2 max-w-4xl mx-auto py-4">
                     
-                    {/* Node 1: SOURCE (e.g. YouTube Video) */}
+                    {/* Node 1: ONE SOURCE (e.g. YouTube Video) */}
                     <div className="flex flex-col items-center space-y-2 text-center w-32">
                       <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
                         activeCinematicStage === 1
@@ -228,9 +228,9 @@ export default function Hero() {
                           : "bg-slate-900 border-slate-800 text-slate-400"
                       }`}>
                         <FileText className="w-5 h-5 mb-0.5" />
-                        <span className="text-[9px] font-mono tracking-tighter">SOURCE</span>
+                        <span className="text-[8px] font-mono tracking-tighter">ONE SOURCE</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">SOURCE</span>
+                      <span className="text-[11px] font-bold text-white font-mono">ONE SOURCE</span>
                       <span className="text-[10px] text-sky-300 font-mono">YouTube Video</span>
                     </div>
 
@@ -264,7 +264,7 @@ export default function Hero() {
                       <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 3 ? "text-amber-400" : "text-slate-600"}`} />
                     </div>
 
-                    {/* Node 3: OUTPUTS (Shorts, Article, Social, Newsletter) */}
+                    {/* Node 3: MANY CONTENTS (Shorts, Article, Social, Newsletter) */}
                     <div className="flex flex-col items-center space-y-2 text-center w-36">
                       <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
                         activeCinematicStage === 3
@@ -272,9 +272,9 @@ export default function Hero() {
                           : "bg-slate-900 border-slate-800 text-slate-400"
                       }`}>
                         <Layers className="w-5 h-5 mb-0.5 text-amber-400" />
-                        <span className="text-[9px] font-mono tracking-tighter">OUTPUTS</span>
+                        <span className="text-[8px] font-mono tracking-tighter">MANY CONTENTS</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">OUTPUTS</span>
+                      <span className="text-[11px] font-bold text-white font-mono">MANY CONTENTS</span>
                       <span className="text-[9px] text-amber-300 font-mono leading-tight">Shorts · Article · Social · Newsletter</span>
                     </div>
 
@@ -286,7 +286,7 @@ export default function Hero() {
                       <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 4 ? "text-emerald-400" : "text-slate-600"}`} />
                     </div>
 
-                    {/* Node 4: CHANNELS (YouTube, Instagram, TikTok, Blog) */}
+                    {/* Node 4: MANY CHANNELS (YouTube, Instagram, TikTok, Blog) */}
                     <div className="flex flex-col items-center space-y-2 text-center w-36">
                       <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
                         activeCinematicStage === 4
@@ -294,9 +294,9 @@ export default function Hero() {
                           : "bg-slate-900 border-slate-800 text-slate-400"
                       }`}>
                         <Share2 className="w-5 h-5 mb-0.5 text-emerald-400" />
-                        <span className="text-[9px] font-mono tracking-tighter">CHANNELS</span>
+                        <span className="text-[8px] font-mono tracking-tighter">MANY CHANNELS</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">CHANNELS</span>
+                      <span className="text-[11px] font-bold text-white font-mono">MANY CHANNELS</span>
                       <span className="text-[9px] text-emerald-300 font-mono leading-tight">YouTube · Instagram · TikTok · Blog</span>
                     </div>
 
