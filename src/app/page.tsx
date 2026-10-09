@@ -1,8 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import TheIdea from "@/components/TheIdea";
 import WorkflowSection from "@/components/WorkflowSection";
-import TheShift from "@/components/TheShift";
+import TheIdea from "@/components/TheIdea";
 import TrustAndConversion from "@/components/TrustAndConversion";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
@@ -15,19 +14,16 @@ export default function Home() {
       {/* 1. HERO: Automate More & Explore the Workflow → */}
       <Hero />
 
-      {/* 2. THE IDEA: 단 하나의 원천만 남기세요 */}
-      <TheIdea />
-
-      {/* 3. THE WORKFLOW: 아름다운 단일 AI 파이프라인 시각화 */}
+      {/* 2 & 3. THE WORKFLOW: 아름다운 단일 AI 파이프라인 시각화 (ONE SOURCE ➔ AI ➔ CHANNELS) */}
       <WorkflowSection />
 
-      {/* 4. THE FUTURE: 일하는 방식의 전환 (Old Way vs Autonomous Way) */}
-      <TheShift />
+      {/* 4. THE IDEA: 단 하나의 원천만 남기세요 & 기존 반복 노동 vs KNCA 자율 파이프라인 */}
+      <TheIdea />
 
-      {/* Company & Closed Beta Conversion */}
+      {/* 5. COMPANY & Closed Beta Conversion */}
       <TrustAndConversion />
 
-      {/* Micro Footer & Back to Top */}
+      {/* 6. FOOTER & Back to Top */}
       <Footer />
       <BackToTop />
     </main>
