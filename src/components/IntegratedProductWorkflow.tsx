@@ -1,13 +1,9 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   Zap,
   ArrowRight,
-  FileInput,
-  Brain,
-  RefreshCw,
-  SendHorizontal,
   Layers,
   Cpu,
   CheckCircle2,
@@ -22,10 +18,6 @@ import {
 } from "lucide-react";
 
 export default function IntegratedProductWorkflow() {
-  // 1. Pipeline Active Step
-  const [activeStep, setActiveStep] = useState(0);
-
-  // 2. Interactive Console State
   const [selectedSourceType, setSelectedSourceType] = useState<"video" | "article" | "podcast">("video");
   const [sourceUrl, setSourceUrl] = useState("https://youtube.com/watch?v=agent-architecture-deepdive");
   const [isProcessing, setIsProcessing] = useState(false);
@@ -33,67 +25,7 @@ export default function IntegratedProductWorkflow() {
   const [activeOutputTab, setActiveOutputTab] = useState<"shorts" | "article" | "social">("shorts");
   const [copied, setCopied] = useState(false);
   const [queueDispatched, setQueueDispatched] = useState(false);
-
-  // Auto-pulse demonstration if idle
-  useEffect(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-    const timer = setInterval(() => {
-      if (!isProcessing) {
-        setActiveStep((prev) => (prev + 1) % 4);
-      }
-    }, 4000);
-    return () => clearInterval(timer);
-  }, [isProcessing]);
-
-  // Pipeline Steps (01 Capture -> 02 Understand -> 03 Transform -> 04 Distribute)
-  const pipelineSteps = [
-    {
-      number: "01",
-      badge: "INPUT",
-      title: "ONE SOURCE",
-      desc: "Video, Article, Podcast",
-      visualText: "단일 원천 주입",
-      icon: FileInput,
-      gradient: "from-sky-500/20 to-blue-500/10",
-      accent: "text-sky-400",
-      border: "border-sky-500/40",
-    },
-    {
-      number: "02",
-      badge: "ENGINE",
-      title: "CLAUDE REASONING",
-      desc: "Context & Intent Anchoring",
-      visualText: "서사·지식 그래프 추출",
-      icon: Brain,
-      gradient: "from-indigo-500/25 to-purple-500/10",
-      accent: "text-indigo-400",
-      border: "border-indigo-500/40",
-    },
-    {
-      number: "03",
-      badge: "SYNTHESIS",
-      title: "MANY CONTENTS",
-      desc: "Shorts, Article, Social Thread",
-      visualText: "포맷별 자율 합성",
-      icon: RefreshCw,
-      gradient: "from-amber-500/20 to-orange-500/10",
-      accent: "text-amber-400",
-      border: "border-amber-500/40",
-    },
-    {
-      number: "04",
-      badge: "RAILS",
-      title: "MANY CHANNELS",
-      desc: "YouTube, Blog, X, Newsletter",
-      visualText: "다채널 동시 배포",
-      icon: SendHorizontal,
-      gradient: "from-emerald-500/20 to-teal-500/10",
-      accent: "text-emerald-400",
-      border: "border-emerald-500/40",
-    },
-  ];
+  const [liveStage, setLiveStage] = useState(1);
 
   const sourcePresets = {
     video: {
@@ -164,28 +96,28 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
 
   const simulatePipeline = () => {
     setIsProcessing(true);
-    setActiveStep(0);
+    setLiveStage(1);
     setCurrentProcessPhase("analyzing");
 
     setTimeout(() => {
-      setActiveStep(1);
+      setLiveStage(2);
       setCurrentProcessPhase("extracting");
-    }, 800);
+    }, 700);
 
     setTimeout(() => {
-      setActiveStep(2);
+      setLiveStage(3);
       setCurrentProcessPhase("reasoning");
-    }, 1600);
+    }, 1500);
 
     setTimeout(() => {
-      setActiveStep(3);
+      setLiveStage(4);
       setCurrentProcessPhase("generating");
-    }, 2400);
+    }, 2300);
 
     setTimeout(() => {
       setIsProcessing(false);
       setCurrentProcessPhase("idle");
-    }, 3200);
+    }, 3100);
   };
 
   const handleCopy = () => {
@@ -200,29 +132,29 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
   };
 
   return (
-    <section id="system-workflow" className="py-24 sm:py-36 bg-[#080d1a] relative border-t border-sky-950/60 overflow-hidden">
+    <section id="system-workflow" className="py-20 sm:py-32 bg-[#080d1a] relative border-t border-sky-950/60 overflow-hidden">
       {/* Background High-Tech Atmospheric Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 -z-10" aria-hidden="true">
         <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[950px] h-[550px] bg-sky-500/15 blur-[170px] rounded-full" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 sm:space-y-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
         
-        {/* 1. SECTION VISION HEADER: 개념을 설명하지 않고 '시각적 경험'으로 초대 */}
-        <div className="text-center max-w-4xl mx-auto space-y-5">
+        {/* Section Headline: 설명 대신 즉각적인 시스템 조작으로 초대 */}
+        <div className="text-center max-w-4xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold tracking-wider shadow-lg shadow-sky-950/40">
             <Zap className="w-4 h-4 text-sky-400" />
-            <span>INTERACTIVE RUNTIME EXPERIENCE</span>
+            <span>AUTONOMOUS PIPELINE RUNTIME</span>
           </div>
 
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.06]">
+          <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
             One Source. <br />
             <span className="text-gradient">Infinite Manifestations.</span>
           </h2>
 
           {/* Visual Brand Equation Spine */}
-          <div className="pt-2 flex items-center justify-center">
-            <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-5 py-2.5 rounded-2xl bg-slate-950/90 border border-sky-500/30 text-xs sm:text-sm font-mono shadow-2xl">
+          <div className="pt-1 flex items-center justify-center">
+            <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3 px-5 py-2 rounded-2xl bg-slate-950/90 border border-sky-500/30 text-xs sm:text-sm font-mono shadow-2xl">
               <span className="text-sky-300 font-bold">ONE SOURCE</span>
               <span className="text-slate-600">→</span>
               <span className="text-indigo-300 font-bold">AI REASONING</span>
@@ -234,106 +166,8 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
           </div>
         </div>
 
-        {/* 2. LIVE HIGH-IMPACT PIPELINE VISUALIZATION (4 Stages with Dynamic Laser Conduit) */}
-        <div className="relative max-w-6xl mx-auto">
-          {/* Continuous Laser Conduit Beam (Desktop) */}
-          <div className="hidden lg:block absolute top-[74px] left-[8%] right-[8%] h-[3px] bg-slate-800/90 -z-0 pointer-events-none rounded-full">
-            <div
-              className="h-full bg-gradient-to-r from-transparent via-sky-400 to-indigo-400 shadow-lg shadow-sky-400/50 transition-all duration-700 ease-out rounded-full"
-              style={{
-                width: "25%",
-                marginLeft: `${activeStep * 25}%`,
-              }}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 relative z-10">
-            {pipelineSteps.map((step, idx) => {
-              const Icon = step.icon;
-              const isLast = idx === pipelineSteps.length - 1;
-              const isActive = activeStep === idx;
-              const isPast = activeStep > idx;
-
-              return (
-                <div
-                  key={step.number}
-                  onClick={() => setActiveStep(idx)}
-                  className="relative group flex flex-col cursor-pointer transition-all duration-300"
-                >
-                  <div
-                    className={`h-full rounded-2xl border p-6 transition-all duration-500 backdrop-blur-md flex flex-col justify-between ${
-                      isActive
-                        ? `bg-slate-900/95 ${step.border} shadow-2xl shadow-sky-500/20 ring-2 ring-sky-400/30 scale-[1.03]`
-                        : isPast
-                        ? "bg-slate-900/70 border-slate-700/80"
-                        : "bg-slate-950/60 border-slate-800/80 hover:border-slate-700 hover:bg-slate-900/40"
-                    }`}
-                  >
-                    <div className="space-y-4">
-                      <div className="flex items-center justify-between">
-                        <div
-                          className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-all ${
-                            isActive
-                              ? `bg-slate-900 ${step.border} ${step.accent} shadow-lg scale-105`
-                              : isPast
-                              ? "bg-slate-800 border-slate-700 text-sky-400"
-                              : "bg-slate-900 border-slate-800 text-slate-500"
-                          }`}
-                        >
-                          <Icon className="w-5 h-5" />
-                        </div>
-                        <span
-                          className={`text-[10px] font-mono border px-2.5 py-0.5 rounded-full font-bold tracking-wider ${
-                            isActive
-                              ? "bg-sky-500/20 text-sky-300 border-sky-400/50"
-                              : "bg-slate-950 text-slate-400 border-slate-800"
-                          }`}
-                        >
-                          {step.badge}
-                        </span>
-                      </div>
-
-                      <div className="space-y-1">
-                        <span className="text-[10px] font-mono font-bold tracking-wider text-slate-500 block">
-                          STAGE 0{idx + 1}
-                        </span>
-                        <h3 className="text-xl font-black text-white tracking-tight flex items-center justify-between">
-                          <span>{step.title}</span>
-                          {isActive && (
-                            <span className="text-[9px] font-mono text-emerald-400 px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/30 font-semibold animate-pulse">
-                              ACTIVE
-                            </span>
-                          )}
-                        </h3>
-                        <p className={`text-xs font-semibold ${step.accent}`}>
-                          {step.desc}
-                        </p>
-                      </div>
-
-                      <div className="p-2.5 rounded-lg bg-slate-950/80 border border-slate-800/60 text-[11px] font-mono text-slate-300">
-                        {step.visualText}
-                      </div>
-                    </div>
-
-                    <div className="pt-4 mt-4 border-t border-slate-800/80 flex items-center justify-between text-xs font-mono">
-                      <span className={isActive ? `${step.accent} font-semibold` : "text-slate-500"}>
-                        {isActive ? "Conduit Flowing" : isPast ? "Passed" : "Standby"}
-                      </span>
-                      {!isLast ? (
-                        <ArrowRight className={`w-3.5 h-3.5 ${isActive ? "text-sky-400 translate-x-1 transition-transform" : "text-slate-600"}`} />
-                      ) : (
-                        <span className="text-emerald-400 font-semibold text-[11px]">Multi-Rail</span>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* 3. THE LIVE SYSTEM CONSOLE: 방문자가 직접 버튼을 누르고 경험하는 터미널 */}
-        <div className="rounded-3xl bg-slate-950/90 border border-slate-800 overflow-hidden shadow-2xl backdrop-blur-md max-w-6xl mx-auto">
+        {/* THE SINGLE UNIFIED RUNTIME CONSOLE (파이프라인 단계와 콘솔이 일체화된 단일 시스템) */}
+        <div className="rounded-3xl bg-slate-950/90 border border-slate-800 overflow-hidden shadow-2xl backdrop-blur-md">
           {/* Top Window Chrome Bar */}
           <div className="bg-slate-900/95 px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
@@ -341,12 +175,12 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
               <span className="w-3 h-3 rounded-full bg-amber-500/80" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
               <span className="ml-2 text-xs font-mono text-slate-400">
-                knca-live-orchestrator.engine // visual-automation-simulation
+                knca-live-orchestrator.engine // active-runtime-simulation
               </span>
             </div>
 
             <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
-              <span className="flex items-center gap-1.5 text-emerald-400">
+              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 Claude API Active
               </span>
@@ -356,14 +190,14 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
             </div>
           </div>
 
-          <div className="p-6 sm:p-8 space-y-8">
+          <div className="p-6 sm:p-8 space-y-7">
             
-            {/* 3.1 Step 1: Input Source Selector */}
+            {/* 1. SOURCE CHAMBER (원천 투입) */}
             <div className="space-y-3">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Terminal className="w-4 h-4 text-sky-400" />
-                  01. INGESTION CHAMBER (원천 데이터 투입)
+                  01. INGESTION CHAMBER (단일 원천 선택 &amp; 주입)
                 </span>
                 
                 {/* 3 Source Type Quick Presets */}
@@ -436,7 +270,7 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
               </div>
             </div>
 
-            {/* 3.2 Step 2: Live Processing Telemetry Bar */}
+            {/* 2. REAL-TIME TELEMETRY RAIL (파이프라인 4단계가 설명 카드가 아닌 실시간 프로세스 노드로 작동) */}
             <div className="p-4 sm:p-5 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-3">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-indigo-300 font-bold flex items-center gap-1.5">
@@ -451,23 +285,29 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1 font-mono text-xs">
                 {[
-                  { phase: "analyzing", step: "01", label: "Ingest & Parse", detail: "음성/텍스트 트랙 분해" },
-                  { phase: "extracting", step: "02", label: "Knowledge Graph", detail: "핵심 주장·팩트 앵커링" },
-                  { phase: "reasoning", step: "03", label: "Audience Intent", detail: "채널별 독자 페르소나" },
-                  { phase: "generating", step: "04", label: "Multi-Synthesis", detail: "다포맷 동시 집필 완료" },
-                ].map((item, idx) => {
-                  const isCurrent = currentProcessPhase === item.phase || (isProcessing && activeStep === idx);
+                  { phase: "analyzing", step: 1, label: "Ingest & Parse", detail: "음성/텍스트 트랙 분해" },
+                  { phase: "extracting", step: 2, label: "Knowledge Graph", detail: "핵심 논점·서사 앵커링" },
+                  { phase: "reasoning", step: 3, label: "Audience Intent", detail: "채널별 독자 페르소나" },
+                  { phase: "generating", step: 4, label: "Multi-Synthesis", detail: "다포맷 동시 집필 완료" },
+                ].map((item) => {
+                  const isCurrent = currentProcessPhase === item.phase || (isProcessing && liveStage === item.step);
+                  const isPassed = liveStage > item.step;
                   return (
                     <div
                       key={item.phase}
                       className={`p-3 rounded-xl border text-center transition-all ${
                         isCurrent
                           ? "bg-sky-500/20 border-sky-400 text-sky-200 ring-2 ring-sky-500/30 font-bold scale-[1.02]"
+                          : isPassed
+                          ? "bg-slate-900/80 border-slate-700 text-slate-300"
                           : "bg-slate-950/70 border-slate-800 text-slate-400"
                       }`}
                     >
-                      <span className="block text-[9px] text-slate-500 font-mono">STAGE {item.step}</span>
-                      <span className="block font-bold text-white mt-0.5">{item.label}</span>
+                      <div className="flex items-center justify-between text-[9px] text-slate-500 font-mono mb-1">
+                        <span>STAGE 0{item.step}</span>
+                        {isCurrent && <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-ping" />}
+                      </div>
+                      <span className="block font-bold text-white">{item.label}</span>
                       <span className="block text-[10px] text-slate-400 mt-1 font-sans">{item.detail}</span>
                     </div>
                   );
@@ -475,7 +315,7 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
               </div>
             </div>
 
-            {/* 3.3 Step 3: Many Outputs & Release Rails */}
+            {/* 3. OUTPUT CHAMBER & DISTRIBUTION RAILS (실시간 생성 결과물 및 다채널 배포) */}
             <div className="space-y-4 pt-1">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
