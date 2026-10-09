@@ -229,56 +229,32 @@ export default function TrustAndConversion() {
           </div>
         </div>
 
-        {/* 2. CONSOLIDATED CORPORATE CREDIBILITY: 5. COMPANY (Apple/Linear Spec) */}
-        <div id="company" className="rounded-3xl bg-[#090d18]/80 border border-white/10 p-8 sm:p-12 backdrop-blur-xl space-y-8">
-          <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/5 pb-6">
-            <div>
-              <div className="flex items-center gap-2 text-xs font-mono text-slate-400 uppercase tracking-wider">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>COMPANY · OPERATING ENTITY</span>
-              </div>
-              <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1.5">
-                KNCA Labs
-              </h3>
-              <p className="text-xs font-mono text-sky-400 mt-0.5">
-                AI-powered content automation company
-              </p>
-            </div>
-
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-mono font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Core alpha testing in progress · Founded 2023</span>
-            </div>
+        {/* 2. CONSOLIDATED CORPORATE CREDIBILITY: COMPANY */}
+        <div id="company" className="rounded-3xl bg-[#090d18]/80 border border-white/10 p-8 sm:p-14 backdrop-blur-xl space-y-6 text-center max-w-4xl mx-auto">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300 text-xs font-mono font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="tracking-widest uppercase text-[11px]">Core alpha testing in progress</span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start text-xs leading-relaxed">
-            {/* Mission Statement (7 cols) */}
-            <div className="md:col-span-7 space-y-2">
-              <p className="text-sm font-semibold text-white">
-                &quot;콘텐츠를 자율 워크플로우로 전환합니다.&quot;
-              </p>
-              <p className="text-slate-400 font-sans">
-                원천 1개에서 다채널 자율 배포까지 연결하는 차세대 콘텐츠 인프라를 만듭니다.
-              </p>
-            </div>
+          <div className="space-y-3">
+            <h3 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.08]">
+              Founded 2023 · South Korea
+            </h3>
+            <p className="text-sm sm:text-base font-mono text-slate-400">
+              KNCA Labs · Operated by Stay C Jeju (스테이씨 제주)
+            </p>
+          </div>
 
-            {/* Corporate Fact Grid (5 cols) */}
-            <div className="md:col-span-5 grid grid-cols-2 gap-4 pt-1 md:pt-0 border-t md:border-t-0 md:border-l border-slate-800 md:pl-6">
-              <div className="space-y-1">
-                <span className="text-slate-500 font-mono block">Entity & Operation</span>
-                <span className="text-white font-medium block">Stay C Jeju (스테이씨 제주)</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-slate-500 font-mono block">Established</span>
-                <span className="text-white font-medium block">2023 · South Korea</span>
-              </div>
-              <div className="space-y-1 col-span-2">
-                <span className="text-slate-500 font-mono block">Direct Contact</span>
-                <a href={`mailto:${siteConfig.contact.email}`} className="text-sky-300 hover:underline font-mono">
-                  {siteConfig.contact.email}
-                </a>
-              </div>
-            </div>
+          <div className="max-w-xl mx-auto pt-4 border-t border-white/5 space-y-2 text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <p className="text-slate-300 font-medium">
+              &quot;원천 1개에서 다채널 자율 배포까지 연결하는 차세대 콘텐츠 인프라를 만듭니다.&quot;
+            </p>
+            <p className="font-mono text-slate-500 pt-1">
+              Direct Contact:{" "}
+              <a href={`mailto:${siteConfig.contact.email}`} className="text-sky-300 hover:underline">
+                {siteConfig.contact.email}
+              </a>
+            </p>
           </div>
         </div>
 
