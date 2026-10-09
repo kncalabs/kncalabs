@@ -94,8 +94,8 @@ export default function Hero() {
 
         {/* Monumental Display Headline */}
         <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-[7.5rem] font-black tracking-tight text-white leading-[0.96] break-words">
-          Build Once. <br />
-          <span className="text-gradient">Automate More.</span>
+          One Source. <br />
+          <span className="text-gradient">Many Possibilities.</span>
         </h1>
 
         {/* Global Single Punchy Slogan */}
@@ -135,7 +135,11 @@ export default function Hero() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
             
             {/* LEFT: THE ONE SOURCE (Single Ingestion Unit) */}
-            <div className="lg:col-span-5 flex flex-col justify-center">
+            <div className="lg:col-span-5 flex flex-col justify-center space-y-3">
+              <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+                <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">01 · ONE SOURCE</span>
+                <span className="text-emerald-400 font-mono text-[10px]">INGEST READY</span>
+              </div>
               <div className={`rounded-2xl border ${currentSource.border} bg-gradient-to-br from-[#0c1426] to-[#050812] p-6 shadow-2xl relative overflow-hidden group`}>
                 
                 {/* 16:9 Media Viewport Mockup */}
@@ -209,7 +213,12 @@ export default function Hero() {
             </div>
 
             {/* RIGHT: MANY POSSIBILITIES (4 Deliverables Showcase) */}
-            <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="lg:col-span-6 space-y-3">
+              <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
+                <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">02 · MANY POSSIBILITIES</span>
+                <span className="text-sky-400 font-mono text-[10px]">4 CHANNELS ACTIVE</span>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               
               {/* 1. SHORTS */}
               <div className="rounded-2xl border border-sky-500/30 bg-[#090e1c] p-4 space-y-3 shadow-lg relative overflow-hidden group hover:border-sky-500/60 transition-all">
@@ -344,6 +353,7 @@ export default function Hero() {
                 </div>
               </div>
 
+              </div>
             </div>
 
           </div>
