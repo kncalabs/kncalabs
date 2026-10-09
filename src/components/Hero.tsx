@@ -253,7 +253,7 @@ export default function Hero() {
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider font-semibold">
-                        STAGE 02 — AI REASONING
+                        STAGE 02 — AI UNDERSTANDING
                       </span>
                       <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 2 ? "bg-indigo-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
@@ -261,7 +261,7 @@ export default function Hero() {
                       <Cpu className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white">Understand & Extract</h4>
+                      <h4 className="text-sm font-bold text-white">Context & Reasoning</h4>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                         Claude API가 원본 문맥을 분석하고 핵심 지식과 서사를 분해
                       </p>
@@ -272,7 +272,7 @@ export default function Hero() {
                     </div>
                   </div>
 
-                  {/* Step 3: Synthesis & Verification - TRANSFORMATION */}
+                  {/* Step 3: Synthesis & Verification - MANY CONTENTS */}
                   <div
                     onClick={() => setActiveCinematicStage(3)}
                     className={`group relative rounded-xl border p-4 transition-all duration-300 space-y-3 cursor-pointer ${
@@ -283,7 +283,7 @@ export default function Hero() {
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider font-semibold">
-                        STAGE 03 — TRANSFORMATION
+                        STAGE 03 — MANY CONTENTS
                       </span>
                       <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 3 ? "bg-amber-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
@@ -313,7 +313,7 @@ export default function Hero() {
                   >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">
-                        STAGE 04 — DISTRIBUTION
+                        STAGE 04 — MULTI-CHANNEL
                       </span>
                       <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 4 ? "bg-emerald-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
@@ -321,7 +321,7 @@ export default function Hero() {
                       <Share2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white">Multi-Channel Output</h4>
+                      <h4 className="text-sm font-bold text-white">Automated Publishing</h4>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
                         웹사이트, 소셜 미디어, 뉴스레터 동시 퍼블리싱 지원
                       </p>
