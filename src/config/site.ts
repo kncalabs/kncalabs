@@ -1,6 +1,8 @@
 export const siteConfig = {
   name: "KNCA Labs",
-  legalName: "KNCA Labs Inc.",
+  legalName: "주식회사 케이앤씨에이 (KNCA Inc.)",
+  brandName: "KNCA Labs",
+  brandRelation: "KNCA Labs는 주식회사 케이앤씨에이(KNCA Inc.)의 공식 AI 소프트웨어 및 기술 연구개발(R&D) 브랜드입니다.",
   tagline: "AI Content Automation Platform",
   title: "KNCA Labs — AI Content Automation Platform",
   description: "KNCA Labs builds AI-powered content automation tools that transform one source into optimized content across multiple channels.",
@@ -8,7 +10,7 @@ export const siteConfig = {
   ogImage: "https://kncalabs.com/og-image.png",
   contact: {
     email: "founder@kncalabs.com",
-    location: "서울특별시 (스타트업 허브)",
+    location: "서울특별시",
   },
   stage: {
     badge: "Development — Active",

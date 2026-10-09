@@ -27,6 +27,15 @@ export default function Footer() {
             <p className="text-slate-400 max-w-sm leading-relaxed text-xs">
               KNCA Labs is an independent software studio focused on building practical AI-powered automation tools for content creation and digital workflows.
             </p>
+
+            <div className="pt-2 border-t border-slate-800/80 max-w-sm space-y-1 text-[11px] text-slate-500 font-sans">
+              <p>
+                <strong className="text-slate-400 font-semibold">운영사:</strong> 주식회사 케이앤씨에이 (KNCA Inc.)
+              </p>
+              <p className="leading-relaxed">
+                KNCA Labs는 주식회사 케이앤씨에이의 공식 AI 소프트웨어 및 R&D 스튜디오 브랜드입니다.
+              </p>
+            </div>
           </div>
 
           {/* Links */}

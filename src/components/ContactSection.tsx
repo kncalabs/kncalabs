@@ -48,8 +48,9 @@ export default function ContactSection() {
                   <Building2 className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-mono text-slate-400">Studio Name</h4>
-                  <p className="text-base font-bold text-white">KNCA Labs Inc.</p>
+                  <h4 className="text-xs font-mono text-slate-400">Organization & Brand</h4>
+                  <p className="text-base font-bold text-white">KNCA Labs</p>
+                  <p className="text-xs text-slate-400 mt-0.5">운영사: 주식회사 케이앤씨에이 (KNCA Inc.)</p>
                 </div>
               </div>
             </div>

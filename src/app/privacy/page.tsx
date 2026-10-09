@@ -51,7 +51,7 @@ export default function PrivacyPage() {
               <span>사이트 방문 시 처리되는 정보 (Information Processed During Visit)</span>
             </h2>
             <p>
-              KNCA Labs 웹사이트(<a href="https://kncalabs.com" className="text-sky-400 underline">kncalabs.com</a>)는 별도의 회원가입이나 로그인 절차 없이 자유롭게 열람할 수 있는 정적 웹사이트입니다. 방문자가 사이트를 단순히 조회할 때 개인 식별 정보를 자동으로 수집하거나 저장하지 않습니다.
+              주식회사 케이앤씨에이(KNCA Inc., 이하 &quot;회사&quot;)가 운영하는 KNCA Labs 웹사이트(<a href="https://kncalabs.com" className="text-sky-400 underline">kncalabs.com</a>)는 별도의 회원가입이나 로그인 절차 없이 자유롭게 열람할 수 있는 정적 웹사이트입니다. 방문자가 사이트를 단순히 조회할 때 개인 식별 정보를 자동으로 수집하거나 저장하지 않습니다.
             </p>
           </section>
 

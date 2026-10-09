@@ -50,7 +50,7 @@ export default function TermsPage() {
               <span>약관 동의 (Acceptance of Terms)</span>
             </h2>
             <p>
-              본 이용약관은 KNCA Labs 웹사이트(<a href="https://kncalabs.com" className="text-sky-400 underline">kncalabs.com</a>) 이용 조건에 대해 규정합니다. 본 사이트를 열람 및 이용하는 것은 본 약관에 동의하는 것으로 간주됩니다.
+              본 이용약관은 주식회사 케이앤씨에이(KNCA Inc., 이하 &quot;회사&quot;)가 운영하는 AI 기술 및 프로덕트 브랜드 KNCA Labs의 공식 웹사이트(<a href="https://kncalabs.com" className="text-sky-400 underline">kncalabs.com</a>) 이용 조건에 대해 규정합니다. 본 사이트를 열람 및 이용하는 것은 본 약관에 동의하는 것으로 간주됩니다.
             </p>
           </section>
 
