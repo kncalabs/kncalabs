@@ -217,18 +217,18 @@ export default function Hero() {
                   {/* Motion Diagram Flow (Desktop / Tablet) */}
                   <div className="relative z-10 hidden sm:flex items-center justify-between gap-2 max-w-4xl mx-auto py-4">
                     
-                    {/* Node 1: ONE SOURCE (Converging Inputs) */}
-                    <div className="flex flex-col items-center space-y-2 text-center w-28">
+                    {/* Node 1: SOURCE (e.g. YouTube Video) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-32">
                       <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
                         activeCinematicStage === 1
                           ? "bg-sky-500/20 border-sky-400 text-sky-300 ring-4 ring-sky-500/20 scale-105"
                           : "bg-slate-900 border-slate-800 text-slate-400"
                       }`}>
                         <FileText className="w-5 h-5 mb-0.5" />
-                        <span className="text-[9px] font-mono tracking-tighter">SINGLE</span>
+                        <span className="text-[9px] font-mono tracking-tighter">SOURCE</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">ONE SOURCE</span>
-                      <span className="text-[10px] text-slate-400">Article, Video, URL</span>
+                      <span className="text-[11px] font-bold text-white font-mono">SOURCE</span>
+                      <span className="text-[10px] text-sky-300 font-mono">YouTube Video</span>
                     </div>
 
                     {/* Animated Beam 1 -> 2 */}
@@ -239,7 +239,7 @@ export default function Hero() {
                       <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 2 ? "text-indigo-400" : "text-slate-600"}`} />
                     </div>
 
-                    {/* Node 2: AI UNDERSTANDING (Pulsing Claude Core) */}
+                    {/* Node 2: AI (AI Understanding) */}
                     <div className="flex flex-col items-center space-y-2 text-center w-36">
                       <div className={`w-16 h-16 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 relative ${
                         activeCinematicStage === 2
@@ -249,8 +249,8 @@ export default function Hero() {
                         <Cpu className="w-6 h-6 mb-0.5 text-indigo-400" />
                         <span className="text-[9px] font-mono font-bold text-indigo-300">CLAUDE AI</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">UNDERSTANDING</span>
-                      <span className="text-[10px] text-slate-400">Context Reasoning</span>
+                      <span className="text-[11px] font-bold text-white font-mono">AI</span>
+                      <span className="text-[10px] text-indigo-300 font-mono">AI Understanding</span>
                     </div>
 
                     {/* Animated Beam 2 -> 3 */}
@@ -261,18 +261,18 @@ export default function Hero() {
                       <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 3 ? "text-amber-400" : "text-slate-600"}`} />
                     </div>
 
-                    {/* Node 3: MANY CONTENTS (Branching Formats) */}
-                    <div className="flex flex-col items-center space-y-2 text-center w-32">
+                    {/* Node 3: OUTPUTS (Shorts, Article, Social, Newsletter) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-36">
                       <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
                         activeCinematicStage === 3
                           ? "bg-amber-500/20 border-amber-400 text-amber-300 ring-4 ring-amber-500/20 scale-105"
                           : "bg-slate-900 border-slate-800 text-slate-400"
                       }`}>
                         <Layers className="w-5 h-5 mb-0.5 text-amber-400" />
-                        <span className="text-[9px] font-mono tracking-tighter">MULTI-ASSET</span>
+                        <span className="text-[9px] font-mono tracking-tighter">OUTPUTS</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">MANY CONTENTS</span>
-                      <span className="text-[10px] text-slate-400">Script, Blog, Post</span>
+                      <span className="text-[11px] font-bold text-white font-mono">OUTPUTS</span>
+                      <span className="text-[9px] text-amber-300 font-mono leading-tight">Shorts · Article · Social · Newsletter</span>
                     </div>
 
                     {/* Animated Beam 3 -> 4 */}
@@ -283,8 +283,8 @@ export default function Hero() {
                       <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 4 ? "text-emerald-400" : "text-slate-600"}`} />
                     </div>
 
-                    {/* Node 4: MULTI-CHANNEL (Distribution Endpoints) */}
-                    <div className="flex flex-col items-center space-y-2 text-center w-32">
+                    {/* Node 4: CHANNELS (YouTube, Instagram, TikTok, Blog) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-36">
                       <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
                         activeCinematicStage === 4
                           ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 ring-4 ring-emerald-500/20 scale-105"
@@ -293,8 +293,8 @@ export default function Hero() {
                         <Share2 className="w-5 h-5 mb-0.5 text-emerald-400" />
                         <span className="text-[9px] font-mono tracking-tighter">CHANNELS</span>
                       </div>
-                      <span className="text-[11px] font-bold text-white font-mono">MULTI-CHANNEL</span>
-                      <span className="text-[10px] text-slate-400">Web, Social, Mail</span>
+                      <span className="text-[11px] font-bold text-white font-mono">CHANNELS</span>
+                      <span className="text-[9px] text-emerald-300 font-mono leading-tight">YouTube · Instagram · TikTok · Blog</span>
                     </div>
 
                   </div>
