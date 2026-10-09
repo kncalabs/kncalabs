@@ -97,7 +97,7 @@ export default function Hero() {
 
         {/* Global Single Punchy Slogan */}
         <p className="text-lg sm:text-2xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed tracking-tight">
-          Turn one source into a complete content workflow — powered by AI.
+          Turn one source into a complete content workflow — AI-native.
         </p>
 
         {/* Source Selector Pills: Integrated Directly on the Stage */}
