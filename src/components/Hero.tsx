@@ -209,6 +209,111 @@ export default function Hero() {
             {activeWorkflowTab === "visual" && (
               <div className="p-5 sm:p-6 md:p-8 space-y-6">
                 
+                {/* Real Cinematic Visual Motion Canvas: ONE SOURCE -> AI -> MANY CONTENTS -> MULTI-CHANNEL */}
+                <div className="relative rounded-2xl bg-slate-950/90 border border-slate-800/90 p-6 overflow-hidden">
+                  <div className="absolute inset-0 pointer-events-none opacity-20 bg-radial-glow" />
+                  
+                  {/* Motion Diagram Flow (Desktop / Tablet) */}
+                  <div className="relative z-10 hidden sm:flex items-center justify-between gap-2 max-w-4xl mx-auto py-4">
+                    
+                    {/* Node 1: ONE SOURCE (Converging Inputs) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-28">
+                      <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
+                        activeCinematicStage === 1
+                          ? "bg-sky-500/20 border-sky-400 text-sky-300 ring-4 ring-sky-500/20 scale-105"
+                          : "bg-slate-900 border-slate-800 text-slate-400"
+                      }`}>
+                        <FileText className="w-5 h-5 mb-0.5" />
+                        <span className="text-[9px] font-mono tracking-tighter">SINGLE</span>
+                      </div>
+                      <span className="text-[11px] font-bold text-white font-mono">ONE SOURCE</span>
+                      <span className="text-[10px] text-slate-400">Article, Video, URL</span>
+                    </div>
+
+                    {/* Animated Beam 1 -> 2 */}
+                    <div className="flex-1 flex items-center justify-center relative px-2">
+                      <div className="w-full h-[2px] bg-slate-800 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-sky-400 to-indigo-400 animate-flow-dash" style={{ width: "100%" }} />
+                      </div>
+                      <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 2 ? "text-indigo-400" : "text-slate-600"}`} />
+                    </div>
+
+                    {/* Node 2: AI UNDERSTANDING (Pulsing Claude Core) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-36">
+                      <div className={`w-16 h-16 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 relative ${
+                        activeCinematicStage === 2
+                          ? "bg-indigo-500/25 border-indigo-400 text-indigo-300 ring-4 ring-indigo-500/30 scale-110 shadow-xl shadow-indigo-500/20 animate-core-pulse"
+                          : "bg-slate-900 border-slate-800 text-slate-400"
+                      }`}>
+                        <Cpu className="w-6 h-6 mb-0.5 text-indigo-400" />
+                        <span className="text-[9px] font-mono font-bold text-indigo-300">CLAUDE AI</span>
+                      </div>
+                      <span className="text-[11px] font-bold text-white font-mono">UNDERSTANDING</span>
+                      <span className="text-[10px] text-slate-400">Context Reasoning</span>
+                    </div>
+
+                    {/* Animated Beam 2 -> 3 */}
+                    <div className="flex-1 flex items-center justify-center relative px-2">
+                      <div className="w-full h-[2px] bg-slate-800 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-indigo-400 to-amber-400 animate-flow-dash" style={{ width: "100%" }} />
+                      </div>
+                      <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 3 ? "text-amber-400" : "text-slate-600"}`} />
+                    </div>
+
+                    {/* Node 3: MANY CONTENTS (Branching Formats) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-32">
+                      <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
+                        activeCinematicStage === 3
+                          ? "bg-amber-500/20 border-amber-400 text-amber-300 ring-4 ring-amber-500/20 scale-105"
+                          : "bg-slate-900 border-slate-800 text-slate-400"
+                      }`}>
+                        <Layers className="w-5 h-5 mb-0.5 text-amber-400" />
+                        <span className="text-[9px] font-mono tracking-tighter">MULTI-ASSET</span>
+                      </div>
+                      <span className="text-[11px] font-bold text-white font-mono">MANY CONTENTS</span>
+                      <span className="text-[10px] text-slate-400">Script, Blog, Post</span>
+                    </div>
+
+                    {/* Animated Beam 3 -> 4 */}
+                    <div className="flex-1 flex items-center justify-center relative px-2">
+                      <div className="w-full h-[2px] bg-slate-800 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-400 to-emerald-400 animate-flow-dash" style={{ width: "100%" }} />
+                      </div>
+                      <ArrowRight className={`w-4 h-4 ml-1 transition-colors ${activeCinematicStage >= 4 ? "text-emerald-400" : "text-slate-600"}`} />
+                    </div>
+
+                    {/* Node 4: MULTI-CHANNEL (Distribution Endpoints) */}
+                    <div className="flex flex-col items-center space-y-2 text-center w-32">
+                      <div className={`w-14 h-14 rounded-2xl border flex flex-col items-center justify-center transition-all duration-500 ${
+                        activeCinematicStage === 4
+                          ? "bg-emerald-500/20 border-emerald-400 text-emerald-300 ring-4 ring-emerald-500/20 scale-105"
+                          : "bg-slate-900 border-slate-800 text-slate-400"
+                      }`}>
+                        <Share2 className="w-5 h-5 mb-0.5 text-emerald-400" />
+                        <span className="text-[9px] font-mono tracking-tighter">CHANNELS</span>
+                      </div>
+                      <span className="text-[11px] font-bold text-white font-mono">MULTI-CHANNEL</span>
+                      <span className="text-[10px] text-slate-400">Web, Social, Mail</span>
+                    </div>
+
+                  </div>
+
+                  {/* Flow Sub-description Bar */}
+                  <div className="mt-3 pt-3 border-t border-slate-900 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400">
+                    <span className="flex items-center gap-1.5 text-slate-300">
+                      <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                      <span>Live Engine Animation:</span>
+                      <strong className="text-white">
+                        {activeCinematicStage === 1 && "1. Single Source Ingestion (Converging Input)"}
+                        {activeCinematicStage === 2 && "2. Claude AI Core Reasoning & Context Breakdown"}
+                        {activeCinematicStage === 3 && "3. Autonomous Multi-Format Transformation"}
+                        {activeCinematicStage === 4 && "4. Automated Publishing across Multi-Channels"}
+                      </strong>
+                    </span>
+                    <span className="text-slate-500 hidden md:inline">Continuous Pipeline</span>
+                  </div>
+                </div>
+
                 {/* 4-Stage Horizontal Grid Flow with Live Stage Indicator */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
                   

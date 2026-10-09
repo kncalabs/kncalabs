@@ -55,6 +55,34 @@ body {
   will-change: transform, opacity;
 }
 
+/* High-End Motion Graphics: Connecting beam and dynamic pulse */
+@keyframes flowDash {
+  to {
+    stroke-dashoffset: -32;
+  }
+}
+
+.animate-flow-dash {
+  animation: flowDash 1.2s linear infinite;
+  will-change: stroke-dashoffset;
+}
+
+@keyframes corePulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 1;
+  }
+}
+
+.animate-core-pulse {
+  animation: corePulse 2.4s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
 /* High-Performance Lightweight Scroll Reveal Keyframes */
 @keyframes fadeInUp {
   from {
