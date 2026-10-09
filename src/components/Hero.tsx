@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -21,6 +21,15 @@ import {
 export default function Hero() {
   const [activeWorkflowTab, setActiveWorkflowTab] = useState<"visual" | "pipeline">("visual");
   const [copiedSnippet, setCopiedSnippet] = useState(false);
+  const [activeCinematicStage, setActiveCinematicStage] = useState(1);
+
+  // Auto-progress cinematic workflow cycle
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveCinematicStage((prev) => (prev % 4) + 1);
+    }, 3200);
+    return () => clearInterval(interval);
+  }, []);
 
   const handleCopy = () => {
     setCopiedSnippet(true);
@@ -32,7 +41,7 @@ export default function Hero() {
       aria-label="KNCA Labs Introduction & AI Automation Architecture"
       className="relative pt-32 pb-24 md:pt-40 md:pb-32 overflow-hidden bg-radial-glow min-h-[92vh] flex items-center justify-center"
     >
-      {/* Precision Ambient Grid & Constellation Effect */}
+      {/* Precision Ambient Grid & Constellation Vector Paths */}
       <div
         className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-35"
         aria-hidden="true"
@@ -78,12 +87,13 @@ export default function Hero() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
         <div className="text-center max-w-4xl mx-auto space-y-6 sm:space-y-7">
+          
           {/* Top Status & Integrity Badges */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3">
             <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 border border-sky-500/30 text-sky-300 text-[11px] sm:text-xs font-mono font-medium shadow-sm backdrop-blur-md">
               <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-ping hidden sm:inline-block" />
               <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
-              <span>Next-Gen Content Automation Platform</span>
+              <span>AI CONTENT AUTOMATION</span>
             </div>
 
             <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-slate-300 text-[11px] sm:text-xs font-medium backdrop-blur-md">
@@ -92,20 +102,20 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Main Headline - Fluid, Responsive, Zero Overflow on 320px/390px */}
-          <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-extrabold tracking-tight text-white leading-[1.05] break-words">
+          {/* Main Headline - Massive, commanding hierarchy */}
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-extrabold tracking-tight text-white leading-[1.02] break-words">
             Build Once. <br className="hidden sm:inline" />
             <span className="text-gradient">Automate More.</span>
           </h1>
 
           {/* Value Proposition Description - Short, Punchy, High-Contrast */}
-          <p className="text-sm sm:text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed px-1">
+          <p className="text-base sm:text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed px-1">
             Turn one source into a complete content workflow — powered by AI.
           </p>
 
           {/* Positioning Statement Bar */}
           <div className="pt-0.5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900/80 border border-slate-800/90 text-[11px] sm:text-sm text-slate-300 font-medium backdrop-blur-sm text-center">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900/80 border border-slate-800/90 text-xs sm:text-sm text-slate-300 font-medium backdrop-blur-sm text-center">
               <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-sky-400 shrink-0" />
               <span>AI-powered content automation for creators and businesses.</span>
             </div>
@@ -145,7 +155,7 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* High-End AI Workflow Architecture Visualization */}
+        {/* High-End AI Workflow Architecture Visualization: Cinematic 4-Stage Motion Graphics */}
         <div className="mt-14 sm:mt-16 relative max-w-5xl mx-auto rounded-2xl glass-panel p-2 sm:p-3 md:p-4 shadow-2xl border border-slate-800/90">
           <div className="bg-[#080c14] rounded-xl overflow-hidden border border-slate-800/90 flex flex-col">
             
@@ -156,7 +166,7 @@ export default function Hero() {
                 <div className="w-3 h-3 rounded-full bg-amber-500/80" />
                 <div className="w-3 h-3 rounded-full bg-emerald-500/80" />
                 <span className="ml-2 text-xs font-mono text-slate-400">
-                  knca-content-automation.internal (개발 중 아키텍처 프리뷰)
+                  knca-content-automation.internal (Engineered Architecture Preview)
                 </span>
               </div>
 
@@ -195,66 +205,87 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* TAB 1: VISUAL MULTI-STAGE AUTOMATION PIPELINE */}
+            {/* TAB 1: VISUAL CINEMATIC 4-STAGE PIPELINE WITH ACTIVE FLOW */}
             {activeWorkflowTab === "visual" && (
               <div className="p-5 sm:p-6 md:p-8 space-y-6">
                 
-                {/* 4-Stage Horizontal Grid Flow */}
+                {/* 4-Stage Horizontal Grid Flow with Live Stage Indicator */}
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4 relative">
                   
-                  {/* Step 1: Ingestion */}
-                  <div className="group relative rounded-xl bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-sky-500/40 p-4 transition-all duration-300 space-y-3">
+                  {/* Step 1: Ingestion - ONE SOURCE */}
+                  <div
+                    onClick={() => setActiveCinematicStage(1)}
+                    className={`group relative rounded-xl border p-4 transition-all duration-300 space-y-3 cursor-pointer ${
+                      activeCinematicStage === 1
+                        ? "bg-slate-900/90 border-sky-500/70 shadow-lg shadow-sky-500/10 ring-1 ring-sky-500/30"
+                        : "bg-slate-900/40 border-slate-800/80 hover:border-slate-700"
+                    }`}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-sky-400 uppercase tracking-wider font-semibold">
-                        Stage 01
+                        STAGE 01 — ONE SOURCE
                       </span>
-                      <span className="w-2 h-2 rounded-full bg-sky-400" />
+                      <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 1 ? "bg-sky-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
                     <div className="w-9 h-9 rounded-lg bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
                       <FileText className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white">Single Source Ingestion</h4>
+                      <h4 className="text-sm font-bold text-white">Capture & Ingest</h4>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                        아티클, 리포트, 인터뷰 등 단일 원천 데이터를 수집 및 세만틱 인덱싱
+                        Article, Video, Audio, URL 원천을 단일 입력으로 수렴
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                      <span>Status</span>
-                      <span className="text-emerald-400">Ready</span>
+                      <span>Source State</span>
+                      <span className="text-emerald-400 font-medium">Ingested</span>
                     </div>
                   </div>
 
-                  {/* Step 2: Reasoning Engine */}
-                  <div className="group relative rounded-xl bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-indigo-500/40 p-4 transition-all duration-300 space-y-3">
+                  {/* Step 2: Reasoning Engine - AI UNDERSTANDING */}
+                  <div
+                    onClick={() => setActiveCinematicStage(2)}
+                    className={`group relative rounded-xl border p-4 transition-all duration-300 space-y-3 cursor-pointer ${
+                      activeCinematicStage === 2
+                        ? "bg-slate-900/90 border-indigo-500/70 shadow-lg shadow-indigo-500/10 ring-1 ring-indigo-500/30"
+                        : "bg-slate-900/40 border-slate-800/80 hover:border-slate-700"
+                    }`}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-indigo-400 uppercase tracking-wider font-semibold">
-                        Stage 02
+                        STAGE 02 — AI REASONING
                       </span>
-                      <span className="w-2 h-2 rounded-full bg-indigo-400" />
+                      <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 2 ? "bg-indigo-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
                     <div className="w-9 h-9 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400">
                       <Cpu className="w-4 h-4" />
                     </div>
                     <div>
-                      <h4 className="text-sm font-bold text-white">Claude Context Reasoning</h4>
+                      <h4 className="text-sm font-bold text-white">Understand & Extract</h4>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                        핵심 의미와 내러티브를 분석하고 컨텍스트를 정밀 유지
+                        Claude API가 원본 문맥을 분석하고 핵심 지식과 서사를 분해
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                      <span>Engine</span>
-                      <span className="text-indigo-300 font-semibold">Claude API</span>
+                      <span>Core Engine</span>
+                      <span className="text-indigo-300 font-semibold font-mono">Claude API</span>
                     </div>
                   </div>
 
-                  {/* Step 3: Synthesis & Verification */}
-                  <div className="group relative rounded-xl bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-amber-500/40 p-4 transition-all duration-300 space-y-3">
+                  {/* Step 3: Synthesis & Verification - TRANSFORMATION */}
+                  <div
+                    onClick={() => setActiveCinematicStage(3)}
+                    className={`group relative rounded-xl border p-4 transition-all duration-300 space-y-3 cursor-pointer ${
+                      activeCinematicStage === 3
+                        ? "bg-slate-900/90 border-amber-500/70 shadow-lg shadow-amber-500/10 ring-1 ring-amber-500/30"
+                        : "bg-slate-900/40 border-slate-800/80 hover:border-slate-700"
+                    }`}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-amber-400 uppercase tracking-wider font-semibold">
-                        Stage 03
+                        STAGE 03 — TRANSFORMATION
                       </span>
-                      <span className="w-2 h-2 rounded-full bg-amber-400" />
+                      <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 3 ? "bg-amber-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
                     <div className="w-9 h-9 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400">
                       <Layers className="w-4 h-4" />
@@ -262,22 +293,29 @@ export default function Hero() {
                     <div>
                       <h4 className="text-sm font-bold text-white">Format Adaptation</h4>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                        블로그, 뉴스레터, 요약본 등 매체별 규격에 맞게 콘텐츠 재구성
+                        블로그, 숏폼 스크립트, 소셜 스레드 등 타깃 포맷으로 재구성
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                      <span>Verification</span>
-                      <span className="text-amber-300 font-semibold">Quality Guardrail</span>
+                      <span>Quality Layer</span>
+                      <span className="text-amber-300 font-semibold font-mono">Guardrails</span>
                     </div>
                   </div>
 
-                  {/* Step 4: Multi-Channel Distribution */}
-                  <div className="group relative rounded-xl bg-slate-900/60 hover:bg-slate-900/90 border border-slate-800/80 hover:border-emerald-500/40 p-4 transition-all duration-300 space-y-3">
+                  {/* Step 4: Multi-Channel Distribution - MULTI-CHANNEL */}
+                  <div
+                    onClick={() => setActiveCinematicStage(4)}
+                    className={`group relative rounded-xl border p-4 transition-all duration-300 space-y-3 cursor-pointer ${
+                      activeCinematicStage === 4
+                        ? "bg-slate-900/90 border-emerald-500/70 shadow-lg shadow-emerald-500/10 ring-1 ring-emerald-500/30"
+                        : "bg-slate-900/40 border-slate-800/80 hover:border-slate-700"
+                    }`}
+                  >
                     <div className="flex items-center justify-between">
                       <span className="text-[10px] font-mono text-emerald-400 uppercase tracking-wider font-semibold">
-                        Stage 04
+                        STAGE 04 — DISTRIBUTION
                       </span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                      <span className={`w-2 h-2 rounded-full ${activeCinematicStage === 4 ? "bg-emerald-400 animate-pulse" : "bg-slate-700"}`} />
                     </div>
                     <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
                       <Share2 className="w-4 h-4" />
@@ -285,12 +323,12 @@ export default function Hero() {
                     <div>
                       <h4 className="text-sm font-bold text-white">Multi-Channel Output</h4>
                       <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                        최종 검토 후 블로그, 소셜, 뉴스레터 등 다채널 동시 배포 파이프라인
+                        웹사이트, 소셜 미디어, 뉴스레터 동시 퍼블리싱 지원
                       </p>
                     </div>
                     <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px] font-mono text-slate-400">
                       <span>Channels</span>
-                      <span className="text-emerald-300 font-semibold">Configurable</span>
+                      <span className="text-emerald-300 font-semibold font-mono">Multi-Node</span>
                     </div>
                   </div>
 
