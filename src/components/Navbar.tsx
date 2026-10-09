@@ -13,7 +13,16 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sections = ["what-we-do", "how-it-works", "capabilities", "future-business", "about", "contact"];
+      const sections = [
+        "problem-friction",
+        "what-we-do",
+        "how-it-works",
+        "tangible-outcomes",
+        "capabilities",
+        "future-business",
+        "about",
+        "contact"
+      ];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -60,7 +69,15 @@ export default function Navbar() {
           </Link>
 
           {/* Middle/Right Active Nav Links aligned with Information Architecture */}
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden md:flex items-center gap-6">
+            <Link
+              href="#problem-friction"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "problem-friction" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Friction
+            </Link>
             <Link
               href="#what-we-do"
               className={`text-sm font-medium transition-colors ${
@@ -75,7 +92,15 @@ export default function Navbar() {
                 activeSection === "how-it-works" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
               }`}
             >
-              How It Works
+              Pipeline
+            </Link>
+            <Link
+              href="#tangible-outcomes"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "tangible-outcomes" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Deliverables
             </Link>
             <Link
               href="#capabilities"
@@ -84,14 +109,6 @@ export default function Navbar() {
               }`}
             >
               Capabilities
-            </Link>
-            <Link
-              href="#future-business"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "future-business" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
-              }`}
-            >
-              Future
             </Link>
             <Link
               href="#about"
