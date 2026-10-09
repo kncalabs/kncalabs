@@ -1,41 +1,49 @@
 "use client";
 
 import React from "react";
-import { Cpu, Workflow, SendHorizontal, Users2, ArrowUpRight } from "lucide-react";
+import { Cpu, Workflow, SendHorizontal, Users2, ArrowRight } from "lucide-react";
 
 export default function Capabilities() {
-  const capabilities = [
+  const capabilityRows = [
     {
       id: "cap-1",
       icon: Cpu,
+      number: "01",
       title: "AI Content Automation",
-      badge: "CORE ENGINE",
-      description: "원천 콘텐츠를 다양한 콘텐츠 형식으로 자동 변환.",
-      highlights: ["Multi-format Conversion", "Contextual Structuring", "Semantic Reasoning"]
+      category: "CORE INGESTION & REASONING",
+      description: "단일 텍스트, 영상 스크립트, 리서치 노트를 입력받아 맥락 손실 없이 다중 포맷으로 자율 분해 및 재구성하는 지능형 코어 엔진.",
+      technicalSpecs: ["Multi-Format Semantic Parsing", "Contextual Structuring", "Deterministic Guardrails"],
+      status: "Active Alpha Build"
     },
     {
       id: "cap-2",
       icon: Workflow,
+      number: "02",
       title: "OSMU Content Pipeline",
-      badge: "ARCHITECTURE",
-      description: "하나의 콘텐츠를 여러 포맷과 채널로 확장.",
-      highlights: ["One Source Multi Use", "Cross-Channel Expansion", "Narrative Consistency"]
+      category: "CROSS-CHANNEL EXPANSION",
+      description: "One Source Multi Use 철학을 구현하는 파이프라인. 원천 메시지의 브랜드 일관성을 100% 유지하며 채널별 호흡에 맞춘 파생물 생성.",
+      technicalSpecs: ["Cross-Format Narrative Lock", "Adaptive Tone Matrix", "Channel Constraint Solver"],
+      status: "Core Architecture"
     },
     {
       id: "cap-3",
       icon: SendHorizontal,
-      title: "Automated Publishing",
-      badge: "DISTRIBUTION",
-      description: "생성부터 배포까지 반복 작업을 자동화.",
-      highlights: ["End-to-End Pipeline", "Zero Redundant Operations", "Channel Delivery"]
+      number: "03",
+      title: "Automated Publishing Rails",
+      category: "DISTRIBUTION INFRASTRUCTURE",
+      description: "기획과 생성에 머물지 않고, 블로그 CMS, 소셜 미디어 API, 사내 메일링 시스템으로 연결되는 단일 자동 배포 인프라 레일.",
+      technicalSpecs: ["Headless CMS Webhooks", "Social Distribution Queue", "Direct Delivery Sync"],
+      status: "Pipeline Integration"
     },
     {
       id: "cap-4",
       icon: Users2,
-      title: "Creator & Business Automation",
-      badge: "SOLUTIONS",
-      description: "크리에이터와 기업의 반복적인 콘텐츠 업무를 자동화.",
-      highlights: ["Team Operational Scale", "Editorial Efficiency", "Workflow Acceleration"]
+      number: "04",
+      title: "Creator & Business Operations",
+      category: "SCALABLE WORKFLOWS",
+      description: "1인 크리에이터부터 대규모 미디어 기업까지, 매주 반복되는 수십 시간의 콘텐츠 오퍼레이션을 자율화하는 고효율 협업 프레임워크.",
+      technicalSpecs: ["Multi-Persona Routing", "Editorial Review Gateways", "Audit & Analytics Tracking"],
+      status: "Closed Beta Preview"
     }
   ];
 
@@ -48,74 +56,93 @@ export default function Capabilities() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
+        {/* Section Header: Architectural & Editorial */}
+        <div className="max-w-4xl space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-mono font-medium tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-            <span>CAPABILITIES</span>
+            <span>ARCHITECTURAL CAPABILITIES</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
             What We’re Building
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-            현재 구축 중인 KNCA의 핵심 자동화 영역 및 아키텍처 역량입니다.
+          <p className="text-base sm:text-xl text-slate-300 font-normal leading-relaxed">
+            단순한 도구의 나열이 아닌, 콘텐츠 운영을 위한 4대 엔지니어링 아키텍처 역량입니다.
           </p>
         </div>
 
-        {/* 4 Clean Capabilities Cards Grid */}
-        <div className="mt-16 sm:mt-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 relative">
-          {capabilities.map((cap) => {
-            const Icon = cap.icon;
+        {/* Editorial Architecture Rows (No Repetitive Box Cards) */}
+        <div className="mt-16 sm:mt-20 border-t border-slate-800/80 divide-y divide-slate-800/80">
+          {capabilityRows.map((row) => {
+            const Icon = row.icon;
             return (
               <div
-                key={cap.id}
-                className="group relative rounded-2xl bg-slate-900/40 hover:bg-slate-900/80 border border-slate-800/80 hover:border-sky-500/40 p-6 sm:p-7 transition-all duration-300 backdrop-blur-sm flex flex-col justify-between"
+                key={row.id}
+                className="py-10 sm:py-12 group transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start hover:bg-slate-900/20 px-3 sm:px-4 rounded-xl"
               >
-                <div className="space-y-5">
-                  {/* Top Badge & Icon */}
-                  <div className="flex items-center justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-slate-800/80 border border-slate-700/80 group-hover:border-sky-400/40 flex items-center justify-center text-sky-400 transition-colors">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-[10px] font-mono text-slate-400 group-hover:text-sky-300 border border-slate-800 px-2.5 py-0.5 rounded-full bg-slate-950 font-semibold tracking-wider transition-colors">
-                      {cap.badge}
+                {/* Col 1: Number & Category Badge (3 cols) */}
+                <div className="lg:col-span-3 space-y-2">
+                  <div className="flex items-center gap-3">
+                    <span className="text-sm font-mono text-sky-400 font-bold">
+                      {row.number}
+                    </span>
+                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-slate-900 border border-slate-800 text-slate-400 tracking-wider">
+                      {row.category}
                     </span>
                   </div>
-
-                  {/* Title & Description */}
-                  <div className="space-y-2">
-                    <h3 className="text-xl font-bold text-white tracking-tight flex items-center justify-between">
-                      <span>{cap.title}</span>
-                      <ArrowUpRight className="w-4 h-4 text-slate-600 group-hover:text-sky-400 transition-colors" />
-                    </h3>
-                    <p className="text-sm text-slate-300 leading-relaxed font-sans font-medium">
-                      {cap.description}
-                    </p>
+                  <div className="flex items-center gap-2 text-xs font-mono text-emerald-400 pt-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span>{row.status}</span>
                   </div>
+                </div>
 
-                  {/* Highlights Sub-tags */}
-                  <div className="pt-2 border-t border-slate-800/60 flex flex-wrap gap-1.5">
-                    {cap.highlights.map((tag) => (
+                {/* Col 2: Title & Deep Description (5 cols) */}
+                <div className="lg:col-span-5 space-y-3">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white tracking-tight flex items-center gap-3 group-hover:text-sky-300 transition-colors">
+                    <Icon className="w-5 h-5 text-sky-400 shrink-0" />
+                    <span>{row.title}</span>
+                  </h3>
+                  <p className="text-sm text-slate-300 leading-relaxed font-sans">
+                    {row.description}
+                  </p>
+                </div>
+
+                {/* Col 3: Technical Specifications & Tags (4 cols) */}
+                <div className="lg:col-span-4 space-y-2 lg:pl-4">
+                  <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider block">
+                    Technical Architecture
+                  </span>
+                  <div className="flex flex-wrap gap-2">
+                    {row.technicalSpecs.map((spec) => (
                       <span
-                        key={tag}
-                        className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-slate-950/70 border border-slate-800 text-slate-400 font-normal"
+                        key={spec}
+                        className="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-900/80 border border-slate-800 text-slate-300 font-medium group-hover:border-slate-700 transition-colors"
                       >
-                        {tag}
+                        {spec}
                       </span>
                     ))}
                   </div>
                 </div>
 
-                {/* Bottom subtle indicator */}
-                <div className="pt-6 mt-4 border-t border-slate-800/40 flex items-center justify-between text-[11px] font-mono text-slate-500">
-                  <span>Under Active Build</span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
-                </div>
               </div>
             );
           })}
+        </div>
+
+        {/* Bottom Technical Assurance Bar */}
+        <div className="mt-8 pt-8 border-t border-slate-800/60 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-slate-400">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-sky-400" />
+            <span>End-to-end modular pipeline engineered for zero friction.</span>
+          </span>
+          <a
+            href="#future-business"
+            className="inline-flex items-center gap-1.5 text-sky-400 hover:text-sky-300 transition-colors"
+          >
+            <span>미래 비즈니스 로드맵 확인</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </a>
         </div>
 
       </div>
