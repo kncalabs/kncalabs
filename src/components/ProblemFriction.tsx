@@ -1,41 +1,33 @@
 "use client";
 
-import React from "react";
-import { AlertTriangle, Clock, RefreshCcw, Layers, Zap, CheckCircle2 } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { AlertTriangle, Repeat, Clock, Layers, RefreshCcw, Zap, CheckCircle2, ArrowRight } from "lucide-react";
 
 export default function ProblemFriction() {
-  const painPoints = [
-    {
-      id: "pain-1",
-      icon: Clock,
-      badge: "시간 소모",
-      title: "매번 반복되는 포맷 재작업",
-      description: "하나의 원고나 영상을 만든 후, 블로그 글, 소셜 스레드, 뉴스레터, 숏폼 스크립트로 분해하느라 본질적인 기획 시간보다 포맷 변환에 4배 이상의 시간을 낭비합니다.",
-      stat: "주당 12+ 시간",
-      statLabel: "단순 복제 및 재편집에 소비"
-    },
-    {
-      id: "pain-2",
-      icon: Layers,
-      badge: "도구 파편화",
-      title: "연결되지 않는 6개 이상의 툴",
-      description: "에디터, 요약 봇, 번역기, SNS 예약 도구, CMS 관리자 페이지 사이를 끊임없이 오가며 복사·붙여넣기를 반복하는 수작업 마찰이 생산성을 갉아먹습니다.",
-      stat: "6+ 분절된 툴",
-      statLabel: "컨텍스트 단절과 실수 유발"
-    },
-    {
-      id: "pain-3",
-      icon: RefreshCcw,
-      badge: "채널 확장 한계",
-      title: "콘텐츠 확장의 물리적 벽",
-      description: "아이디어는 넘치지만 각 채널의 규격과 톤앤매너에 맞게 재생산할 인력과 여력이 부족하여, 훌륭한 원천 콘텐츠가 1회성 발행에 그치고 휘발됩니다.",
-      stat: "85% 이상",
-      statLabel: "원천 콘텐츠가 단일 채널에서 사장"
-    }
+  const [activeStep, setActiveStep] = useState(0);
+
+  // 8 Exhausting Manual Steps Loop
+  const loopSteps = [
+    { name: "Collect", detail: "자료 수집 & 조사" },
+    { name: "Analyze", detail: "문맥 분석 & 요약" },
+    { name: "Write", detail: "초안 작성" },
+    { name: "Edit", detail: "수정 & 교열" },
+    { name: "Resize", detail: "채널별 규격 조절" },
+    { name: "Rewrite", detail: "포맷별 재작성" },
+    { name: "Publish", detail: "수동 업로드" },
+    { name: "Distribute", detail: "다채널 전파" }
   ];
 
+  // Visual simulation of repetitive manual treadmill loop
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveStep((prev) => (prev + 1) % loopSteps.length);
+    }, 1800);
+    return () => clearInterval(timer);
+  }, [loopSteps.length]);
+
   return (
-    <section id="problem-friction" className="py-20 sm:py-28 bg-[#060911] relative border-t border-slate-800/80">
+    <section id="problem-friction" className="py-24 sm:py-32 bg-[#060911] relative border-t border-slate-800/80">
       {/* Background Subtle Ambience */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-25 -z-10" aria-hidden="true">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[320px] bg-rose-500/5 blur-[140px] rounded-full" />
@@ -43,67 +35,165 @@ export default function ProblemFriction() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header: Problem First */}
+        {/* Section Header: Problem Statement */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-mono font-medium tracking-wide">
             <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-            <span>THE REPETITIVE FRICTION</span>
+            <span>THE PROBLEM</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-[1.15]">
-            좋은 콘텐츠가 있어도, <br />
-            <span className="text-slate-400">반복 배포 노동에 갇혀 계십니까?</span>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+            Content shouldn’t require <br />
+            <span className="text-rose-400">repeating the same work.</span>
           </h2>
 
-          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            크리에이터와 비즈니스가 겪는 진짜 병목은 아이디어의 부재가 아닙니다. <br className="hidden sm:inline" />
-            단 하나의 원천을 여러 채널에 맞게 다시 쓰고 다듬는 <strong className="text-white font-semibold">비효율적인 반복 노동</strong>입니다.
+          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
+            하나의 콘텐츠를 만들기 위해 8단계를 거치고, 다음 콘텐츠를 위해 <strong className="text-white font-semibold">이 모든 과정을 끝없이 다시 반복</strong>하고 계십니까?
           </p>
         </div>
 
-        {/* 3 Core Pain Points Grid */}
-        <div className="mt-14 sm:mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
-          {painPoints.map((item) => {
-            const Icon = item.icon;
-            return (
-              <div
-                key={item.id}
-                className="rounded-2xl bg-slate-900/40 border border-slate-800/90 p-7 flex flex-col justify-between hover:border-slate-700/80 transition-all duration-300"
-              >
-                <div className="space-y-4">
+        {/* Visual The Repetitive Treadmill Loop: 8-Step Exhausting Chain */}
+        <div className="mt-16 max-w-5xl mx-auto rounded-3xl bg-slate-900/60 border border-slate-800 p-6 sm:p-10 backdrop-blur-md relative overflow-hidden shadow-2xl">
+          
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-5">
+            <div>
+              <span className="text-[10px] font-mono uppercase tracking-widest text-rose-400 font-semibold block">
+                The Manual Treadmill Trap
+              </span>
+              <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight mt-0.5">
+                8개의 수작업 사슬 — 그리고 끝없는 무한 루프
+              </h3>
+            </div>
+
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/30 text-rose-300 text-xs font-mono">
+              <Repeat className="w-3.5 h-3.5 text-rose-400 animate-spin duration-3000" />
+              <span>&quot;그리고 다시 반복한다 (Repeat it all over again)&quot;</span>
+            </div>
+          </div>
+
+          {/* 8 Connected Nodes Horizontal Rail (Interactive & Animated) */}
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3 relative">
+            {loopSteps.map((step, idx) => {
+              const isActive = activeStep === idx;
+              const isPast = activeStep > idx;
+
+              return (
+                <div
+                  key={step.name}
+                  onClick={() => setActiveStep(idx)}
+                  className={`rounded-2xl p-3.5 sm:p-4 border transition-all duration-300 flex flex-col justify-between cursor-pointer ${
+                    isActive
+                      ? "bg-rose-500/15 border-rose-400/80 shadow-lg shadow-rose-500/20 ring-2 ring-rose-500/30 scale-105"
+                      : isPast
+                      ? "bg-slate-900/80 border-slate-700/80 text-slate-300"
+                      : "bg-slate-950/60 border-slate-800/80 text-slate-400 hover:border-slate-700"
+                  }`}
+                >
                   <div className="flex items-center justify-between">
-                    <div className="w-11 h-11 rounded-xl bg-slate-800/70 border border-slate-700/70 flex items-center justify-center text-rose-400">
-                      <Icon className="w-5 h-5" />
-                    </div>
-                    <span className="text-[11px] font-mono text-rose-300/90 border border-rose-500/20 bg-rose-500/5 px-2.5 py-0.5 rounded-full">
-                      {item.badge}
+                    <span className="text-[10px] font-mono font-bold text-slate-400">
+                      0{idx + 1}
+                    </span>
+                    <span className={`w-1.5 h-1.5 rounded-full ${isActive ? "bg-rose-400 animate-ping" : "bg-slate-700"}`} />
+                  </div>
+
+                  <div className="py-2">
+                    <h4 className={`text-sm sm:text-base font-bold font-mono tracking-tight ${
+                      isActive ? "text-white" : "text-slate-300"
+                    }`}>
+                      {step.name}
+                    </h4>
+                    <span className="text-[10px] text-slate-400 block mt-0.5 font-sans leading-tight">
+                      {step.detail}
                     </span>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white tracking-tight">
-                    {item.title}
-                  </h3>
-
-                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
-                    {item.description}
-                  </p>
-                </div>
-
-                <div className="pt-6 mt-6 border-t border-slate-800/70 space-y-1">
-                  <div className="text-lg font-mono font-bold text-rose-400 tracking-tight">
-                    {item.stat}
-                  </div>
-                  <div className="text-[11px] font-mono text-slate-400">
-                    {item.statLabel}
+                  <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-[9px] font-mono text-slate-400">
+                    <span>수작업</span>
+                    {idx < loopSteps.length - 1 ? (
+                      <ArrowRight className="w-3 h-3 text-slate-600" />
+                    ) : (
+                      <Repeat className="w-3 h-3 text-rose-400" />
+                    )}
                   </div>
                 </div>
+              );
+            })}
+          </div>
+
+          {/* Loop Return Indicator Bar */}
+          <div className="mt-6 p-4 rounded-xl bg-slate-950/80 border border-slate-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-mono">
+            <div className="flex items-center gap-2.5 text-rose-300">
+              <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse" />
+              <span>현재 시뮬레이션 위치:</span>
+              <strong className="text-white">
+                Step 0{activeStep + 1} — {loopSteps[activeStep].name} ({loopSteps[activeStep].detail})
+              </strong>
+            </div>
+
+            <div className="text-slate-400 flex items-center gap-2 text-[11px]">
+              <span>8단계 완료 후 ➔</span>
+              <span className="text-rose-400 font-bold underline">1단계(Collect)로 강제 회귀</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* 3 Core Impact Diagnostics Grid */}
+        <div className="mt-12 sm:mt-14 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="rounded-2xl bg-slate-900/40 border border-slate-800/90 p-7 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-800/70 border border-slate-700/70 flex items-center justify-center text-rose-400">
+                <Clock className="w-5 h-5" />
               </div>
-            );
-          })}
+              <h3 className="text-lg font-bold text-white tracking-tight">
+                주당 12+ 시간 증발
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                하나의 글을 쓰고 다시 블로그, 소셜 스레드, 숏폼 스크립트로 분해하고 다시 쓰는 작업에 하루의 60% 이상이 소모됩니다.
+              </p>
+            </div>
+            <div className="pt-5 mt-5 border-t border-slate-800/70 text-[11px] font-mono text-rose-400">
+              생산성 누수 1순위 요인
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-slate-900/40 border border-slate-800/90 p-7 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-800/70 border border-slate-700/70 flex items-center justify-center text-rose-400">
+                <Layers className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white tracking-tight">
+                6개 이상의 도구 파편화
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                에디터, 요약 봇, 번역기, SNS 예약 도구, CMS 관리자 페이지 사이를 오가는 복사·붙여넣기 노동이 컨텍스트를 파괴합니다.
+              </p>
+            </div>
+            <div className="pt-5 mt-5 border-t border-slate-800/70 text-[11px] font-mono text-rose-400">
+              도구 간 맥락 단절 및 휴먼 에러
+            </div>
+          </div>
+
+          <div className="rounded-2xl bg-slate-900/40 border border-slate-800/90 p-7 flex flex-col justify-between">
+            <div className="space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-800/70 border border-slate-700/70 flex items-center justify-center text-rose-400">
+                <RefreshCcw className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white tracking-tight">
+                원천 콘텐츠의 85% 사장
+              </h3>
+              <p className="text-xs text-slate-300 leading-relaxed font-sans">
+                각 채널에 맞춰 가공할 시간과 여력이 부족해, 기껏 공들여 만든 양질의 원천 콘텐츠가 1회성 발행에 그치고 휘발됩니다.
+              </p>
+            </div>
+            <div className="pt-5 mt-5 border-t border-slate-800/70 text-[11px] font-mono text-rose-400">
+              오디언스 확장 기회 상실
+            </div>
+          </div>
         </div>
 
         {/* Before vs After Contrast Architecture */}
-        <div className="mt-12 rounded-2xl bg-slate-900/60 border border-slate-800 p-6 sm:p-8 backdrop-blur-sm">
+        <div className="mt-10 rounded-2xl bg-slate-900/60 border border-slate-800 p-6 sm:p-8 backdrop-blur-sm">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
             
             {/* The Old Way: Manual & Segmented */}
@@ -118,15 +208,15 @@ export default function ProblemFriction() {
               <div className="space-y-2.5 text-xs text-slate-300">
                 <div className="flex items-start gap-2.5">
                   <span className="text-rose-400 font-bold shrink-0">✕</span>
-                  <span>원천 1개 작성 후 채널마다 처음부터 다시 줄글 재가공</span>
+                  <span>Collect부터 Distribute까지 8단계를 매번 손으로 반복</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <span className="text-rose-400 font-bold shrink-0">✕</span>
-                  <span>ChatGPT 복사·붙여넣기, 노션 정리, 블로그 CMS 수동 업로드</span>
+                  <span>복사·붙여넣기, 노션 정리, CMS 관리자 페이지 일일이 업로드</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <span className="text-rose-400 font-bold shrink-0">✕</span>
-                  <span>SNS용 요약, 썸네일 카피, 뉴스레터 분해로 하루 작업 마비</span>
+                  <span>포맷 변환에 지쳐 정작 중요한 창의적 기획은 뒷전으로 밀림</span>
                 </div>
               </div>
             </div>
@@ -144,15 +234,15 @@ export default function ProblemFriction() {
               <div className="space-y-2.5 text-xs text-slate-200">
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
-                  <span><strong>Build Once</strong>: 원천 텍스트나 리서치 자료 단 1개만 입력</span>
+                  <span><strong>Build Once</strong>: 원천 데이터 1개 입력으로 수집/분석 자동화</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                  <span><strong>Context Intelligence</strong>: 맥락 보존 및 채널별 타깃 규격 자동 구조화</span>
+                  <span><strong>AI Understanding</strong>: 핵심 맥락 보존 및 채널별 타깃 규격 자율 변환</span>
                 </div>
                 <div className="flex items-start gap-2.5">
                   <CheckCircle2 className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
-                  <span><strong>Automate More</strong>: 아티클·숏폼 스크립트·소셜·뉴스레터 동시 산출</span>
+                  <span><strong>Automate More</strong>: 아티클·숏폼·소셜·뉴스레터 동시 퍼블리싱</span>
                 </div>
               </div>
             </div>
