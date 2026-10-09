@@ -64,6 +64,19 @@ export default function WaitlistCTA() {
               AI-powered content workflows for the next generation of creators and businesses.
             </p>
 
+            {/* The Ultimate Unifying Brand Equation */}
+            <div className="pt-1 flex items-center justify-center">
+              <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 border border-sky-500/30 text-xs font-mono text-sky-300 font-semibold tracking-wider">
+                <span>ONE SOURCE</span>
+                <span className="text-slate-500">→</span>
+                <span>AI</span>
+                <span className="text-slate-500">→</span>
+                <span>MANY CONTENTS</span>
+                <span className="text-slate-500">→</span>
+                <span>MANY CHANNELS</span>
+              </span>
+            </div>
+
             {/* Direct Workflow Anchor Navigation */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Link
