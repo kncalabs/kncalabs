@@ -13,6 +13,8 @@ import {
   Video,
   FileText,
   Mic,
+  Cpu,
+  Share2,
 } from "lucide-react";
 
 export default function MonumentalEngine() {
@@ -30,21 +32,18 @@ export default function MonumentalEngine() {
       title: "AI 에이전트 시스템 심층 분석 (48분 원본 영상)",
       format: "YouTube 4K Stream",
       icon: Video,
-      color: "sky",
     },
     article: {
       url: "https://arxiv.org/html/autonomous-content-orchestration",
       title: "지능형 콘텐츠 오케스트레이션 아키텍처 논문",
       format: "Long-form Research (Markdown)",
       icon: FileText,
-      color: "indigo",
     },
     podcast: {
       url: "https://podcasts.apple.com/tech-talks/ep-84-knca",
       title: "실리콘밸리 엔지니어링 인터뷰 (오디오 녹취 32분)",
       format: "Lossless Audio Transcript",
       icon: Mic,
-      color: "amber",
     },
   };
 
@@ -166,7 +165,7 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
           </p>
         </div>
 
-        {/* 2. THE SINGLE UNIFIED MASTER ARTIFACT: "ONE SOURCE → AI → MANY CONTENTS → MANY CHANNELS" */}
+        {/* 2. THE SINGLE UNIFIED MASTER ARTIFACT (NO REPETITIVE 4-CARD GRIDS) */}
         <div className="max-w-6xl mx-auto rounded-3xl bg-slate-950/95 border border-sky-500/40 shadow-2xl shadow-sky-950/50 backdrop-blur-xl overflow-hidden">
           
           {/* Top Engine Chrome Header */}
@@ -191,102 +190,103 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
             </div>
           </div>
 
-          <div className="p-6 sm:p-10 space-y-10">
+          <div className="p-6 sm:p-10 space-y-8">
             
-            {/* 2.1 THE VISUAL SPINE: 4 Connected Conduit Nodes with Active Laser Beam */}
-            <div className="relative">
-              {/* Continuous Laser Beam (Desktop) */}
-              <div className="hidden lg:block absolute top-[28px] left-[10%] right-[10%] h-[3px] bg-slate-800 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400 shadow-lg shadow-sky-400/50 transition-all duration-700 ease-out"
-                  style={{
-                    width: "25%",
-                    marginLeft: `${(activeStage - 1) * 25}%`,
-                  }}
-                />
-              </div>
-
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 relative z-10">
+            {/* 2.1 CONTINUOUS STREAM CONDUIT (단일 연속 스트림 도관 - 카드 그리드 완전 폐기) */}
+            <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-4 sm:p-5">
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 relative">
                 
-                {/* Node 1: ONE SOURCE */}
+                {/* Stage 1 */}
                 <div
                   onClick={() => setActiveStage(1)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     activeStage === 1
-                      ? "bg-sky-500/20 border-sky-400 text-sky-200 shadow-xl shadow-sky-500/20 ring-2 ring-sky-500/40 scale-[1.03]"
-                      : activeStage > 1
-                      ? "bg-slate-900/80 border-slate-700 text-slate-300"
-                      : "bg-slate-950/70 border-slate-800/80 text-slate-500"
+                      ? "bg-sky-500/20 text-sky-200 border border-sky-400/50 shadow-md"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono font-bold">01. SOURCE</span>
-                    <span className={`w-2 h-2 rounded-full ${activeStage === 1 ? "bg-sky-400 animate-ping" : "bg-slate-700"}`} />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 1 ? "bg-sky-500/30 text-sky-300" : "bg-slate-800 text-slate-500"}`}>
+                    <Video className="w-4 h-4" />
                   </div>
-                  <h4 className="text-base font-black text-white tracking-tight">ONE SOURCE</h4>
-                  <span className="text-[11px] font-mono text-sky-300 block mt-0.5">Video / Text / Audio</span>
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">01. INGEST</span>
+                    <span className="text-xs sm:text-sm font-bold text-white truncate block">ONE SOURCE</span>
+                  </div>
                 </div>
 
-                {/* Node 2: AI UNDERSTANDING */}
+                <div className="hidden md:flex text-slate-600 font-mono text-xs">➔</div>
+
+                {/* Stage 2 */}
                 <div
                   onClick={() => setActiveStage(2)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     activeStage === 2
-                      ? "bg-indigo-500/25 border-indigo-400 text-indigo-200 shadow-xl shadow-indigo-500/20 ring-2 ring-indigo-500/40 scale-[1.03]"
-                      : activeStage > 2
-                      ? "bg-slate-900/80 border-slate-700 text-slate-300"
-                      : "bg-slate-950/70 border-slate-800/80 text-slate-500"
+                      ? "bg-indigo-500/20 text-indigo-200 border border-indigo-400/50 shadow-md"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono font-bold">02. REASONING</span>
-                    <span className={`w-2 h-2 rounded-full ${activeStage === 2 ? "bg-indigo-400 animate-ping" : "bg-slate-700"}`} />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 2 ? "bg-indigo-500/30 text-indigo-300" : "bg-slate-800 text-slate-500"}`}>
+                    <Cpu className="w-4 h-4" />
                   </div>
-                  <h4 className="text-base font-black text-white tracking-tight">AI INTELLIGENCE</h4>
-                  <span className="text-[11px] font-mono text-indigo-300 block mt-0.5">Knowledge Graph</span>
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">02. REASON</span>
+                    <span className="text-xs sm:text-sm font-bold text-white truncate block">CLAUDE AI</span>
+                  </div>
                 </div>
 
-                {/* Node 3: MANY CONTENTS */}
+                <div className="hidden md:flex text-slate-600 font-mono text-xs">➔</div>
+
+                {/* Stage 3 */}
                 <div
                   onClick={() => setActiveStage(3)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     activeStage === 3
-                      ? "bg-amber-500/20 border-amber-400 text-amber-200 shadow-xl shadow-amber-500/20 ring-2 ring-amber-500/40 scale-[1.03]"
-                      : activeStage > 3
-                      ? "bg-slate-900/80 border-slate-700 text-slate-300"
-                      : "bg-slate-950/70 border-slate-800/80 text-slate-500"
+                      ? "bg-amber-500/20 text-amber-200 border border-amber-400/50 shadow-md"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono font-bold">03. SYNTHESIS</span>
-                    <span className={`w-2 h-2 rounded-full ${activeStage === 3 ? "bg-amber-400 animate-ping" : "bg-slate-700"}`} />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 3 ? "bg-amber-500/30 text-amber-300" : "bg-slate-800 text-slate-500"}`}>
+                    <Layers className="w-4 h-4" />
                   </div>
-                  <h4 className="text-base font-black text-white tracking-tight">MANY CONTENTS</h4>
-                  <span className="text-[11px] font-mono text-amber-300 block mt-0.5">Shorts · Article · Social</span>
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">03. SYNTHESIZE</span>
+                    <span className="text-xs sm:text-sm font-bold text-white truncate block">MANY CONTENTS</span>
+                  </div>
                 </div>
 
-                {/* Node 4: MANY CHANNELS */}
+                <div className="hidden md:flex text-slate-600 font-mono text-xs">➔</div>
+
+                {/* Stage 4 */}
                 <div
                   onClick={() => setActiveStage(4)}
-                  className={`p-4 rounded-2xl border transition-all cursor-pointer ${
+                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
                     activeStage === 4
-                      ? "bg-emerald-500/20 border-emerald-400 text-emerald-200 shadow-xl shadow-emerald-500/20 ring-2 ring-emerald-500/40 scale-[1.03]"
-                      : "bg-slate-950/70 border-slate-800/80 text-slate-500"
+                      ? "bg-emerald-500/20 text-emerald-200 border border-emerald-400/50 shadow-md"
+                      : "text-slate-400 hover:text-white"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] font-mono font-bold">04. DISTRIBUTION</span>
-                    <span className={`w-2 h-2 rounded-full ${activeStage === 4 ? "bg-emerald-400 animate-ping" : "bg-slate-700"}`} />
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 4 ? "bg-emerald-500/30 text-emerald-300" : "bg-slate-800 text-slate-500"}`}>
+                    <Share2 className="w-4 h-4" />
                   </div>
-                  <h4 className="text-base font-black text-white tracking-tight">MANY CHANNELS</h4>
-                  <span className="text-[11px] font-mono text-emerald-300 block mt-0.5">Multi-Rail Publishing</span>
+                  <div className="min-w-0">
+                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">04. DISPATCH</span>
+                    <span className="text-xs sm:text-sm font-bold text-white truncate block">MANY CHANNELS</span>
+                  </div>
                 </div>
 
+              </div>
+
+              {/* Dynamic Laser Progress Line Under Conduit */}
+              <div className="mt-3 w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400 transition-all duration-500 ease-out shadow-sm"
+                  style={{ width: `${(activeStage / 4) * 100}%` }}
+                />
               </div>
             </div>
 
             {/* 2.2 THE INGESTION & TRIGGER BAR */}
-            <div className="space-y-3 pt-2">
+            <div className="space-y-3 pt-1">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Terminal className="w-4 h-4 text-sky-400" />
