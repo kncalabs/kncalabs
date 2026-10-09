@@ -310,14 +310,14 @@ export default function WorkflowSection() {
               </div>
             </div>
 
-            {/* STAGE 3: MULTI-CHANNEL ADAPTIVE OUTPUTS (4 cols) */}
+            {/* STAGE 3: CHANNELS (4 cols) */}
             <div className="lg:col-span-4 flex flex-col justify-center space-y-2.5">
-              <div className="text-[11px] font-mono font-bold text-emerald-400 tracking-wider flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">STEP 02</span>
-                  <span>다채널 자율 완성</span>
-                </span>
-                <span className="text-[10px] text-slate-500 font-mono">4 CHANNELS</span>
+              <div className="text-[11px] font-mono font-bold text-slate-300 tracking-wider flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white font-mono">02</span>
+                  <span className="tracking-widest">CHANNELS</span>
+                </div>
+                <span className="text-[10px] text-emerald-400 font-mono">4 ACTIVE</span>
               </div>
 
               {/* 4 Output Channels Fanout */}
