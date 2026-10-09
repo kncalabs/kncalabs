@@ -3,24 +3,23 @@
 import React, { useState } from "react";
 import {
   ArrowRight,
-  Terminal,
   Loader2,
   Copy,
   Check,
-  Send,
   Video,
   FileText,
   Mic,
-  Cpu,
+  Share2,
+  Sparkles,
 } from "lucide-react";
 
 export default function MonumentalEngine() {
   const [selectedSourceType, setSelectedSourceType] = useState<"video" | "article" | "podcast">("video");
   const [sourceUrl, setSourceUrl] = useState("https://youtube.com/watch?v=agent-architecture-deepdive");
+  const [isSynthesized, setIsSynthesized] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [activeOutputTab, setActiveOutputTab] = useState<"shorts" | "article" | "social">("shorts");
   const [copied, setCopied] = useState(false);
-  const [queueDispatched, setQueueDispatched] = useState(false);
 
   const sourcePresets = {
     video: {
@@ -32,7 +31,7 @@ export default function MonumentalEngine() {
     article: {
       url: "https://arxiv.org/html/autonomous-content-orchestration",
       title: "지능형 콘텐츠 오케스트레이션 아키텍처 논문",
-      format: "Long-form Research (Markdown)",
+      format: "Long-form Markdown Paper",
       icon: FileText,
     },
     podcast: {
@@ -62,7 +61,7 @@ export default function MonumentalEngine() {
     article: {
       title: "Technical Deep Dive Article",
       channel: "자사 테크 블로그 · Medium · Velog",
-      formatBadge: "마크다운 심층 기술 기고문",
+      formatBadge: "마크다운 심층 기술 칼럼",
       content: `# 엔터프라이즈 AI 콘텐츠 인프라의 핵심: 단일 원천에서 자율 다채널 배포까지
 
 콘텐츠 생산에서 발생하는 가장 심각한 병목은 '아이디어의 부재'가 아닙니다.
@@ -89,11 +88,12 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
     },
   };
 
-  const executePipeline = () => {
+  const handleExecute = () => {
     setIsProcessing(true);
     setTimeout(() => {
       setIsProcessing(false);
-    }, 2800);
+      setIsSynthesized(true);
+    }, 1800);
   };
 
   const handleCopy = () => {
@@ -102,15 +102,10 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handleDispatchQueue = () => {
-    setQueueDispatched(true);
-    setTimeout(() => setQueueDispatched(false), 3000);
-  };
-
   return (
     <section
       id="core-engine"
-      className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
+      className="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden bg-radial-glow min-h-[90vh] flex flex-col items-center justify-center border-b border-sky-950/60"
     >
       {/* Precision Ambient Grid */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-30" aria-hidden="true">
@@ -125,19 +120,14 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
         </svg>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-10 sm:space-y-12 relative z-10">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-10 sm:space-y-12 relative z-10">
         
-        {/* MONUMENTAL HEADLINE (7rem) */}
-        <div className="text-center max-w-5xl mx-auto space-y-5">
+        {/* 1. MONUMENTAL HEADLINE (7rem) - 브랜드 철학 단 하나에 집중 */}
+        <div className="text-center max-w-4xl mx-auto space-y-6">
           <div className="inline-flex items-center justify-center">
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-sky-400" />
-              </span>
-              <span className="tracking-widest uppercase">AI CONTENT ORCHESTRATION</span>
-              <span className="text-slate-600">|</span>
-              <span className="text-slate-400 font-normal">Active Alpha</span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
+              <Sparkles className="w-3.5 h-3.5 text-sky-400" />
+              <span className="tracking-widest uppercase">THE AUTONOMOUS PIPELINE</span>
             </div>
           </div>
 
@@ -146,43 +136,24 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
             <span className="text-gradient">Automate More.</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed">
-            단 하나의 원천(Source)이 AI 지능을 통과하여 수십 개의 콘텐츠로 자율 분기합니다.
+          <p className="text-xl sm:text-2xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+            단 하나의 원천(One Source)을 넣으면, <br className="hidden sm:inline" />
+            AI가 모든 채널의 콘텐츠로 스스로 확장합니다.
           </p>
         </div>
 
-        {/* THE INTEGRATED RUNTIME TERMINAL: 단일 워크플로우 콘솔 (설명문/카드 나열 제로) */}
-        <div className="rounded-3xl bg-slate-950/95 border border-sky-500/40 shadow-2xl shadow-sky-950/50 backdrop-blur-xl overflow-hidden">
-          
-          {/* Top Engine Chrome Header */}
-          <div className="bg-slate-900/95 px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <span className="w-3 h-3 rounded-full bg-rose-500/80" />
-              <span className="w-3 h-3 rounded-full bg-amber-500/80" />
-              <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
-              <span className="ml-2 text-xs font-mono text-slate-400">
-                knca-orchestrator.runtime // live-system
-              </span>
-            </div>
-
-            <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
-              <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Claude API Connected
-              </span>
-            </div>
-          </div>
-
-          <div className="p-6 sm:p-8 space-y-6">
-            
-            {/* Input Row: Source Selector & URL */}
-            <div className="space-y-3">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
-                <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Terminal className="w-4 h-4 text-sky-400" />
-                  01. SOURCE INGESTION
+        {/* 2. THE SINGULAR FOCUSED ACTION ARTIFACT: 단 하나의 입력과 즉각적 발현 */}
+        <div className="max-w-3xl mx-auto">
+          {!isSynthesized ? (
+            /* STATE A: FOCUSED INGESTION (오직 원천 주입에만 극도로 집중된 미니멀 뷰) */
+            <div className="rounded-3xl bg-slate-950/90 border border-sky-500/40 p-6 sm:p-8 space-y-5 shadow-2xl shadow-sky-950/40 backdrop-blur-xl">
+              
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+                <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider">
+                  01. SELECT ONE SOURCE
                 </span>
 
+                {/* 3 Source Options */}
                 <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs font-mono">
                   {(["video", "article", "podcast"] as const).map((type) => {
                     const preset = sourcePresets[type];
@@ -211,67 +182,59 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
                 </div>
               </div>
 
+              {/* URL Input & Direct Execution */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <div className="flex-1 relative">
-                  <input
-                    type="text"
-                    value={sourceUrl}
-                    onChange={(e) => setSourceUrl(e.target.value)}
-                    placeholder="https://..."
-                    className="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white font-mono text-xs sm:text-sm focus:outline-hidden focus:border-sky-500 transition-colors"
-                  />
-                  <span className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[10px] font-mono text-slate-500 hidden md:inline">
-                    {sourcePresets[selectedSourceType].format}
-                  </span>
-                </div>
+                <input
+                  type="text"
+                  value={sourceUrl}
+                  onChange={(e) => setSourceUrl(e.target.value)}
+                  placeholder="https://..."
+                  className="flex-1 px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700/80 text-white font-mono text-xs sm:text-sm focus:outline-hidden focus:border-sky-500 transition-colors"
+                />
 
                 <button
                   type="button"
-                  onClick={executePipeline}
+                  onClick={handleExecute}
                   disabled={isProcessing}
                   className="px-8 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-sky-500/25 active:scale-[0.98] disabled:opacity-50 shrink-0"
                 >
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>파이프라인 연산 중...</span>
+                      <span>파이프라인 가동 중...</span>
                     </>
                   ) : (
                     <>
-                      <span>Run Workflow</span>
+                      <span>Generate All</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="text-[11px] font-mono text-slate-400 flex items-center justify-between">
-                <div>
-                  <span className="text-slate-500 mr-2">Input:</span>
-                  <span className="text-white font-medium">{sourcePresets[selectedSourceType].title}</span>
-                </div>
-                {isProcessing && (
-                  <span className="text-sky-400 font-semibold flex items-center gap-1.5 animate-pulse">
-                    <Cpu className="w-3.5 h-3.5" />
-                    Claude 3.5 Sonnet Synthesizing...
-                  </span>
-                )}
+              <div className="flex items-center justify-between text-[11px] font-mono text-slate-500 pt-1">
+                <span>Input: {sourcePresets[selectedSourceType].title}</span>
+                <span>Claude 3.5 Sonnet Engine</span>
               </div>
             </div>
-
-            {/* Synthesized Output Screen (No repetitive micro-cards) */}
-            <div className="space-y-3 pt-2 border-t border-slate-800/80">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-                <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
-                  02. AUTONOMOUS OUTPUTS
-                </span>
+          ) : (
+            /* STATE B: FOCUSED SYNTHESIS (연산 완료 후 결과에 온전히 몰입하는 뷰) */
+            <div className="rounded-3xl bg-slate-950/95 border border-emerald-500/40 p-6 sm:p-8 space-y-5 shadow-2xl shadow-emerald-950/30 backdrop-blur-xl animate-fade-in-up">
+              
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-800/80 pb-4">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                    02. MANIFESTED OUTPUTS
+                  </span>
+                </div>
 
                 <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs font-mono">
                   {(["shorts", "article", "social"] as const).map((tab) => (
                     <button
                       key={tab}
                       onClick={() => setActiveOutputTab(tab)}
-                      className={`px-4 py-1.5 rounded-lg transition-colors capitalize ${
+                      className={`px-3.5 py-1.5 rounded-lg transition-colors capitalize ${
                         activeOutputTab === tab ? "bg-slate-800 text-sky-300 font-bold" : "text-slate-400 hover:text-white"
                       }`}
                     >
@@ -281,53 +244,38 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
                 </div>
               </div>
 
-              <div className="rounded-2xl bg-slate-900/40 border border-slate-800 p-5 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
-                  <div>
-                    <h4 className="text-sm sm:text-base font-bold text-white">
-                      {outputsData[activeOutputTab].title}
-                    </h4>
-                    <span className="text-xs font-mono text-slate-400">
-                      Destination: {outputsData[activeOutputTab].channel}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-slate-950 border border-slate-800 text-sky-300">
-                      {outputsData[activeOutputTab].formatBadge}
-                    </span>
-
-                    <button
-                      onClick={handleCopy}
-                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-mono transition-colors flex items-center gap-1.5"
-                    >
-                      {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                      <span>{copied ? "복사됨" : "복사"}</span>
-                    </button>
-                  </div>
-                </div>
-
-                <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed whitespace-pre-line max-h-56 overflow-y-auto">
-                  {outputsData[activeOutputTab].content}
-                </div>
-
-                <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
-                  <span className="text-slate-400">
-                    Publishing Queue: 3개 배포 채널 준비 완료
-                  </span>
-
+              <div className="space-y-3">
+                <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+                  <span className="text-white font-semibold">{outputsData[activeOutputTab].title}</span>
                   <button
-                    onClick={handleDispatchQueue}
-                    className="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-mono text-xs font-semibold transition-all flex items-center justify-center gap-2 border border-slate-700 active:scale-[0.99]"
+                    onClick={handleCopy}
+                    className="px-2.5 py-1 rounded-md bg-slate-900 border border-slate-800 text-slate-300 hover:text-white flex items-center gap-1.5 transition-colors"
                   >
-                    <Send className="w-3.5 h-3.5 text-sky-400" />
-                    <span>{queueDispatched ? "다채널 릴리즈 전송 완료!" : "Publishing Queue 일괄 발송"}</span>
+                    {copied ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                    <span>{copied ? "복사됨" : "복사"}</span>
                   </button>
                 </div>
+
+                <div className="p-4 rounded-xl bg-slate-900/60 border border-slate-800 font-mono text-xs text-slate-300 leading-relaxed whitespace-pre-line max-h-56 overflow-y-auto">
+                  {outputsData[activeOutputTab].content}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs font-mono">
+                <button
+                  type="button"
+                  onClick={() => setIsSynthesized(false)}
+                  className="text-slate-500 hover:text-slate-300 transition-colors"
+                >
+                  ← 다른 소스로 다시 시도
+                </button>
+                <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
+                  <Share2 className="w-3.5 h-3.5" />
+                  3개 채널 동시 릴리즈 준비 완료
+                </span>
               </div>
             </div>
-
-          </div>
+          )}
         </div>
 
       </div>
