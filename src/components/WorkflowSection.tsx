@@ -332,6 +332,18 @@ export default function WorkflowSection() {
 
         </div>
 
+        {/* Downward Scroll Indicator to The Idea: ↓ */}
+        <div className="pt-8 text-center">
+          <a
+            href="#the-idea"
+            className="inline-flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to The Idea"
+          >
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">THE IDEA</span>
+            <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
+          </a>
+        </div>
+
       </div>
     </section>
   );

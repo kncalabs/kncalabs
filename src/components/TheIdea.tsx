@@ -126,6 +126,18 @@ export default function TheIdea() {
 
         </div>
 
+        {/* Downward Scroll Indicator to Company & Access: ↓ */}
+        <div className="pt-8 text-center">
+          <a
+            href="#trust-and-access"
+            className="inline-flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to Company & Access"
+          >
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">COMPANY</span>
+            <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
+          </a>
+        </div>
+
       </div>
     </section>
   );
