@@ -6,7 +6,7 @@ export default function TheIdea() {
   return (
     <section
       id="the-idea"
-      className="relative py-32 sm:py-48 bg-[#030712] border-b border-white/10 overflow-hidden flex flex-col items-center justify-center text-center px-6 sm:px-8 lg:px-12"
+      className="relative py-24 sm:py-36 bg-[#030712] overflow-hidden flex flex-col items-center justify-center text-center px-6 sm:px-8 lg:px-12"
     >
       {/* Background Soft Ambient Light */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-20" aria-hidden="true">

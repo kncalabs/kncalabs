@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="hero"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-radial-glow px-6 sm:px-8 lg:px-12 border-b border-sky-950/60"
+      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-radial-glow px-6 sm:px-8 lg:px-12"
     >
       {/* Precision Ambient Grid */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-25" aria-hidden="true">

@@ -5,7 +5,7 @@ import { Zap, ShieldAlert, CheckCircle2 } from "lucide-react";
 
 export default function TheShift() {
   return (
-    <section id="the-shift" className="py-36 sm:py-52 bg-[#060a16] relative border-t border-sky-900/40 overflow-hidden">
+    <section id="the-shift" className="py-28 sm:py-40 bg-[#030712] relative overflow-hidden">
       {/* Background Neon Gradients */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40 -z-10" aria-hidden="true">
         <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-rose-500/10 blur-[180px] rounded-full" />

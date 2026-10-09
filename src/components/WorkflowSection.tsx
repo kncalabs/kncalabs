@@ -112,7 +112,7 @@ export default function WorkflowSection() {
   return (
     <section
       id="the-workflow"
-      className="relative py-36 sm:py-52 overflow-hidden bg-[#070b14] border-b border-sky-950/60"
+      className="relative py-28 sm:py-40 overflow-hidden bg-[#030712]"
     >
       {/* Precision Ambient Grid */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-25" aria-hidden="true">

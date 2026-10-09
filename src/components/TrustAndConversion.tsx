@@ -42,7 +42,7 @@ export default function TrustAndConversion() {
   };
 
   return (
-    <section id="trust-and-access" className="py-36 sm:py-52 bg-[#060911] relative border-t border-slate-800/80 overflow-hidden">
+    <section id="trust-and-access" className="py-28 sm:py-40 bg-[#030712] relative overflow-hidden">
       {/* Background High-Impact Radiant Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 -z-10" aria-hidden="true">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-sky-500/15 blur-[160px] rounded-full" />

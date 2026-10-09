@@ -9,7 +9,7 @@ import BackToTop from "@/components/BackToTop";
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative bg-[#080c14] overflow-hidden">
+    <main className="min-h-screen relative bg-[#030712] overflow-hidden">
       <Navbar />
       
       {/* 1. HERO: Automate More & Explore the Workflow → */}
