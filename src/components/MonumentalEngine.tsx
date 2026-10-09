@@ -97,7 +97,7 @@ AI가 쇼츠 대본, 블로그 글, SNS 요약본까지 단번에 완성합니�
   return (
     <section
       id="core-engine"
-      className="relative pt-32 pb-24 md:pt-44 md:pb-36 overflow-hidden bg-radial-glow min-h-[90vh] flex flex-col items-center justify-center border-b border-sky-950/60"
+      className="relative pt-44 pb-36 md:pt-56 md:pb-48 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
     >
       {/* Precision Ambient Grid */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-30" aria-hidden="true">
@@ -112,10 +112,10 @@ AI가 쇼츠 대본, 블로그 글, SNS 요약본까지 단번에 완성합니�
         </svg>
       </div>
 
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-10 sm:space-y-12 relative z-10">
+      <div className="max-w-5xl mx-auto px-6 sm:px-8 lg:px-12 w-full space-y-16 sm:space-y-24 relative z-10">
         
         {/* 1. MONUMENTAL HEADLINE (7rem) */}
-        <div className="text-center max-w-4xl mx-auto space-y-6">
+        <div className="text-center max-w-4xl mx-auto space-y-8 sm:space-y-10">
           <div className="inline-flex items-center justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-sky-400" />

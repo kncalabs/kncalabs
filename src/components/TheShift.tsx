@@ -5,17 +5,17 @@ import { Zap, ShieldAlert, CheckCircle2 } from "lucide-react";
 
 export default function TheShift() {
   return (
-    <section id="the-shift" className="py-24 sm:py-36 bg-[#060a16] relative border-t border-sky-900/40 overflow-hidden">
+    <section id="the-shift" className="py-36 sm:py-52 bg-[#060a16] relative border-t border-sky-900/40 overflow-hidden">
       {/* Background Neon Gradients */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-40 -z-10" aria-hidden="true">
         <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-rose-500/10 blur-[180px] rounded-full" />
         <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-sky-500/15 blur-[180px] rounded-full" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 space-y-20 sm:space-y-28">
         
         {/* Section Headline */}
-        <div className="text-center max-w-4xl mx-auto space-y-4">
+        <div className="text-center max-w-4xl mx-auto space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-xs font-semibold tracking-wider text-sky-300">
             <Zap className="w-4 h-4 text-sky-400" />
             <span>일하는 방식의 전환</span>

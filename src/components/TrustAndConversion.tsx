@@ -44,16 +44,16 @@ export default function TrustAndConversion() {
   };
 
   return (
-    <section id="trust-and-access" className="py-24 sm:py-36 bg-[#060911] relative border-t border-slate-800/80 overflow-hidden">
+    <section id="trust-and-access" className="py-36 sm:py-52 bg-[#060911] relative border-t border-slate-800/80 overflow-hidden">
       {/* Background High-Impact Radiant Glow */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 -z-10" aria-hidden="true">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-sky-500/15 blur-[160px] rounded-full" />
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 space-y-20 sm:space-y-24">
         
         {/* 1. UNIFIED CONVERSION HERO CARD */}
-        <div className="rounded-3xl border border-sky-500/40 p-8 sm:p-14 relative overflow-hidden bg-gradient-to-b from-slate-900/90 via-slate-900/95 to-slate-950/90 backdrop-blur-xl shadow-2xl shadow-sky-950/50">
+        <div className="rounded-3xl border border-sky-500/40 p-10 sm:p-20 relative overflow-hidden bg-gradient-to-b from-slate-900/90 via-slate-900/95 to-slate-950/90 backdrop-blur-xl shadow-2xl shadow-sky-950/50">
           <div className="max-w-3xl mx-auto text-center space-y-5">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300 text-xs font-mono font-semibold">
               <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse" />
