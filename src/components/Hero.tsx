@@ -23,8 +23,11 @@ export default function Hero() {
   const [copiedSnippet, setCopiedSnippet] = useState(false);
   const [activeCinematicStage, setActiveCinematicStage] = useState(1);
 
-  // Auto-progress cinematic workflow cycle
+  // Auto-progress cinematic workflow cycle (respects prefers-reduced-motion)
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     const interval = setInterval(() => {
       setActiveCinematicStage((prev) => (prev % 4) + 1);
     }, 3200);

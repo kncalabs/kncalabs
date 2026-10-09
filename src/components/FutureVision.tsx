@@ -68,8 +68,11 @@ export default function FutureVision() {
     }
   ];
 
-  // Self-evolving closed-loop animation cycle
+  // Self-evolving closed-loop animation cycle (respects prefers-reduced-motion)
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     const timer = setInterval(() => {
       setActiveLoopIdx((prev) => (prev + 1) % loopNodes.length);
     }, 2800);

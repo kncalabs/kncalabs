@@ -114,7 +114,7 @@ body {
   }
 }
 
-/* Accessibility: Support prefers-reduced-motion */
+/* Accessibility: Rigorous prefers-reduced-motion support */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
@@ -122,14 +122,22 @@ body {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
+    animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
   .animate-pulse,
   .animate-ping,
-  .animate-fade-in-up {
+  .animate-spin,
+  .animate-fade-in-up,
+  .animate-flow-dash,
+  .animate-core-pulse {
     animation: none !important;
+  }
+  /* Keep active states visible without movement */
+  .transform,
+  [class*="transition-"] {
+    transition: none !important;
   }
 }

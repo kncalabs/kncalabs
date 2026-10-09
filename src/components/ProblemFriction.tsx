@@ -18,8 +18,11 @@ export default function ProblemFriction() {
     { name: "Distribute", detail: "다채널 전파" }
   ];
 
-  // Visual simulation of repetitive manual treadmill loop
+  // Visual simulation of repetitive manual treadmill loop (respects prefers-reduced-motion)
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
     const timer = setInterval(() => {
       setActiveStep((prev) => (prev + 1) % loopSteps.length);
     }, 1800);
