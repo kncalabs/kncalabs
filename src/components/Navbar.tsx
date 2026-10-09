@@ -14,12 +14,8 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 20);
 
       const sections = [
-        "problem-friction",
         "the-shift",
-        "how-it-works",
-        "one-source-many-outputs",
-        "product-visualization",
-        "deepdive-matrix",
+        "system-workflow",
         "trust-and-access"
       ];
       const scrollPosition = window.scrollY + 200;
@@ -68,11 +64,11 @@ export default function Navbar() {
           </Link>
 
           {/* Middle/Right Nav Links */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden md:flex items-center gap-8">
             <Link
               href="#the-shift"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "the-shift" || activeSection === "problem-friction"
+                activeSection === "the-shift"
                   ? "text-sky-400 font-bold"
                   : "text-slate-300 hover:text-white"
               }`}
@@ -80,38 +76,24 @@ export default function Navbar() {
               The Shift
             </Link>
             <Link
-              href="#how-it-works"
+              href="#system-workflow"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "how-it-works" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
-              }`}
-            >
-              Pipeline
-            </Link>
-            <Link
-              href="#one-source-many-outputs"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "one-source-many-outputs" || activeSection === "product-visualization"
+                activeSection === "system-workflow"
                   ? "text-sky-400 font-bold"
                   : "text-slate-300 hover:text-white"
               }`}
             >
-              Interface
-            </Link>
-            <Link
-              href="#deepdive-matrix"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "deepdive-matrix" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
-              }`}
-            >
-              Architecture
+              Workflow Engine
             </Link>
             <Link
               href="#trust-and-access"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "trust-and-access" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+                activeSection === "trust-and-access"
+                  ? "text-sky-400 font-bold"
+                  : "text-slate-300 hover:text-white"
               }`}
             >
-              Company
+              Company &amp; Beta
             </Link>
           </nav>
 
@@ -150,32 +132,18 @@ export default function Navbar() {
               The Shift
             </Link>
             <Link
-              href="#how-it-works"
+              href="#system-workflow"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Pipeline
-            </Link>
-            <Link
-              href="#one-source-many-outputs"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
-            >
-              Interface
-            </Link>
-            <Link
-              href="#deepdive-matrix"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
-            >
-              Architecture
+              Workflow Engine
             </Link>
             <Link
               href="#trust-and-access"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Company
+              Company &amp; Beta
             </Link>
             <div className="pt-2">
               <Link

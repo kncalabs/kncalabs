@@ -26,7 +26,7 @@ export default function TheShift() {
 
           <p className="text-lg sm:text-2xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed">
             더 많이 쓰려고 애쓰지 마십시오. <br className="hidden sm:inline" />
-            이제 단발성 수작업 창작의 쳇바퀴에서 벗어나, <strong className="text-white font-semibold">자율적으로 동작하는 콘텐츠 시스템</strong>으로 전환할 때입니다.
+            수집·작성·포맷 변환의 <strong className="text-rose-400 font-semibold">8단계 수작업 쳇바퀴</strong>에서 벗어나, <strong className="text-white font-semibold">자율 콘텐츠 시스템</strong>으로 전환할 때입니다.
           </p>
         </div>
 
