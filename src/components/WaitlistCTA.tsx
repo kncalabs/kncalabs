@@ -80,10 +80,10 @@ export default function WaitlistCTA() {
             {/* Direct Workflow Anchor Navigation */}
             <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
               <Link
-                href="#system-engine"
+                href="#how-it-works"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-sky-950/20 active:scale-[0.99] transition-all"
               >
-                <span>Explore the Engine</span>
+                <span>Explore the Workflow</span>
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
               </Link>
               <Link

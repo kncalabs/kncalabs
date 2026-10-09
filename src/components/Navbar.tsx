@@ -13,7 +13,13 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sections = ["the-shift", "system-engine", "about", "waitlist"];
+      const sections = [
+        "the-shift",
+        "how-it-works",
+        "product-visualization",
+        "about",
+        "waitlist"
+      ];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -59,8 +65,8 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Middle Nav Links */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Middle/Right Active Nav Links aligned with Information Architecture */}
+          <nav className="hidden md:flex items-center gap-7">
             <Link
               href="#the-shift"
               className={`text-sm font-medium transition-colors ${
@@ -72,28 +78,32 @@ export default function Navbar() {
               The Shift
             </Link>
             <Link
-              href="#system-engine"
+              href="#how-it-works"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "system-engine"
-                  ? "text-sky-400 font-bold"
-                  : "text-slate-300 hover:text-white"
+                activeSection === "how-it-works" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
               }`}
             >
-              Engine
+              Pipeline
+            </Link>
+            <Link
+              href="#product-visualization"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "product-visualization" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Console
             </Link>
             <Link
               href="#about"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "about"
-                  ? "text-sky-400 font-bold"
-                  : "text-slate-300 hover:text-white"
+                activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
               }`}
             >
               Company
             </Link>
           </nav>
 
-          {/* Right Action */}
+          {/* Right CTA Button: Explore Workflow */}
           <div className="hidden md:flex items-center gap-4">
             <Link
               href="#waitlist"
@@ -128,11 +138,18 @@ export default function Navbar() {
               The Shift
             </Link>
             <Link
-              href="#system-engine"
+              href="#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
-              Engine
+              Pipeline
+            </Link>
+            <Link
+              href="#product-visualization"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
+            >
+              Console
             </Link>
             <Link
               href="#about"
