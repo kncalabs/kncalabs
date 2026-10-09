@@ -44,6 +44,18 @@ export default function TheIdea() {
           </div>
         </div>
 
+        {/* Downward Scroll Indicator to The Workflow: ↓ */}
+        <div className="pt-8">
+          <a
+            href="#the-workflow"
+            className="inline-flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to The Workflow"
+          >
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">THE WORKFLOW</span>
+            <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
+          </a>
+        </div>
+
       </div>
     </section>
   );
