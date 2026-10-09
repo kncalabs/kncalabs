@@ -14,8 +14,8 @@ export default function Navbar() {
       setIsScrolled(window.scrollY > 20);
 
       const sections = [
+        "core-engine",
         "the-shift",
-        "system-workflow",
         "trust-and-access"
       ];
       const scrollPosition = window.scrollY + 200;
@@ -66,6 +66,16 @@ export default function Navbar() {
           {/* Middle/Right Nav Links */}
           <nav className="hidden md:flex items-center gap-8">
             <Link
+              href="#core-engine"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "core-engine"
+                  ? "text-sky-400 font-bold"
+                  : "text-slate-300 hover:text-white"
+              }`}
+            >
+              The Engine
+            </Link>
+            <Link
               href="#the-shift"
               className={`text-sm font-medium transition-colors ${
                 activeSection === "the-shift"
@@ -74,16 +84,6 @@ export default function Navbar() {
               }`}
             >
               The Shift
-            </Link>
-            <Link
-              href="#system-workflow"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "system-workflow"
-                  ? "text-sky-400 font-bold"
-                  : "text-slate-300 hover:text-white"
-              }`}
-            >
-              Workflow Engine
             </Link>
             <Link
               href="#trust-and-access"
@@ -125,18 +125,18 @@ export default function Navbar() {
         {mobileMenuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t border-slate-800/80 pt-4 space-y-3">
             <Link
+              href="#core-engine"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
+            >
+              The Engine
+            </Link>
+            <Link
               href="#the-shift"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
             >
               The Shift
-            </Link>
-            <Link
-              href="#system-workflow"
-              onClick={() => setMobileMenuOpen(false)}
-              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
-            >
-              Workflow Engine
             </Link>
             <Link
               href="#trust-and-access"
