@@ -1,6 +1,7 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ProblemFriction from "@/components/ProblemFriction";
+import TheShift from "@/components/TheShift";
 import WhatWeDo from "@/components/WhatWeDo";
 import HowItWorks from "@/components/HowItWorks";
 import TangibleOutcomes from "@/components/TangibleOutcomes";
@@ -20,10 +21,13 @@ export default function Home() {
       {/* 1. Hero: 가치 제안 및 핵심 메시지 (Build Once. Automate More.) */}
       <Hero />
 
-      {/* 2. Problem First: 사용자의 반복적인 고통과 비효율 직시 (The Repetitive Friction & Before vs After) */}
+      {/* 2. The Problem: 수작업 8단계 사슬과 반복 노동의 비효율 (Content shouldn’t require repeating the same work) */}
       <ProblemFriction />
 
-      {/* 3. Solution Categories: 4대 핵심 역량으로 해결 방법 제시 (What We Do) */}
+      {/* 3. The Shift: 강력한 패러다임 전환 (From Content Creation to Content Systems) */}
+      <TheShift />
+
+      {/* 4. What We Do: 4대 핵심 역량 에디토리얼 서사 쇼케이스 */}
       <WhatWeDo />
 
       {/* 4. Visual Workflow: 복잡한 서비스를 4단계 시각적 플로우로 쉽게 설명 (How It Works) */}
