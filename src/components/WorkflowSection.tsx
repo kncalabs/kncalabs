@@ -287,27 +287,41 @@ export default function WorkflowSection() {
                     <Share2 className="w-3.5 h-3.5" />
                     Social
                   </span>
-                  <span className="text-[10px] text-slate-500">7편 스레드</span>
+                  <span className="text-[10px] text-slate-500">X · LinkedIn · Threads</span>
                 </div>
 
                 {/* Thread Connector Sequence Mockup */}
                 <div className="h-28 rounded-xl bg-black/60 border border-white/10 p-3 flex flex-col justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center text-[9px] text-emerald-300 font-bold">
-                      K
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="w-4 h-4 rounded-full bg-emerald-400/20 border border-emerald-400/40 flex items-center justify-center text-[9px] text-emerald-300 font-bold">
+                        K
+                      </div>
+                      <span className="text-[10px] font-mono text-slate-300 font-medium">@kncalabs</span>
                     </div>
-                    <span className="text-[10px] font-mono text-slate-400">1/7 Thread</span>
+                    <span className="text-[10px] font-mono text-emerald-400">1/7 🧵</span>
                   </div>
-                  <div className="pl-6 space-y-1 relative border-l border-emerald-500/30 ml-2">
-                    <div className="h-1.5 w-5/6 rounded bg-emerald-400/40" />
-                    <div className="h-1.5 w-3/5 rounded bg-emerald-400/40" />
+
+                  {/* Thread Quote / Preview */}
+                  <div className="pl-6 border-l border-emerald-500/30 ml-2 py-0.5 space-y-1">
+                    <p className="text-[11px] text-white font-medium leading-tight line-clamp-1">
+                      “원천 하나로 전 채널을 완성하는 법”
+                    </p>
+                    <div className="h-1 w-4/5 rounded bg-emerald-400/30" />
                   </div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1">
-                    <span className="flex items-center gap-2">
-                      <Heart className="w-2.5 h-2.5 text-rose-400" />
-                      <Repeat2 className="w-2.5 h-2.5 text-emerald-400" />
+
+                  <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1 border-t border-white/5">
+                    <span className="flex items-center gap-2.5 text-[10px]">
+                      <span className="flex items-center gap-1 text-slate-400">
+                        <Heart className="w-2.5 h-2.5 text-rose-400 fill-current" />
+                        1.2k
+                      </span>
+                      <span className="flex items-center gap-1 text-slate-400">
+                        <Repeat2 className="w-2.5 h-2.5 text-emerald-400" />
+                        480
+                      </span>
                     </span>
-                    <span className="text-emerald-400 font-bold">배포 즉시 가능</span>
+                    <span className="text-emerald-400 font-semibold">스레드 7연작</span>
                   </div>
                 </div>
               </div>
