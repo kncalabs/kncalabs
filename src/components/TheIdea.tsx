@@ -9,6 +9,9 @@ export default function TheIdea() {
       id="the-idea"
       className="relative py-28 sm:py-40 bg-[#030712] overflow-hidden text-center px-6 sm:px-8 lg:px-12"
     >
+      {/* Continuous System Spine Trace from Hero */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-sky-500/40 via-indigo-500/20 to-transparent pointer-events-none" />
+
       {/* Background Soft Ambient Light */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-25" aria-hidden="true">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-slate-500/10 blur-[180px] rounded-full" />
@@ -127,15 +130,16 @@ export default function TheIdea() {
         </div>
 
         {/* Downward Scroll Indicator to Company & Access: ↓ */}
-        <div className="pt-8 text-center">
+        <div className="pt-8 text-center flex flex-col items-center">
           <a
             href="#trust-and-access"
             className="inline-flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
             aria-label="Scroll to Company & Access"
           >
-            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">COMPANY</span>
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">SYSTEM TERMINAL</span>
             <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
           </a>
+          <div className="w-px h-16 sm:h-24 bg-gradient-to-b from-sky-500/40 via-indigo-500/20 to-transparent mt-4" />
         </div>
 
       </div>

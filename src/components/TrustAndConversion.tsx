@@ -48,6 +48,9 @@ export default function TrustAndConversion() {
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[450px] bg-sky-500/15 blur-[160px] rounded-full" />
       </div>
 
+      {/* Continuous System Spine Trace from The Idea */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-24 bg-gradient-to-b from-sky-500/40 via-indigo-500/20 to-transparent pointer-events-none" />
+
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 space-y-20 sm:space-y-24">
         
         {/* 1. UNIFIED CONVERSION HERO CARD: Linear / Vercel Monolith */}
