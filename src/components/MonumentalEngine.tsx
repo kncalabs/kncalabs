@@ -122,7 +122,7 @@ export default function MonumentalEngine() {
           <div className="inline-flex items-center justify-center">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-sky-400" />
-              <span className="tracking-widest uppercase">AUTONOMOUS CONTENT PIPELINE</span>
+              <span className="tracking-widest uppercase">THE WORKFLOW</span>
             </div>
           </div>
 
@@ -147,7 +147,7 @@ export default function MonumentalEngine() {
                 <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500" />
               </span>
               <span className="text-xs sm:text-sm font-mono text-slate-300 font-semibold tracking-wider">
-                LIVE PIPELINE ARCHITECTURE
+                THE WORKFLOW
               </span>
             </div>
 
