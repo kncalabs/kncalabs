@@ -84,6 +84,10 @@ export default function WorkflowSection() {
             원천 하나로, 모든 결과물로.
           </h2>
 
+          <p className="text-base sm:text-xl text-slate-400 max-w-2xl mx-auto font-normal">
+            Turn one source into a complete content workflow — powered by AI.
+          </p>
+
           {/* Minimal 3 Source Buttons */}
           <div className="pt-4 flex items-center justify-center">
             <div className="inline-flex p-1 rounded-xl bg-slate-900/80 border border-white/10">

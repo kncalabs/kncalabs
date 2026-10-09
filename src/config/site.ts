@@ -7,7 +7,7 @@ export const siteConfig = {
   established: "Company established in 2023 · South Korea",
   tagline: "AI Content Automation Platform",
   title: "KNCA Labs — AI Content Automation Platform",
-  description: "KNCA Labs builds AI-powered content automation tools that transform one source into optimized content across multiple channels.",
+  description: "Turn one source into a complete content workflow — powered by AI.",
   url: "https://kncalabs.com",
   ogImage: "https://kncalabs.com/og-image.svg",
   contact: {

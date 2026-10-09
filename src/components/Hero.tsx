@@ -43,8 +43,8 @@ export default function Hero() {
         </h1>
 
         {/* Single Punchy Subtitle: Monochromatic & Crisp */}
-        <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 max-w-2xl mx-auto font-normal leading-relaxed tracking-tight">
-          원천 하나로 모든 채널을 완성합니다.
+        <p className="text-xl sm:text-2xl md:text-3xl text-slate-400 max-w-3xl mx-auto font-normal leading-relaxed tracking-tight">
+          Turn one source into a complete content workflow — powered by AI.
         </p>
 
         {/* Guided CTA: Vercel / Linear Style High-Contrast Monolith Button */}
