@@ -5,7 +5,7 @@ import TheShift from "@/components/TheShift";
 import WhatWeDo from "@/components/WhatWeDo";
 import HowItWorks from "@/components/HowItWorks";
 import OneSourceManyOutputs from "@/components/OneSourceManyOutputs";
-import TangibleOutcomes from "@/components/TangibleOutcomes";
+import ProductVisualization from "@/components/ProductVisualization";
 import Capabilities from "@/components/Capabilities";
 import FutureBusiness from "@/components/FutureBusiness";
 import AboutSection from "@/components/AboutSection";
@@ -37,10 +37,10 @@ export default function Home() {
       {/* 6. One Source -> Many Outputs: 핵심 제품 개념 매트릭스 (Left: Source -> Center: AI -> Right: Outputs) */}
       <OneSourceManyOutputs />
 
-      {/* 7. Tangible Outcomes: 1개의 원천이 만드는 실제 결과물 콘솔 */}
-      <TangibleOutcomes />
+      {/* 7. Product Visualization: 실제 시스템 인터페이스 시뮬레이션 콘솔 (Source -> Processing -> Outputs -> Queue) */}
+      <ProductVisualization />
 
-      {/* 6. Capabilities: 현재 구축 중인 핵심 엔진 아키텍처 (What We’re Building) */}
+      {/* 8. What We Build: 현재 구축 중인 4대 핵심 역량 (Capabilities) */}
       <Capabilities />
 
       {/* 7. Future Strategic Value: 미래 인프라 확장 가치 투명 제시 (Future Business) */}
