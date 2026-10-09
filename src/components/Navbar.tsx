@@ -13,7 +13,7 @@ export default function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
-      const sections = ["product", "how-it-works", "about", "contact"];
+      const sections = ["what-we-do", "how-it-works", "capabilities", "future-business", "about", "contact"];
       const scrollPosition = window.scrollY + 200;
 
       for (const section of sections) {
@@ -59,15 +59,15 @@ export default function Navbar() {
             </div>
           </Link>
 
-          {/* Middle/Right Active Nav Links */}
-          <nav className="hidden md:flex items-center gap-8">
+          {/* Middle/Right Active Nav Links aligned with Information Architecture */}
+          <nav className="hidden md:flex items-center gap-7">
             <Link
-              href="#product"
+              href="#what-we-do"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "product" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+                activeSection === "what-we-do" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
               }`}
             >
-              Product
+              What We Do
             </Link>
             <Link
               href="#how-it-works"
@@ -78,30 +78,38 @@ export default function Navbar() {
               How It Works
             </Link>
             <Link
+              href="#capabilities"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "capabilities" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Capabilities
+            </Link>
+            <Link
+              href="#future-business"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "future-business" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Future
+            </Link>
+            <Link
               href="#about"
               className={`text-sm font-medium transition-colors ${
                 activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
               }`}
             >
-              About
-            </Link>
-            <Link
-              href="#contact"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "contact" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
-              }`}
-            >
-              Contact
+              Company
             </Link>
           </nav>
 
-          {/* Right CTA Button: Explore KNCA */}
+          {/* Right CTA Button: Explore Workflow */}
           <div className="hidden md:flex items-center gap-4">
             <Link
-              href="#product"
-              className="relative inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-slate-600 px-4.5 py-2.5 rounded-xl transition-all"
+              href="#how-it-works"
+              className="relative inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-slate-600 px-4.5 py-2 rounded-xl transition-all"
             >
-              <span>Explore KNCA</span>
+              <span>Explore Workflow</span>
               <ArrowRight className="w-4 h-4 text-sky-400" />
             </Link>
           </div>
@@ -122,11 +130,11 @@ export default function Navbar() {
         <div className="md:hidden bg-[#080c14]/95 border-b border-slate-800 px-4 pt-3 pb-6 space-y-4 backdrop-blur-xl">
           <nav className="flex flex-col gap-3">
             <Link
-              href="#product"
+              href="#what-we-do"
               onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "product" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+              className={`py-2 font-medium ${activeSection === "what-we-do" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
-              Product
+              What We Do
             </Link>
             <Link
               href="#how-it-works"
@@ -136,27 +144,34 @@ export default function Navbar() {
               How It Works
             </Link>
             <Link
+              href="#capabilities"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`py-2 font-medium ${activeSection === "capabilities" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+            >
+              Capabilities
+            </Link>
+            <Link
+              href="#future-business"
+              onClick={() => setMobileMenuOpen(false)}
+              className={`py-2 font-medium ${activeSection === "future-business" ? "text-sky-400 font-bold" : "text-slate-300"}`}
+            >
+              Future
+            </Link>
+            <Link
               href="#about"
               onClick={() => setMobileMenuOpen(false)}
               className={`py-2 font-medium ${activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300"}`}
             >
-              About
-            </Link>
-            <Link
-              href="#contact"
-              onClick={() => setMobileMenuOpen(false)}
-              className={`py-2 font-medium ${activeSection === "contact" ? "text-sky-400 font-bold" : "text-slate-300"}`}
-            >
-              Contact
+              Company
             </Link>
           </nav>
           <div className="pt-2">
             <Link
-              href="#product"
+              href="#how-it-works"
               onClick={() => setMobileMenuOpen(false)}
               className="w-full justify-center inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-900 border border-slate-700 py-3 rounded-xl"
             >
-              <span>Explore KNCA</span>
+              <span>Explore Workflow</span>
               <ArrowRight className="w-4 h-4 text-sky-400" />
             </Link>
           </div>

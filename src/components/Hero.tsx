@@ -76,72 +76,71 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="text-center max-w-4xl mx-auto space-y-7">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-20 w-full">
+        <div className="text-center max-w-4xl mx-auto space-y-6 sm:space-y-7">
           {/* Top Status & Integrity Badges */}
           <div className="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/30 text-sky-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-ping" />
-              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0 -ml-3.5" />
+            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 border border-sky-500/30 text-sky-300 text-[11px] sm:text-xs font-mono font-medium shadow-sm backdrop-blur-md">
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-ping hidden sm:inline-block" />
+              <span className="w-1.5 h-1.5 rounded-full bg-sky-400 shrink-0" />
               <span>Next-Gen Content Automation Platform</span>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-slate-300 text-xs font-medium backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-slate-900/90 border border-slate-700/80 text-slate-300 text-[11px] sm:text-xs font-medium backdrop-blur-md">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>Early Stage Product in Active Development</span>
             </div>
           </div>
 
-          {/* Main Headline */}
-          <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.25rem] font-extrabold tracking-tight text-white leading-[1.08]">
+          {/* Main Headline - Fluid, Responsive, Zero Overflow on 320px/390px */}
+          <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-extrabold tracking-tight text-white leading-[1.05] break-words">
             Build Once. <br className="hidden sm:inline" />
             <span className="text-gradient">Automate More.</span>
           </h1>
 
-          {/* Value Proposition Description */}
-          <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
-            KNCA is an AI-powered content automation platform engineered to transform a single source
-            into structured, multi-channel assets with precision context reasoning and end-to-end workflow control.
+          {/* Value Proposition Description - Short, Punchy, High-Contrast */}
+          <p className="text-sm sm:text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed px-1">
+            Turn one source into a complete content workflow — powered by AI.
           </p>
 
           {/* Positioning Statement Bar */}
           <div className="pt-0.5">
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-xl bg-slate-900/80 border border-slate-800/90 text-xs sm:text-sm text-slate-300 font-medium backdrop-blur-sm">
-              <span className="w-2 h-2 rounded-full bg-sky-400 shrink-0" />
-              <span>Built for creators, publishers, and teams who want to automate repetitive content workflows.</span>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900/80 border border-slate-800/90 text-[11px] sm:text-sm text-slate-300 font-medium backdrop-blur-sm text-center">
+              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-sky-400 shrink-0" />
+              <span>AI-powered content automation for creators and businesses.</span>
             </div>
           </div>
 
           {/* Technical Foundation Points */}
-          <div className="pt-1 flex flex-wrap items-center justify-center gap-x-8 gap-y-2.5 text-xs sm:text-sm text-slate-400 font-mono">
+          <div className="pt-1 flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-2 text-[11px] sm:text-sm text-slate-400 font-mono">
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
               Single Source Transformation
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-sky-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400" />
               Claude API Powered
             </span>
             <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-indigo-400" />
+              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-400" />
               Multi-Channel Output Engine
             </span>
           </div>
 
           {/* Primary & Secondary Call to Actions */}
-          <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4">
-            <Link
-              href="#product"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-base shadow-xl shadow-sky-950/20 hover:scale-[1.01] active:scale-[0.99] transition-all"
-            >
-              <span>Explore KNCA</span>
-              <ArrowRight className="w-5 h-5 text-slate-950" />
-            </Link>
+          <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <Link
               href="#how-it-works"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-base transition-all"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-sky-950/20 active:scale-[0.99] transition-all"
             >
-              <span>How It Works</span>
+              <span>Explore Workflow</span>
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950" />
+            </Link>
+            <Link
+              href="#capabilities"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 sm:px-7 sm:py-3.5 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-sm sm:text-base transition-all"
+            >
+              <span>What We Build</span>
             </Link>
           </div>
         </div>
