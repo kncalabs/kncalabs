@@ -15,13 +15,16 @@ export default function Navbar() {
 
       const sections = [
         "problem-friction",
+        "the-shift",
         "what-we-do",
         "how-it-works",
-        "tangible-outcomes",
+        "one-source-many-outputs",
+        "product-visualization",
         "capabilities",
         "future-business",
+        "future-vision",
         "about",
-        "contact"
+        "waitlist"
       ];
       const scrollPosition = window.scrollY + 200;
 
@@ -71,20 +74,14 @@ export default function Navbar() {
           {/* Middle/Right Active Nav Links aligned with Information Architecture */}
           <nav className="hidden md:flex items-center gap-6">
             <Link
-              href="#problem-friction"
+              href="#the-shift"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "problem-friction" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+                activeSection === "the-shift" || activeSection === "problem-friction"
+                  ? "text-sky-400 font-bold"
+                  : "text-slate-300 hover:text-white"
               }`}
             >
-              Friction
-            </Link>
-            <Link
-              href="#what-we-do"
-              className={`text-sm font-medium transition-colors ${
-                activeSection === "what-we-do" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
-              }`}
-            >
-              What We Do
+              The Shift
             </Link>
             <Link
               href="#how-it-works"
@@ -95,12 +92,20 @@ export default function Navbar() {
               Pipeline
             </Link>
             <Link
-              href="#tangible-outcomes"
+              href="#one-source-many-outputs"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "tangible-outcomes" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+                activeSection === "one-source-many-outputs" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
               }`}
             >
-              Deliverables
+              Matrix
+            </Link>
+            <Link
+              href="#product-visualization"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "product-visualization" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Console
             </Link>
             <Link
               href="#capabilities"
@@ -109,6 +114,16 @@ export default function Navbar() {
               }`}
             >
               Capabilities
+            </Link>
+            <Link
+              href="#future-vision"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "future-vision" || activeSection === "future-business"
+                  ? "text-sky-400 font-bold"
+                  : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Vision
             </Link>
             <Link
               href="#about"
