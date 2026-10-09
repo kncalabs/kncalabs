@@ -181,27 +181,29 @@ export default function Hero() {
               </div>
             </div>
 
-            {/* CENTER: THE AI PRISM CONDUIT */}
-            <div className="lg:col-span-1 flex items-center justify-center py-2 lg:py-0">
+            {/* CENTER: THE OPTICAL CONDUIT (UNDERSTAND) */}
+            <div className="lg:col-span-2 flex items-center justify-center py-2 lg:py-0">
               <div className="hidden lg:flex flex-col items-center justify-center w-full relative">
                 <div className="h-0.5 w-full bg-gradient-to-r from-sky-500 via-indigo-500 to-purple-500 relative">
                   <div className="absolute inset-0 bg-white/40 blur-[2px]" />
                 </div>
-                <div className="absolute w-9 h-9 rounded-full bg-[#050813] border border-sky-400/40 flex items-center justify-center shadow-xl shadow-sky-500/20 group">
-                  <span className="text-[10px] font-mono font-bold text-sky-300 tracking-wider">AI</span>
+                <div className="absolute px-3 py-1.5 rounded-full bg-[#050813] border border-sky-400/40 flex items-center gap-1.5 shadow-xl shadow-sky-500/20 group">
+                  <span className="text-[10px] font-mono font-bold text-sky-300 tracking-wider">
+                    → UNDERSTAND
+                  </span>
                 </div>
               </div>
 
               <div className="lg:hidden flex items-center gap-1.5 py-1">
-                <span className="px-2.5 py-0.5 rounded-full bg-sky-500/10 border border-sky-500/30 text-[10px] font-mono font-bold text-sky-400">
-                  AI
+                <span className="px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-[10px] font-mono font-bold text-sky-300">
+                  → UNDERSTAND
                 </span>
                 <span className="text-slate-600 text-sm font-light">↓</span>
               </div>
             </div>
 
             {/* RIGHT: MANY POSSIBILITIES (4 Deliverables Showcase) */}
-            <div className="lg:col-span-6 space-y-3">
+            <div className="lg:col-span-5 space-y-3">
               <div className="flex items-center justify-between text-xs font-mono text-slate-400 px-1">
                 <span className="tracking-wider uppercase text-[11px] font-semibold text-slate-300">MANY POSSIBILITIES</span>
               </div>
