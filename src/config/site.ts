@@ -1,8 +1,10 @@
 export const siteConfig = {
   name: "KNCA Labs",
-  legalName: "주식회사 케이앤씨에이 (KNCA Inc.)",
+  businessName: "Stay C Jeju (스테이씨 제주)",
+  legalName: "Stay C Jeju (스테이씨 제주)",
   brandName: "KNCA Labs",
-  brandRelation: "KNCA Labs는 주식회사 케이앤씨에이(KNCA Inc.)의 공식 AI 소프트웨어 및 기술 연구개발(R&D) 브랜드입니다.",
+  brandRelation: "KNCA Labs is operated by Stay C Jeju.",
+  established: "Company established in 2023 · South Korea",
   tagline: "AI Content Automation Platform",
   title: "KNCA Labs — AI Content Automation Platform",
   description: "KNCA Labs builds AI-powered content automation tools that transform one source into optimized content across multiple channels.",
@@ -10,7 +12,7 @@ export const siteConfig = {
   ogImage: "https://kncalabs.com/og-image.png",
   contact: {
     email: "founder@kncalabs.com",
-    location: "서울특별시",
+    location: "South Korea",
   },
   stage: {
     badge: "Development — Active",

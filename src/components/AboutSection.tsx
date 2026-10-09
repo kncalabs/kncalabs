@@ -25,7 +25,7 @@ export default function AboutSection() {
               KNCA Labs is an independent software studio focused on building practical AI-powered automation tools for content creation and digital workflows.
             </p>
             <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-              KNCA Labs는 <strong>주식회사 케이앤씨에이 (KNCA Inc.)</strong>의 공식 AI 기술 연구개발 및 소프트웨어 프로덕트 브랜드입니다.
+              KNCA Labs is operated by <strong>Stay C Jeju (스테이씨 제주)</strong> · Company established in 2023 · South Korea
             </p>
           </div>
 

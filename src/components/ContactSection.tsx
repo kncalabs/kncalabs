@@ -50,7 +50,7 @@ export default function ContactSection() {
                 <div>
                   <h4 className="text-xs font-mono text-slate-400">Organization & Brand</h4>
                   <p className="text-base font-bold text-white">KNCA Labs</p>
-                  <p className="text-xs text-slate-400 mt-0.5">운영사: 주식회사 케이앤씨에이 (KNCA Inc.)</p>
+                  <p className="text-xs text-slate-400 mt-0.5">Business Name: Stay C Jeju (스테이씨 제주)</p>
                 </div>
               </div>
             </div>

@@ -20,20 +20,19 @@ export default function Footer() {
               <span className="text-lg font-extrabold text-white tracking-tight">KNCA Labs</span>
             </Link>
 
-            <p className="text-slate-300 font-medium text-xs">
-              AI Content Automation Platform
+            <p className="text-slate-300 font-medium text-xs leading-relaxed">
+              AI-powered content automation company based in South Korea.
             </p>
 
-            <p className="text-slate-400 max-w-sm leading-relaxed text-xs">
-              KNCA Labs is an independent software studio focused on building practical AI-powered automation tools for content creation and digital workflows.
-            </p>
-
-            <div className="pt-2 border-t border-slate-800/80 max-w-sm space-y-1 text-[11px] text-slate-500 font-sans">
-              <p>
-                <strong className="text-slate-400 font-semibold">운영사:</strong> 주식회사 케이앤씨에이 (KNCA Inc.)
+            <div className="pt-2 border-t border-slate-800/80 max-w-sm space-y-1.5 text-xs text-slate-400 font-sans leading-relaxed">
+              <p className="text-slate-300 font-mono text-[11px]">
+                Founded in 2023 · South Korea
               </p>
-              <p className="leading-relaxed">
-                KNCA Labs는 주식회사 케이앤씨에이의 공식 AI 소프트웨어 및 R&D 스튜디오 브랜드입니다.
+              <p className="text-slate-300">
+                <strong className="text-slate-200 font-semibold">Business Name:</strong> Stay C Jeju (스테이씨 제주)
+              </p>
+              <p className="text-slate-400 text-[11px]">
+                KNCA Labs is operated by Stay C Jeju.
               </p>
             </div>
           </div>
@@ -87,7 +86,7 @@ export default function Footer() {
 
         {/* Bottom Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p>© 2026 KNCA Labs. All rights reserved.</p>
+          <p>© 2026 KNCA Labs. Operated by Stay C Jeju.</p>
           <div className="flex items-center gap-4 text-slate-500 font-mono text-[11px]">
             <span className="hover:text-slate-300 transition-colors">Designed with Integrity</span>
             <span>•</span>
