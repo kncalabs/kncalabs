@@ -8,6 +8,7 @@ import OneSourceManyOutputs from "@/components/OneSourceManyOutputs";
 import ProductVisualization from "@/components/ProductVisualization";
 import Capabilities from "@/components/Capabilities";
 import FutureBusiness from "@/components/FutureBusiness";
+import FutureVision from "@/components/FutureVision";
 import AboutSection from "@/components/AboutSection";
 import WaitlistCTA from "@/components/WaitlistCTA";
 import ContactSection from "@/components/ContactSection";
@@ -43,10 +44,13 @@ export default function Home() {
       {/* 8. What We Build: 현재 구축 중인 4대 핵심 역량 (Capabilities) */}
       <Capabilities />
 
-      {/* 7. Future Strategic Value: 미래 인프라 확장 가치 투명 제시 (Future Business) */}
+      {/* 9. Future Business: 로드맵 계획 및 탐색 단계 (Planned vs Exploring 투명 분리) */}
       <FutureBusiness />
 
-      {/* 8. Corporate Authority: 기업 실체 및 신뢰 기반 (Stay C Jeju, Founded 2023) */}
+      {/* 10. Future Vision: 강력한 브랜드 비전 (Content is becoming infrastructure. 6-Stage Loop) */}
+      <FutureVision />
+
+      {/* 11. Corporate Authority: 기업 실체 및 신뢰 기반 (Stay C Jeju, Founded 2023) */}
       <AboutSection />
 
       {/* 9. Seamless Zero-Friction Conversion: 마찰 없는 클로즈드 베타 신청 */}
