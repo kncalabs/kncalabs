@@ -11,8 +11,8 @@ export default function SystemCapabilities() {
       id: "stage-1",
       number: "01",
       icon: Brain,
-      category: "UNDERSTAND",
-      title: "Content Intelligence",
+      category: "UNDERSTANDING",
+      title: "AI Understanding",
       tagline: "원천 데이터를 읽고 핵심 맥락을 스스로 이해합니다.",
       description:
         "무작정 문장을 생성하지 않습니다. 45분 인터뷰, 긴 기술 백서, 영상 스크립트의 서사 구조와 의도를 딥러닝 문맥 추론으로 분석하여 재활용 가능한 핵심 지식 자산으로 정제합니다.",
