@@ -54,8 +54,8 @@ export default function TrustAndConversion() {
         <div className="rounded-3xl border border-white/10 p-10 sm:p-20 relative overflow-hidden bg-[#070b14]/90 backdrop-blur-2xl shadow-2xl">
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300 text-xs font-mono font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span className="tracking-widest uppercase text-[11px]">ACCESS</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="tracking-widest uppercase text-[11px]">Core alpha testing in progress</span>
             </div>
 
             <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
@@ -243,8 +243,8 @@ export default function TrustAndConversion() {
             </div>
 
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-mono font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>Founded 2023 · South Korea</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Core alpha testing in progress · Founded 2023</span>
             </div>
           </div>
 

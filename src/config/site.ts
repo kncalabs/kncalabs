@@ -15,7 +15,7 @@ export const siteConfig = {
     location: "South Korea",
   },
   stage: {
-    badge: "Development — Active",
+    badge: "Core alpha testing in progress",
     title: "Building in Public",
     description: "KNCA is currently under active development. We are building the core automation infrastructure first, with a focus on reliability, modular workflows, and scalable content operations.",
     statusList: [
