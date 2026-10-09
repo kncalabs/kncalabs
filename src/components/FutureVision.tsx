@@ -216,6 +216,96 @@ export default function FutureVision() {
             </div>
           </div>
 
+          {/* Unified Roadmap & Expansion Subsection: Planned vs Exploring */}
+          <div className="mt-14 pt-10 border-t border-slate-800/80">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-8">
+              <div>
+                <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-semibold block">
+                  Building In Public · Future Business
+                </span>
+                <h4 className="text-xl font-bold text-white tracking-tight mt-0.5">
+                  차세대 워크플로우 인프라 확장 로드맵
+                </h4>
+              </div>
+
+              <div className="flex items-center gap-2 text-xs font-mono">
+                <span className="px-2.5 py-1 rounded-full bg-sky-500/10 border border-sky-500/30 text-sky-300">
+                  ● 2 Planned
+                </span>
+                <span className="px-2.5 py-1 rounded-full bg-slate-800 border border-slate-700 text-slate-400">
+                  ○ 3 Exploring
+                </span>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="p-5 rounded-2xl bg-slate-900/50 border border-sky-500/30 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-bold text-white">AI Content Infrastructure</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-semibold">Planned</span>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    대규모 콘텐츠 변환 및 자동화 파이프라인을 지탱하는 기반 인프라 체계.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono text-slate-500 mt-4 block border-t border-slate-800/80 pt-2">핵심 엔진 안정화 후 확장 예정</span>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-900/50 border border-sky-500/30 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-bold text-white">Creator Automation</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30 font-semibold">Planned</span>
+                  </div>
+                  <p className="text-xs text-slate-300 leading-relaxed">
+                    개인 창작자를 위한 1인 미디어 다채널 자율 배포 및 멀티 포맷 스케일업 솔루션.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono text-slate-500 mt-4 block border-t border-slate-800/80 pt-2">클로즈드 베타 피드백 수렴 후 구체화</span>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-950/60 border border-slate-800/80 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-bold text-slate-300">Business Content Automation</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Exploring</span>
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    기업 브랜드, 미디어사 및 조직의 반복 콘텐츠 오퍼레이션을 자율화하는 엔터프라이즈 솔루션.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono text-slate-500 mt-4 block border-t border-slate-800/80 pt-2">시장 수요 조사 및 파트너십 탐색</span>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-950/60 border border-slate-800/80 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-bold text-slate-300">AI Workflow Platform</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Exploring</span>
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    외부 협업 도구 및 에이전트 간 오케스트레이션을 지원하는 차세대 통합 워크플로우 플랫폼.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono text-slate-500 mt-4 block border-t border-slate-800/80 pt-2">개념 검증(PoC) 및 아키텍처 연구</span>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-slate-950/60 border border-slate-800/80 flex flex-col justify-between lg:col-span-2">
+                <div>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-xs font-mono font-bold text-slate-300">Open API / Automation Infrastructure</span>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-800 text-slate-400 border border-slate-700">Exploring</span>
+                  </div>
+                  <p className="text-xs text-slate-400 leading-relaxed">
+                    개발자와 타 시스템이 직접 연동하여 콘텐츠 변환 파이프라인을 호출할 수 있는 통합 API 게이트웨이.
+                  </p>
+                </div>
+                <span className="text-[10px] font-mono text-slate-500 mt-4 block border-t border-slate-800/80 pt-2">프로토콜 및 인터페이스 규격 리서치</span>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>

@@ -7,7 +7,6 @@ import HowItWorks from "@/components/HowItWorks";
 import OneSourceManyOutputs from "@/components/OneSourceManyOutputs";
 import ProductVisualization from "@/components/ProductVisualization";
 import Capabilities from "@/components/Capabilities";
-import FutureBusiness from "@/components/FutureBusiness";
 import FutureVision from "@/components/FutureVision";
 import AboutSection from "@/components/AboutSection";
 import WaitlistCTA from "@/components/WaitlistCTA";
@@ -43,10 +42,7 @@ export default function Home() {
       {/* 8. What We Build: 현재 구축 중인 4대 핵심 역량 (Capabilities) */}
       <Capabilities />
 
-      {/* 9. Future Business: 로드맵 계획 및 탐색 단계 (Planned vs Exploring 투명 분리) */}
-      <FutureBusiness />
-
-      {/* 10. Future Vision: 강력한 브랜드 비전 (Content is becoming infrastructure. 6-Stage Loop) */}
+      {/* 9. Future Vision & Infrastructure Roadmap (Content is becoming infrastructure) */}
       <FutureVision />
 
       {/* 11. Corporate Authority: 기업 실체 및 신뢰 기반 (Stay C Jeju, Founded 2023) */}
