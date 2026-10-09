@@ -108,25 +108,25 @@ export default function Hero() {
             <span className="text-gradient">Automate More.</span>
           </h1>
 
-          {/* Value Proposition Description - Crisp, Single Punch */}
+          {/* Value Proposition Description - Crisp, Visual Experience Invitation */}
           <p className="text-xl sm:text-2xl md:text-3xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed">
-            단 하나의 원천에서 수십 개의 채널별 콘텐츠를 자율 생성합니다.
+            단 하나의 원천(One Source)이 AI를 거쳐 수십 개의 콘텐츠로 실시간 분기하는 자율 파이프라인
           </p>
 
           {/* Primary & Secondary Call to Actions */}
           <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
             <Link
-              href="#how-it-works"
+              href="#system-workflow"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-extrabold text-base shadow-2xl shadow-sky-400/20 active:scale-[0.99] transition-all group"
             >
-              <span>Explore the Workflow</span>
+              <span>자율 파이프라인 체험하기</span>
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-slate-950 group-hover:translate-x-1 transition-transform" />
             </Link>
             <Link
               href="#the-shift"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-semibold text-base transition-all"
             >
-              <span>The Paradigm Shift</span>
+              <span>The Shift</span>
               <ArrowRight className="w-4 h-4 text-slate-400" />
             </Link>
           </div>
