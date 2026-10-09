@@ -20,7 +20,7 @@ export default function Footer() {
             </Link>
 
             <span className="text-slate-700 hidden sm:inline">·</span>
-            <span className="text-slate-400">Publishing Infrastructure</span>
+            <span className="text-slate-400">AI-powered content automation company</span>
             <span className="text-slate-700 hidden sm:inline">·</span>
             <span className="text-slate-500 font-mono">Founded 2023 · South Korea</span>
             <span className="text-slate-700 hidden sm:inline">·</span>

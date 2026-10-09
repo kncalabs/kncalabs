@@ -237,6 +237,9 @@ export default function TrustAndConversion() {
               <h3 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1.5">
                 KNCA Labs
               </h3>
+              <p className="text-xs font-mono text-sky-400 mt-0.5">
+                AI-powered content automation company
+              </p>
             </div>
 
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-slate-300 text-xs font-mono font-medium">
