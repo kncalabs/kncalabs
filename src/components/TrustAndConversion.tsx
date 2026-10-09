@@ -61,12 +61,12 @@ export default function TrustAndConversion() {
             </div>
 
             <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
-              Stop repeating the work. <br />
-              <span className="text-gradient">Build once. Automate more.</span>
+              만들기는 한 번만. <br />
+              <span className="text-gradient">확장은 자동으로.</span>
             </h2>
 
             <p className="text-base sm:text-xl text-slate-300 leading-relaxed font-normal">
-              AI-powered content workflows for the next generation of creators and businesses.
+              반복 작업을 멈추고 시스템을 시작하세요.
             </p>
 
             {/* Brand Equation Spine */}
@@ -251,10 +251,10 @@ export default function TrustAndConversion() {
             {/* Mission Statement (7 cols) */}
             <div className="md:col-span-7 space-y-2">
               <p className="text-sm font-semibold text-white">
-                &quot;KNCA Labs is building the AI infrastructure that turns content into workflows.&quot;
+                &quot;콘텐츠를 자율 워크플로우로 전환합니다.&quot;
               </p>
               <p className="text-slate-400 font-sans">
-                단순한 글쓰기 보조 도구를 넘어, 원천 콘텐츠 수집부터 다채널 자율 배포까지 전 과정을 연결하는 차세대 콘텐츠 자동화 인프라를 구축하고 있습니다.
+                원천 1개에서 다채널 자율 배포까지 연결하는 차세대 콘텐츠 인프라를 만듭니다.
               </p>
             </div>
 

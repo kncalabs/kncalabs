@@ -22,12 +22,11 @@ export default function TheShift() {
           </div>
 
           <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
-            매번 다시 쓰지 않고, <br />
-            <span className="text-gradient">한 번에 완성하는 방식으로.</span>
+            더 이상 다시 쓰지 마세요.
           </h2>
 
           <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal">
-            채널마다 복사하고 줄여 쓰던 반복 노동을 끝냅니다.
+            복사하고 줄여 쓰던 반복 노동을 끝냅니다.
           </p>
         </div>
 
@@ -40,7 +39,7 @@ export default function TheShift() {
               <div className="flex items-center justify-between border-b border-slate-800 pb-4">
                 <div className="flex items-center gap-2 text-rose-400 text-xs font-bold uppercase tracking-wider">
                   <ShieldAlert className="w-4 h-4" />
-                  <span>기존 방식: 끝없는 복사 노동</span>
+                  <span>기존 방식: 반복 노동</span>
                 </div>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-rose-500/10 text-rose-300 border border-rose-500/20 font-medium">
                   수작업 소모
@@ -49,23 +48,23 @@ export default function TheShift() {
 
               <div className="space-y-3 text-xs text-slate-400 pt-2">
                 <div className="p-3.5 rounded-xl bg-slate-900/60 border border-slate-800 flex items-center justify-between">
-                  <span>1. 긴 글이나 영상 하나 완성</span>
-                  <span className="text-slate-500">반나절 소요</span>
+                  <span>1. 글·영상 원문 1개 완성</span>
+                  <span className="text-slate-500">반나절</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 flex items-center justify-between text-rose-300">
-                  <span>2. 유튜브 쇼츠용으로 다시 쓰기</span>
-                  <span>1~2시간 소요</span>
+                  <span>2. 쇼츠용으로 다시 쓰기</span>
+                  <span>1~2시간</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-rose-950/30 border border-rose-900/50 flex items-center justify-between text-rose-300">
-                  <span>3. 블로그 및 SNS용으로 다시 요약하기</span>
-                  <span>매번 복사·붙여넣기</span>
+                  <span>3. 블로그·SNS용으로 다시 요약</span>
+                  <span>반복 복사</span>
                 </div>
               </div>
             </div>
 
             <div className="pt-4 border-t border-slate-800 text-xs text-rose-400 flex items-center justify-between">
-              <span>결과: 시간과 에너지 고갈</span>
-              <span className="font-bold">반복 노동의 쳇바퀴</span>
+              <span>결과: 시간 소모</span>
+              <span className="font-bold">지속 불가능</span>
             </div>
           </div>
 
@@ -78,22 +77,22 @@ export default function TheShift() {
                   <span>KNCA Labs: 자동 파이프라인</span>
                 </div>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30 font-medium">
-                  완전 자동화
+                  자동 완성
                 </span>
               </div>
 
               <div className="space-y-3 text-xs text-slate-300 pt-2">
                 <div className="p-3.5 rounded-xl bg-slate-950/80 border border-sky-500/30 flex items-center justify-between">
-                  <span>1. 원천 콘텐츠 딱 1개 입력</span>
-                  <span className="text-emerald-400 font-semibold">입력 완료</span>
+                  <span>1. 원천 1개 입력</span>
+                  <span className="text-emerald-400 font-semibold">입력 끝</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-slate-950/80 border border-indigo-500/40 flex items-center justify-between">
-                  <span>2. 핵심을 파악해 채널별 언어로 변환</span>
-                  <span className="text-indigo-300">스스로 재작성</span>
+                  <span>2. 채널별 자동 재작성</span>
+                  <span className="text-indigo-300">스스로 분해</span>
                 </div>
                 <div className="p-3.5 rounded-xl bg-emerald-950/30 border border-emerald-500/50 flex items-center justify-between text-emerald-300">
-                  <span>3. 모든 채널 맞춤 콘텐츠 동시 완성</span>
-                  <span className="font-bold">수초 만에 완료</span>
+                  <span>3. 모든 채널 동시 완성</span>
+                  <span className="font-bold">수초 완료</span>
                 </div>
               </div>
             </div>
@@ -101,7 +100,7 @@ export default function TheShift() {
             <div className="pt-4 border-t border-slate-800 text-xs text-slate-300 flex items-center justify-between">
               <span className="flex items-center gap-1.5 text-emerald-400 font-medium">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>작업 시간 90% 이상 절감</span>
+                <span>시간 90% 절감</span>
               </span>
               <span className="text-white font-bold">Build Once</span>
             </div>
