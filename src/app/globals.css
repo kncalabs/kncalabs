@@ -18,6 +18,14 @@ body {
   background: var(--background);
   font-family: "Pretendard Variable", Pretendard, var(--font-inter), -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* Accessible focus ring for keyboard navigation */
+:focus-visible {
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
 }
 
 /* Minimalist Restrained Glass & Panels */

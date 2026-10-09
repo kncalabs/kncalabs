@@ -11,7 +11,6 @@ import FutureBusiness from "@/components/FutureBusiness";
 import FutureVision from "@/components/FutureVision";
 import AboutSection from "@/components/AboutSection";
 import WaitlistCTA from "@/components/WaitlistCTA";
-import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTop from "@/components/BackToTop";
 
@@ -53,9 +52,8 @@ export default function Home() {
       {/* 11. Corporate Authority: 기업 실체 및 신뢰 기반 (Stay C Jeju, Founded 2023) */}
       <AboutSection />
 
-      {/* 9. Seamless Zero-Friction Conversion: 마찰 없는 클로즈드 베타 신청 */}
+      {/* 12. Seamless Zero-Friction Conversion & Direct Contact */}
       <WaitlistCTA />
-      <ContactSection />
 
       {/* Micro Footer */}
       <Footer />

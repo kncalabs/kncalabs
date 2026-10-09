@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import AboutSection from "@/components/AboutSection";
-import ContactSection from "@/components/ContactSection";
+import WaitlistCTA from "@/components/WaitlistCTA";
 import Footer from "@/components/Footer";
 
 export const metadata = {
@@ -15,7 +15,7 @@ export default function AboutPage() {
       <Navbar />
       <div className="pt-16">
         <AboutSection />
-        <ContactSection />
+        <WaitlistCTA />
       </div>
       <Footer />
     </main>
