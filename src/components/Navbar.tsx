@@ -17,6 +17,7 @@ export default function Navbar() {
         "hero",
         "the-workflow",
         "the-shift",
+        "company",
         "trust-and-access"
       ];
       const scrollPosition = window.scrollY + 200;
@@ -87,14 +88,14 @@ export default function Navbar() {
               The Future
             </Link>
             <Link
-              href="#trust-and-access"
+              href="#company"
               className={`text-sm font-medium transition-colors ${
-                activeSection === "trust-and-access"
-                  ? "text-sky-400 font-bold"
-                  : "text-slate-300 hover:text-white"
+                activeSection === "company"
+                  ? "text-white font-semibold"
+                  : "text-slate-400 hover:text-white"
               }`}
             >
-              Company &amp; Beta
+              Company
             </Link>
           </nav>
 
