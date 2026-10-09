@@ -9,11 +9,12 @@ import {
   Share2,
   Layers,
   CheckCircle2,
+  Mail,
 } from "lucide-react";
 
 export default function WorkflowSection() {
   const [selectedSource, setSelectedSource] = useState<0 | 1 | 2>(0);
-  const [activeOutput, setActiveOutput] = useState<0 | 1 | 2>(0);
+  const [activeOutput, setActiveOutput] = useState<0 | 1 | 2 | 3>(0);
   const [streamTick, setStreamTick] = useState(0);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -74,15 +75,26 @@ export default function WorkflowSection() {
       platform: "Shorts · Reels · TikTok",
       badge: "0~60초",
       highlight: "핵심 훅 추출 완료",
+      icon: Share2,
       color: "border-sky-500/40 bg-sky-950/20 text-sky-300",
     },
     {
       id: "blog",
       title: "블로그 칼럼",
-      platform: "네이버 · 벨로그 · 미디엄",
+      platform: "네이버 · 벨로그 · 테크",
       badge: "장문 칼럼",
       highlight: "구조화 완료",
+      icon: FileText,
       color: "border-indigo-500/40 bg-indigo-950/20 text-indigo-300",
+    },
+    {
+      id: "newsletter",
+      title: "Newsletter",
+      platform: "이메일 레터 · 스티비",
+      badge: "주간 레터",
+      highlight: "큐레이션 완료",
+      icon: Mail,
+      color: "border-purple-500/40 bg-purple-950/20 text-purple-300",
     },
     {
       id: "social",
@@ -90,6 +102,7 @@ export default function WorkflowSection() {
       platform: "X · 링크드인 · 인스타",
       badge: "3줄 요약",
       highlight: "배포 준비 완료",
+      icon: Share2,
       color: "border-emerald-500/40 bg-emerald-950/20 text-emerald-300",
     },
   ];
@@ -298,24 +311,25 @@ export default function WorkflowSection() {
             </div>
 
             {/* STAGE 3: MULTI-CHANNEL ADAPTIVE OUTPUTS (4 cols) */}
-            <div className="lg:col-span-4 flex flex-col justify-center space-y-3">
+            <div className="lg:col-span-4 flex flex-col justify-center space-y-2.5">
               <div className="text-[11px] font-mono font-bold text-emerald-400 tracking-wider flex items-center justify-between">
                 <span className="flex items-center gap-2">
                   <span className="px-2 py-0.5 rounded bg-emerald-500/10 border border-emerald-500/20">STEP 02</span>
                   <span>다채널 자율 완성</span>
                 </span>
-                <span className="text-[10px] text-slate-500 font-mono">3 CHANNELS</span>
+                <span className="text-[10px] text-slate-500 font-mono">4 CHANNELS</span>
               </div>
 
-              {/* 3 Output Channels Fanout */}
-              <div className="space-y-2.5">
+              {/* 4 Output Channels Fanout */}
+              <div className="space-y-2">
                 {outputs.map((out, idx) => {
                   const isSelected = activeOutput === idx;
+                  const OutIcon = out.icon;
                   return (
                     <div
                       key={out.id}
-                      onClick={() => setActiveOutput(idx as 0 | 1 | 2)}
-                      className={`p-3.5 rounded-xl border transition-all cursor-pointer ${
+                      onClick={() => setActiveOutput(idx as 0 | 1 | 2 | 3)}
+                      className={`p-3 rounded-xl border transition-all cursor-pointer ${
                         isSelected
                           ? `${out.color} shadow-lg ring-1 ring-sky-500/40`
                           : "border-slate-800/80 bg-slate-900/60 hover:bg-slate-900 text-slate-400"
@@ -323,7 +337,7 @@ export default function WorkflowSection() {
                     >
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2.5">
-                          <Share2 className="w-4 h-4 text-sky-400 shrink-0" />
+                          <OutIcon className="w-4 h-4 text-sky-400 shrink-0" />
                           <div>
                             <span className="text-xs font-bold text-white block leading-tight">
                               {out.title}
@@ -363,7 +377,7 @@ export default function WorkflowSection() {
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-white block mt-0.5">
-                  1개의 원천 신호가 3개 플랫폼 채널 규격으로 즉시 동기화됩니다.
+                  1개의 원천 신호가 4개 플랫폼(숏폼·블로그·뉴스레터·SNS)으로 동기화됩니다.
                 </span>
               </div>
             </div>
@@ -378,7 +392,7 @@ export default function WorkflowSection() {
               <div className="h-8 w-px bg-white/10" />
               <div className="text-right">
                 <span className="text-slate-500 block text-[10px]">SYNC RATIO</span>
-                <span className="text-white font-bold text-sm">1 : 3</span>
+                <span className="text-white font-bold text-sm">1 : 4</span>
               </div>
               <div className="h-8 w-px bg-white/10" />
               <div className="text-right">
