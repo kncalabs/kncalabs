@@ -3,28 +3,28 @@ import { Zap, Sparkles, CheckCircle2, ShieldAlert } from "lucide-react";
 
 export default function TheShift() {
   return (
-    <section id="the-shift" className="py-24 sm:py-36 bg-[#050811] relative border-t border-slate-800/90 overflow-hidden">
+    <section id="the-shift" className="py-28 sm:py-44 bg-[#060a16] relative border-t border-sky-900/40 overflow-hidden">
       {/* Background High-Impact Neon Gradients */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[550px] h-[550px] bg-rose-500/10 blur-[160px] rounded-full" />
-        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[550px] h-[550px] bg-sky-500/15 blur-[160px] rounded-full" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-45 -z-10" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[700px] h-[700px] bg-rose-500/15 blur-[180px] rounded-full" />
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[700px] h-[700px] bg-sky-500/20 blur-[180px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Eyebrow & Commanding Main Headline */}
-        <div className="text-center max-w-4xl mx-auto space-y-5">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-rose-500/10 via-slate-900 to-sky-500/10 border border-slate-700/80 text-xs font-mono font-semibold tracking-wider">
-            <Sparkles className="w-3.5 h-3.5 text-sky-400" />
-            <span className="text-slate-300">THE PARADIGM SHIFT</span>
+        <div className="text-center max-w-4xl mx-auto space-y-6">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-xs font-mono font-semibold tracking-wider shadow-lg shadow-sky-950/40">
+            <Sparkles className="w-4 h-4 text-sky-400" />
+            <span className="text-sky-300">CORE PARADIGM SHIFT</span>
           </div>
 
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.08]">
-            From <span className="text-slate-500 line-through decoration-rose-500/80 decoration-4">Content Creation</span> <br />
+          <h2 className="text-5xl sm:text-7xl lg:text-8xl font-black text-white tracking-tight leading-[1.04]">
+            From <span className="text-slate-500 line-through decoration-rose-500 decoration-4 sm:decoration-8">Content Creation</span> <br />
             to <span className="text-gradient">Content Systems.</span>
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+          <p className="text-lg sm:text-2xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed">
             더 많이 쓰려고 애쓰지 마십시오. <br className="hidden sm:inline" />
             이제 단발성 수작업 창작의 쳇바퀴에서 벗어나, <strong className="text-white font-semibold">자율적으로 동작하는 콘텐츠 시스템</strong>으로 전환할 때입니다.
           </p>

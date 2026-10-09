@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Brain, Sparkles, SlidersHorizontal, SendHorizontal, ArrowRight, Zap, CheckCircle2 } from "lucide-react";
+import { Brain, Sparkles, SlidersHorizontal, SendHorizontal, ArrowRight, CheckCircle2 } from "lucide-react";
 
 export default function Capabilities() {
   const capabilityRows = [
@@ -56,27 +56,27 @@ export default function Capabilities() {
   ];
 
   return (
-    <section id="capabilities" className="py-24 sm:py-36 bg-[#080c14] relative border-t border-slate-800/80">
+    <section id="capabilities" className="py-20 sm:py-24 bg-[#060810] relative border-t border-slate-900">
       {/* Background Subtle Tech Ambient Grid */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[340px] bg-sky-500/10 blur-[140px] rounded-full" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10 -z-10" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[720px] h-[340px] bg-slate-800/10 blur-[140px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header */}
-        <div className="max-w-4xl space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-mono font-medium tracking-wide">
-            <Zap className="w-3.5 h-3.5 text-sky-400" />
-            <span>WHAT WE BUILD</span>
+        <div className="max-w-4xl space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-medium tracking-wide">
+            <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+            <span>ARCHITECTURAL SPECIFICATION</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-[1.15]">
             What We Build
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 font-normal leading-relaxed">
-            단순한 독립 기능이 아닙니다. 실제 자동화 워크플로우 파이프라인의 각 단계와 직결된 4대 핵심 구축 역량입니다.
+          <p className="text-sm sm:text-base text-slate-400 font-normal leading-relaxed">
+            단순한 독립 기능이 아닌, 실제 자동화 워크플로우 파이프라인의 각 단계와 직결된 4대 핵심 구축 역량입니다.
           </p>
         </div>
 

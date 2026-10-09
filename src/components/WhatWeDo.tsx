@@ -77,27 +77,27 @@ export default function WhatWeDo() {
   const CurrentIcon = current.icon;
 
   return (
-    <section id="what-we-do" className="py-24 sm:py-32 bg-[#080c14] relative border-t border-slate-800/80">
+    <section id="what-we-do" className="py-20 sm:py-24 bg-[#070b13] relative border-t border-slate-900/90">
       {/* Background Subtle Tech Glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-25 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-sky-500/10 blur-[140px] rounded-full" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-15 -z-10" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-sky-500/5 blur-[140px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header: Story-Driven */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-mono font-medium tracking-wide">
+        <div className="text-center max-w-3xl mx-auto space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-slate-400 text-xs font-mono font-medium tracking-wide">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-            <span>LESS UI · MORE STORY</span>
+            <span>EDITORIAL DOSSIER</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.15]">
             What We Do
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
-            원천 콘텐츠가 살아 숨 쉬는 워크플로우로 진화하는 4단계 스토리
+          <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto font-normal leading-relaxed">
+            원천 콘텐츠가 살아 숨 쉬는 워크플로우로 진화하는 4단계 상세 스토리
           </p>
         </div>
 

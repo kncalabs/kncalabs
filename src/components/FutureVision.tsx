@@ -80,32 +80,31 @@ export default function FutureVision() {
   }, [loopNodes.length]);
 
   return (
-    <section id="future-vision" className="py-24 sm:py-36 bg-[#060911] relative border-t border-slate-800/80 overflow-hidden">
+    <section id="future-vision" className="py-20 sm:py-28 bg-[#060911] relative border-t border-slate-900 overflow-hidden">
       {/* Background High-End Ambient Nebula */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[950px] h-[500px] bg-indigo-500/10 blur-[170px] rounded-full" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-15 -z-10" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-indigo-500/10 blur-[170px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header: Majestic Brand Vision Statement */}
-        <div className="text-center max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-sky-500/10 via-indigo-500/10 to-emerald-500/10 border border-slate-700/80 text-xs font-mono font-semibold tracking-wider">
+        <div className="text-center max-w-4xl mx-auto space-y-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-mono font-medium tracking-wide">
             <Compass className="w-3.5 h-3.5 text-sky-400" />
-            <span className="text-slate-300">LONG-TERM BRAND VISION</span>
+            <span className="text-slate-400">LONG-TERM ROADMAP</span>
           </div>
 
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.06]">
-            Content is becoming <br />
-            <span className="text-gradient">infrastructure.</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.12]">
+            Content is becoming infrastructure.
           </h2>
 
-          <p className="text-lg sm:text-2xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed">
+          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
             &quot;KNCA Labs is building the systems that turn content into workflows.&quot;
           </p>
 
-          <p className="text-sm sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed pt-1">
-            콘텐츠는 더 이상 1회성 소모품이 아닙니다. 단일 원천에서 스스로 증폭되고, 배포를 거쳐 피드백으로 자율 진화하는 <strong className="text-white font-medium">영속적인 AI 인프라스트럭처 루프</strong>입니다.
+          <p className="text-xs sm:text-sm text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            콘텐츠는 더 이상 1회성 소모품이 아닙니다. 단일 원천에서 스스로 증폭되고, 배포를 거쳐 피드백으로 자율 진화하는 영속적인 AI 인프라스트럭처 루프입니다.
           </p>
         </div>
 

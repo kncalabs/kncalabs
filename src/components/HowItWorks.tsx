@@ -72,28 +72,28 @@ export default function HowItWorks() {
   ];
 
   return (
-    <section id="how-it-works" className="py-24 sm:py-36 bg-[#080c14] relative border-t border-slate-800/80 overflow-hidden">
+    <section id="how-it-works" className="py-28 sm:py-44 bg-[#080d1a] relative border-t border-sky-950/60 overflow-hidden">
       {/* Background Pipeline Ambient Glow */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-25 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[400px] bg-sky-500/10 blur-[150px] rounded-full" />
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-35 -z-10" aria-hidden="true">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[500px] bg-sky-500/15 blur-[160px] rounded-full" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Section Header: Unified Pipeline Story */}
-        <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-300 text-xs font-mono font-medium tracking-wide">
-            <Zap className="w-3.5 h-3.5 text-sky-400" />
-            <span>UNIFIED SYSTEM PIPELINE</span>
+        <div className="text-center max-w-4xl mx-auto space-y-5">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold tracking-wider shadow-lg shadow-sky-950/40">
+            <Zap className="w-4 h-4 text-sky-400" />
+            <span>CORE PIPELINE ARCHITECTURE</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
-            How It Works
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.06]">
+            The Connected <span className="text-gradient">Workflow Engine</span>
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+          <p className="text-lg sm:text-2xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed">
             단절된 4개의 카드가 아닙니다. <br className="hidden sm:inline" />
-            <strong className="text-white font-semibold">하나의 연결된 자율 워크플로우(Connected Workflow)</strong>로 작동합니다.
+            <strong className="text-white font-semibold">하나의 연결된 자율 파이프라인</strong>으로 실시간 작동합니다.
           </p>
         </div>
 

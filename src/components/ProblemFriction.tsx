@@ -30,9 +30,9 @@ export default function ProblemFriction() {
   }, [loopSteps.length]);
 
   return (
-    <section id="problem-friction" className="py-24 sm:py-32 bg-[#060911] relative border-t border-slate-800/80">
+    <section id="problem-friction" className="py-20 sm:py-28 bg-[#05070d] relative border-t border-slate-900">
       {/* Background Subtle Ambience */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-25 -z-10" aria-hidden="true">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-20 -z-10" aria-hidden="true">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[650px] h-[320px] bg-rose-500/5 blur-[140px] rounded-full" />
       </div>
 
@@ -40,18 +40,18 @@ export default function ProblemFriction() {
         
         {/* Section Header: Problem Statement */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-300 text-xs font-mono font-medium tracking-wide">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-400 text-xs font-mono font-medium tracking-wide">
             <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
-            <span>THE PROBLEM</span>
+            <span>THE REALITY CHECK</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-[1.12]">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-200 tracking-tight leading-[1.18]">
             Content shouldn’t require <br />
-            <span className="text-rose-400">repeating the same work.</span>
+            <span className="text-rose-400/90 font-extrabold">repeating the same work.</span>
           </h2>
 
-          <p className="text-base sm:text-xl text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            하나의 콘텐츠를 만들기 위해 8단계를 거치고, 다음 콘텐츠를 위해 <strong className="text-white font-semibold">이 모든 과정을 끝없이 다시 반복</strong>하고 계십니까?
+          <p className="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            하나의 콘텐츠를 만들기 위해 8단계를 거치고, 다음 콘텐츠를 위해 <strong className="text-slate-300 font-semibold">이 모든 과정을 끝없이 다시 반복</strong>하고 계십니까?
           </p>
         </div>
 
