@@ -244,7 +244,7 @@ export default function SystemCapabilities() {
             className="flex flex-col items-center gap-2 text-slate-500 hover:text-white transition-colors group cursor-pointer"
             aria-label="Scroll to The Idea"
           >
-            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">THE IDEA</span>
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">CREATOR AUTOMATION</span>
             <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
           </a>
           <div className="w-px h-16 sm:h-24 bg-gradient-to-b from-sky-500/40 via-indigo-500/20 to-transparent mt-4" />

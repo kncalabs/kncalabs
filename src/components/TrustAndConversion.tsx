@@ -244,7 +244,7 @@ export default function TrustAndConversion() {
               Founded 2023 · South Korea
             </p>
             <p className="text-xs sm:text-sm font-mono text-slate-500 pt-1">
-              Operated by Stay C Jeju (스테이씨 제주)
+              Creator Automation · Operated by Stay C Jeju (스테이씨 제주)
             </p>
           </div>
 

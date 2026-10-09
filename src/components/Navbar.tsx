@@ -53,7 +53,7 @@ export default function Navbar() {
               href="#the-idea"
               className="hover:text-white transition-colors"
             >
-              The Idea
+              Creator Automation
             </Link>
             <Link
               href="#trust-and-access"
@@ -108,7 +108,7 @@ export default function Navbar() {
               onClick={() => setMobileMenuOpen(false)}
               className="block text-slate-400 hover:text-white py-1"
             >
-              The Idea
+              Creator Automation
             </Link>
             <Link
               href="#trust-and-access"

@@ -23,7 +23,7 @@ export default function TheIdea() {
         <div className="inline-flex items-center justify-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-white/10 text-slate-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
             <span className="w-1.5 h-1.5 rounded-full bg-sky-400" />
-            <span className="tracking-widest uppercase text-[11px]">THE IDEA</span>
+            <span className="tracking-widest uppercase text-[11px]">CREATOR AUTOMATION</span>
           </div>
         </div>
 
@@ -95,7 +95,7 @@ export default function TheIdea() {
               <div className="flex items-center justify-between border-b border-white/5 pb-4">
                 <div className="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-wider">
                   <Zap className="w-4 h-4 text-sky-400" />
-                  <span>KNCA Labs: Publishing Infrastructure</span>
+                  <span>KNCA Labs: Creator Automation</span>
                 </div>
                 <span className="text-[10px] px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/30 font-mono">
                   자동 완성
