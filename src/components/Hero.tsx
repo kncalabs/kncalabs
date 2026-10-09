@@ -6,7 +6,6 @@ import {
   ArrowRight,
   ShieldCheck,
   Code2,
-  CheckCircle2,
   Layers,
   Cpu,
   Share2,
@@ -106,42 +105,18 @@ export default function Hero() {
           </div>
 
           {/* Main Headline - Massive, commanding hierarchy */}
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6rem] font-extrabold tracking-tight text-white leading-[1.02] break-words">
+          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[6.5rem] font-black tracking-tight text-white leading-[1.0] break-words">
             Build Once. <br className="hidden sm:inline" />
             <span className="text-gradient">Automate More.</span>
           </h1>
 
-          {/* Value Proposition Description - Short, Punchy, High-Contrast */}
-          <p className="text-base sm:text-xl md:text-2xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed px-1">
-            Turn one source into a complete content workflow — powered by AI.
+          {/* Value Proposition Description - Crisp, Single Punch */}
+          <p className="text-xl sm:text-2xl md:text-3xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed">
+            단 하나의 원천에서 수십 개의 채널별 콘텐츠를 자율 생성합니다.
           </p>
 
-          {/* Positioning Statement Bar */}
-          <div className="pt-0.5">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl bg-slate-900/80 border border-slate-800/90 text-xs sm:text-sm text-slate-300 font-medium backdrop-blur-sm text-center">
-              <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-sky-400 shrink-0" />
-              <span>AI-powered content automation for creators and businesses.</span>
-            </div>
-          </div>
-
-          {/* Technical Foundation Points */}
-          <div className="pt-1 flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-2 text-[11px] sm:text-sm text-slate-400 font-mono">
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-400" />
-              Single Source Transformation
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-sky-400" />
-              Claude API Powered
-            </span>
-            <span className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-indigo-400" />
-              Multi-Channel Output Engine
-            </span>
-          </div>
-
           {/* Primary & Secondary Call to Actions */}
-          <div className="pt-3 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
             <Link
               href="#how-it-works"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 sm:px-7 sm:py-3.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-sm sm:text-base shadow-xl shadow-sky-950/20 active:scale-[0.99] transition-all"

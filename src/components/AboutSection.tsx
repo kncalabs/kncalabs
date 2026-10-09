@@ -1,7 +1,6 @@
 "use client";
 
-import React from "react";
-import { Building2, Target, Sparkles, ShieldCheck, Compass, Workflow, MapPin, Calendar, Activity } from "lucide-react";
+import { Building2, Sparkles, ShieldCheck, Compass, MapPin, Calendar, Activity } from "lucide-react";
 
 export default function CompanySection() {
   return (
@@ -33,15 +32,15 @@ export default function CompanySection() {
               </p>
             </div>
 
-            {/* Long-Term Brand Vision Banner: Not just AI Writing, but AI Workflow Infrastructure */}
+            {/* Long-Term Brand Mission Banner: Not just AI Writing, but AI Workflow Infrastructure */}
             <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-sky-950/50 via-slate-900 to-indigo-950/50 border border-sky-500/30 space-y-4">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div className="flex items-center gap-2 text-xs font-mono text-sky-300 font-semibold tracking-wider uppercase">
                   <Compass className="w-4 h-4 text-sky-400" />
-                  <span>Long-Term Brand Mission</span>
+                  <span>Our Long-Term Mission</span>
                 </div>
                 <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-sky-500/10 text-sky-300 border border-sky-500/20 font-medium">
-                  Beyond Simple Text Generation
+                  Autonomous Content Systems
                 </span>
               </div>
 
@@ -49,24 +48,8 @@ export default function CompanySection() {
                 &quot;KNCA Labs is building the AI infrastructure that turns content into workflows.&quot;
               </p>
 
-              <div className="pt-2 border-t border-slate-800/80 flex items-start gap-3 text-xs sm:text-sm text-slate-300 leading-relaxed">
-                <Workflow className="w-4 h-4 text-sky-400 shrink-0 mt-0.5" />
-                <p>
-                  KNCA Labs는 단순히 문장을 대신 생성하는 AI 글쓰기 도구에 머무르지 않습니다. 
-                  원천 콘텐츠의 수집부터 다채널 자율 배포까지 전 과정을 연결하는 
-                  <strong> 차세대 AI 워크플로우 및 자동화 인프라(Automation Infrastructure)</strong>를 구축하는 기술 기업입니다.
-                </p>
-              </div>
-            </div>
-
-            {/* Goal Statement Box */}
-            <div className="p-6 rounded-2xl bg-slate-900/90 border border-slate-800 space-y-3">
-              <div className="flex items-center gap-2 text-xs font-mono text-sky-400 font-semibold">
-                <Target className="w-4 h-4 text-sky-400" />
-                <span>OUR CORE MISSION & GOAL</span>
-              </div>
-              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-medium">
-                &quot;Our goal is simple: reduce repetitive work, improve content operations, and give creators more time to focus on ideas rather than manual production.&quot;
+              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans pt-1 border-t border-slate-800/80">
+                원천 콘텐츠의 수집부터 다채널 자율 배포까지 전 과정을 연결하는 차세대 AI 워크플로우 인프라를 구축합니다.
               </p>
             </div>
 
