@@ -299,19 +299,42 @@ export default function Hero() {
 
                   </div>
 
+                  {/* Real-time Content Payload In-Transit Monitor */}
+                  <div className="mt-4 p-3.5 rounded-xl bg-slate-900/90 border border-slate-800/90 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 font-mono text-xs">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping" />
+                      <span className="text-slate-400">DATA IN-TRANSIT:</span>
+                      <span className="text-white font-semibold">
+                        {activeCinematicStage === 1 && "Ingesting 'how-ai-agents-work.mp4' (YouTube Raw Video)"}
+                        {activeCinematicStage === 2 && "Claude 3.5 Sonnet: Extracting Knowledge Graph & Core Hooks (0.8s)"}
+                        {activeCinematicStage === 3 && "Synthesizing 4 Formats: Shorts Script, Tech Deep Dive, Social Thread"}
+                        {activeCinematicStage === 4 && "Dispatched to 4 Rails: YouTube Shorts, Instagram Reels, TikTok, Tech Blog"}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-[11px] text-slate-400">
+                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-sky-300">
+                        LATENCY: 420ms
+                      </span>
+                      <span className="px-2 py-0.5 rounded bg-slate-950 border border-slate-800 text-emerald-400">
+                        LOSS: 0.00%
+                      </span>
+                    </div>
+                  </div>
+
                   {/* Flow Sub-description Bar */}
                   <div className="mt-3 pt-3 border-t border-slate-900 flex flex-wrap items-center justify-between text-[11px] font-mono text-slate-400">
                     <span className="flex items-center gap-1.5 text-slate-300">
                       <span className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
-                      <span>Live Engine Animation:</span>
+                      <span>Live Engine Architecture:</span>
                       <strong className="text-white">
-                        {activeCinematicStage === 1 && "1. Single Source Ingestion (Converging Input)"}
-                        {activeCinematicStage === 2 && "2. Claude AI Core Reasoning & Context Breakdown"}
+                        {activeCinematicStage === 1 && "1. Single Source Ingestion (YouTube Raw Video Ingested)"}
+                        {activeCinematicStage === 2 && "2. Claude AI Core Reasoning & Context Decomposition"}
                         {activeCinematicStage === 3 && "3. Autonomous Multi-Format Transformation"}
                         {activeCinematicStage === 4 && "4. Automated Publishing across Multi-Channels"}
                       </strong>
                     </span>
-                    <span className="text-slate-500 hidden md:inline">Continuous Pipeline</span>
+                    <span className="text-slate-500 hidden md:inline">Continuous System Transit</span>
                   </div>
                 </div>
 
