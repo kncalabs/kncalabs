@@ -336,23 +336,37 @@ export default function MonumentalEngine() {
 
           </div>
 
-          {/* Expanded Preview Drawer at Canvas Bottom */}
-          <div className="mt-8 pt-6 border-t border-slate-800/80 rounded-2xl bg-slate-900/40 p-5 sm:p-6 border border-slate-800/60">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
-              <div className="flex items-center gap-2">
-                <span className="text-xs font-mono text-slate-400">PREVIEW OUTPUT:</span>
-                <span className="text-xs font-bold text-sky-300 font-mono">
-                  {outputs[activeOutput].title} ({outputs[activeOutput].platform})
+          {/* Architectural Brand Telemetry Console (Brand Experience First) */}
+          <div className="mt-10 pt-8 border-t border-slate-800/80 rounded-2xl bg-gradient-to-r from-slate-900/60 via-slate-900/30 to-indigo-950/20 p-6 sm:p-8 border border-slate-800/80 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-xl bg-sky-500/10 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0">
+                <Cpu className="w-6 h-6 animate-pulse" />
+              </div>
+              <div>
+                <span className="text-xs font-mono text-sky-400 font-bold tracking-wider block">
+                  AUTONOMOUS DISPATCH ACTIVE
+                </span>
+                <span className="text-sm font-semibold text-white block mt-0.5">
+                  1개의 원천 신호가 3개 플랫폼 채널 규격으로 즉시 동기화됩니다.
                 </span>
               </div>
-              <span className="text-[11px] font-mono text-emerald-400 font-semibold flex items-center gap-1.5">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                즉시 발행 가능
-              </span>
             </div>
 
-            <div className="mt-3 text-xs sm:text-sm text-slate-300 font-mono whitespace-pre-line leading-relaxed max-h-40 overflow-y-auto">
-              {outputs[activeOutput].contentSnippet}
+            <div className="flex items-center gap-6 font-mono text-xs shrink-0">
+              <div className="text-right">
+                <span className="text-slate-500 block text-[10px]">LATENCY</span>
+                <span className="text-emerald-400 font-bold text-sm">0.24s</span>
+              </div>
+              <div className="h-8 w-px bg-slate-800" />
+              <div className="text-right">
+                <span className="text-slate-500 block text-[10px]">SYNC RATIO</span>
+                <span className="text-white font-bold text-sm">1 : 3</span>
+              </div>
+              <div className="h-8 w-px bg-slate-800" />
+              <div className="text-right">
+                <span className="text-slate-500 block text-[10px]">PIPELINE</span>
+                <span className="text-sky-300 font-bold text-sm">100% IDLE FREE</span>
+              </div>
             </div>
           </div>
 
