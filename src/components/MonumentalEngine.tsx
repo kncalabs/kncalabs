@@ -10,6 +10,7 @@ import {
   Sparkles,
   Layers,
   CheckCircle2,
+  ArrowRight,
 } from "lucide-react";
 
 export default function MonumentalEngine() {
@@ -134,6 +135,17 @@ export default function MonumentalEngine() {
           <p className="text-2xl sm:text-3xl md:text-4xl text-slate-200 max-w-3xl mx-auto font-medium leading-tight tracking-tight">
             원천 하나로 모든 채널을 완성합니다.
           </p>
+
+          {/* Primary Action CTA Button */}
+          <div className="pt-2 sm:pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="#trust-and-access"
+              className="px-8 py-4 rounded-2xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-base sm:text-lg transition-all flex items-center gap-3 shadow-2xl shadow-sky-500/30 hover:shadow-sky-500/50 hover:scale-[1.02] active:scale-[0.98] group"
+            >
+              <span>Closed Beta 지금 시작하기</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </a>
+          </div>
         </div>
 
         {/* 2. THE SINGULAR MONUMENTAL AI WORKFLOW VISUALIZATION */}
