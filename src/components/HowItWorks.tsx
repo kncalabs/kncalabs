@@ -6,11 +6,30 @@ import { FileInput, Brain, RefreshCw, SendHorizontal, ArrowRight, Check, Zap, Cp
 export default function HowItWorks() {
   const [activeStep, setActiveStep] = useState(0);
 
+  // Scroll-driven pipeline step activation interaction
   useEffect(() => {
-    const timer = setInterval(() => {
-      setActiveStep((prev) => (prev + 1) % 4);
-    }, 3200);
-    return () => clearInterval(timer);
+    const handleScroll = () => {
+      const section = document.getElementById("how-it-works");
+      if (!section) return;
+
+      const rect = section.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+
+      // When section enters the viewport
+      if (rect.top <= windowHeight * 0.6 && rect.bottom >= windowHeight * 0.2) {
+        // Calculate progress through the section (0 to 1)
+        const totalHeight = rect.height + windowHeight * 0.4;
+        const currentProgress = Math.max(0, Math.min(1, (windowHeight * 0.6 - rect.top) / totalHeight));
+        
+        // Map progress to 0, 1, 2, 3
+        const stepIndex = Math.min(3, Math.floor(currentProgress * 4));
+        setActiveStep(stepIndex);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const steps = [
