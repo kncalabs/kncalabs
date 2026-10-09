@@ -1,7 +1,9 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ProblemFriction from "@/components/ProblemFriction";
 import WhatWeDo from "@/components/WhatWeDo";
 import HowItWorks from "@/components/HowItWorks";
+import TangibleOutcomes from "@/components/TangibleOutcomes";
 import Capabilities from "@/components/Capabilities";
 import FutureBusiness from "@/components/FutureBusiness";
 import AboutSection from "@/components/AboutSection";
@@ -15,29 +17,35 @@ export default function Home() {
     <main className="min-h-screen relative bg-[#080c14] overflow-hidden">
       <Navbar />
       
-      {/* 5초: KNCA Labs가 무엇을 하는가? (AI Content Automation - Build Once. Automate More.) */}
+      {/* 1. Hero: 가치 제안 및 핵심 메시지 (Build Once. Automate More.) */}
       <Hero />
 
-      {/* 5초 강화: 무엇을 하는지 4대 카테고리로 즉시 인지 */}
+      {/* 2. Problem First: 사용자의 반복적인 고통과 비효율 직시 (The Repetitive Friction & Before vs After) */}
+      <ProblemFriction />
+
+      {/* 3. Solution Categories: 4대 핵심 역량으로 해결 방법 제시 (What We Do) */}
       <WhatWeDo />
 
-      {/* 10초: 어떻게 하는가? (Capture → Understand → Transform → Distribute 4단계 파이프라인 모션) */}
+      {/* 4. Visual Workflow: 복잡한 서비스를 4단계 시각적 플로우로 쉽게 설명 (How It Works) */}
       <HowItWorks />
 
-      {/* 20초: 어떤 기능을 만드는가? (What We’re Building - 4대 핵심 구축 영역) */}
+      {/* 5. Concrete Tangible Results: 실제 사용 결과물과 절감 지표 시연 (Tangible Deliverables) */}
+      <TangibleOutcomes />
+
+      {/* 6. Capabilities: 현재 구축 중인 핵심 엔진 아키텍처 (What We’re Building) */}
       <Capabilities />
 
-      {/* 30초: 앞으로 어디까지 확장하려는가? (Future Business - Planned & Exploring 투명 구분) */}
+      {/* 7. Future Strategic Value: 미래 인프라 확장 가치 투명 제시 (Future Business) */}
       <FutureBusiness />
 
-      {/* 마지막: 어떤 회사인가? (Corporate Profile, Stay C Jeju 2023, Long-term Brand Infrastructure Mission) */}
+      {/* 8. Corporate Authority: 기업 실체 및 신뢰 기반 (Stay C Jeju, Founded 2023) */}
       <AboutSection />
 
-      {/* Closed Beta Early Access & Contact */}
+      {/* 9. Seamless Zero-Friction Conversion: 마찰 없는 클로즈드 베타 신청 */}
       <WaitlistCTA />
       <ContactSection />
 
-      {/* Premium Minimal Micro Footer */}
+      {/* Micro Footer */}
       <Footer />
       <BackToTop />
     </main>

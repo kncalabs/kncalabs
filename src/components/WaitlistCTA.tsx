@@ -50,6 +50,22 @@ export default function WaitlistCTA() {
             <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
               지금 Closed Beta 신청 정보를 작성해 주시면, 이메일을 통해 우선 안내해 드립니다.
             </p>
+
+            {/* Zero-Friction Assurance Badges */}
+            <div className="pt-2 flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-xs font-mono text-slate-300">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                신용카드 등록 없음
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                자동 결제 없음
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-700/80">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                엔지니어링 데모 우선 제공
+              </span>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="mt-8 max-w-xl mx-auto space-y-4">
