@@ -9,7 +9,7 @@ export const siteConfig = {
   title: "KNCA Labs — AI Content Automation Platform",
   description: "KNCA Labs builds AI-powered content automation tools that transform one source into optimized content across multiple channels.",
   url: "https://kncalabs.com",
-  ogImage: "https://kncalabs.com/og-image.png",
+  ogImage: "https://kncalabs.com/og-image.svg",
   contact: {
     email: "founder@kncalabs.com",
     location: "South Korea",
