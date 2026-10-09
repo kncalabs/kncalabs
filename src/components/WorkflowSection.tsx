@@ -158,12 +158,12 @@ export default function WorkflowSection() {
           {/* VISUAL DIAGRAM CANVAS */}
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative">
             
-            {/* STAGE 1: ONE INPUT SOURCE (4 cols) */}
+            {/* STAGE 1: SOURCE (4 cols) */}
             <div className="lg:col-span-4 flex flex-col justify-center">
               <div className="space-y-3">
-                <div className="text-[11px] font-mono font-bold text-sky-400 tracking-wider flex items-center gap-2">
-                  <span className="px-2 py-0.5 rounded bg-sky-500/10 border border-sky-500/20">STEP 01</span>
-                  <span>단 하나의 원천</span>
+                <div className="text-[11px] font-mono font-bold text-slate-300 tracking-wider flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded bg-white/5 border border-white/10 text-white font-mono">01</span>
+                  <span className="tracking-widest">SOURCE</span>
                 </div>
 
                 {/* The Ingest Chamber */}
