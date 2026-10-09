@@ -228,18 +228,17 @@ export default function WorkflowSection() {
 
                 {/* Document Canvas Mockup */}
                 <div className="h-28 rounded-xl bg-black/60 border border-white/10 p-3 flex flex-col justify-between">
-                  <div className="space-y-1.5">
-                    <div className="h-2.5 w-4/5 rounded bg-white/80" />
-                    <div className="h-1.5 w-full rounded bg-slate-600/60" />
-                    <div className="h-1.5 w-3/4 rounded bg-slate-600/60" />
+                  <div className="space-y-1">
+                    <p className="text-[11px] font-bold text-white leading-tight line-clamp-1">
+                      원천 하나로 완성하는 자동화 파이프라인
+                    </p>
+                    <p className="text-[10px] text-slate-400 leading-tight line-clamp-2">
+                      단일 원본 인제스트와 플랫폼별 자율 재구성 기술 아키텍처 분석.
+                    </p>
                   </div>
-                  <div className="space-y-1 border-t border-white/5 pt-2">
-                    <div className="h-1.5 w-full rounded bg-slate-700/60" />
-                    <div className="h-1.5 w-2/3 rounded bg-slate-700/60" />
-                  </div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-indigo-400">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-indigo-400 border-t border-white/5 pt-1.5">
                     <span>H1 · H2 · SEO 구조화</span>
-                    <span className="text-emerald-400">완료</span>
+                    <span className="text-emerald-400 font-semibold">완료</span>
                   </div>
                 </div>
               </div>
@@ -259,23 +258,23 @@ export default function WorkflowSection() {
                   <div className="text-[10px] font-mono text-slate-400 border-b border-white/5 pb-1">
                     <span>Subject: 이번 주 핵심 인사이트 3선</span>
                   </div>
-                  <div className="space-y-1.5 pl-1">
-                    <div className="flex items-center gap-1.5 text-[10px] text-slate-300">
+                  <div className="space-y-1 pl-1 text-[10px] text-slate-300">
+                    <div className="flex items-center gap-1.5 truncate">
                       <span className="text-purple-400 font-bold">01</span>
-                      <div className="h-1.5 w-3/4 rounded bg-purple-400/40" />
+                      <span className="truncate">45분 영상 핵심 훅 추출</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-[10px] text-slate-300">
+                    <div className="flex items-center gap-1.5 truncate">
                       <span className="text-purple-400 font-bold">02</span>
-                      <div className="h-1.5 w-2/3 rounded bg-purple-400/40" />
+                      <span className="truncate">3,800자 SEO 테크 칼럼</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-[10px] text-slate-300">
+                    <div className="flex items-center gap-1.5 truncate">
                       <span className="text-purple-400 font-bold">03</span>
-                      <div className="h-1.5 w-4/5 rounded bg-purple-400/40" />
+                      <span className="truncate">바이럴 7편 연속 스레드</span>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between text-[10px] font-mono text-purple-400">
+                  <div className="flex items-center justify-between text-[10px] font-mono text-purple-400 border-t border-white/5 pt-1">
                     <span>발송 템플릿 완성</span>
-                    <span className="text-emerald-400">큐레이션</span>
+                    <span className="text-emerald-400 font-semibold">큐레이션</span>
                   </div>
                 </div>
               </div>
@@ -303,11 +302,13 @@ export default function WorkflowSection() {
                   </div>
 
                   {/* Thread Quote / Preview */}
-                  <div className="pl-6 border-l border-emerald-500/30 ml-2 py-0.5 space-y-1">
+                  <div className="pl-6 border-l border-emerald-500/30 ml-2 py-0.5 space-y-0.5">
                     <p className="text-[11px] text-white font-medium leading-tight line-clamp-1">
                       “원천 하나로 전 채널을 완성하는 법”
                     </p>
-                    <div className="h-1 w-4/5 rounded bg-emerald-400/30" />
+                    <p className="text-[10px] text-slate-400 leading-tight line-clamp-1">
+                      단 1회 입력으로 4개 플랫폼 규격 동시 변환.
+                    </p>
                   </div>
 
                   <div className="flex items-center justify-between text-[10px] font-mono text-slate-500 pt-1 border-t border-white/5">
