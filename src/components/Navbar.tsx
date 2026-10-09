@@ -83,7 +83,7 @@ export default function Navbar() {
                   : "text-slate-300 hover:text-white"
               }`}
             >
-              The Shift
+              The Future
             </Link>
             <Link
               href="#trust-and-access"
