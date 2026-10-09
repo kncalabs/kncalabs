@@ -31,7 +31,7 @@ export default function Hero() {
         {/* Subtle Category Pill: Linear / Anthropic Style */}
         <div className="inline-flex items-center justify-center">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/60 border border-white/10 text-slate-300 text-xs font-mono font-medium shadow-sm backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             <span className="tracking-widest uppercase text-[11px]">AI CONTENT AUTOMATION</span>
           </div>
         </div>
@@ -62,12 +62,12 @@ export default function Hero() {
 
       {/* Downward Scroll Indicator Cue: ↓ */}
       <a
-        href="#the-idea"
+        href="#the-workflow"
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
-        aria-label="Scroll to The Idea"
+        aria-label="Scroll to The Workflow"
       >
         <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">EXPLORE</span>
-        <span className="text-lg font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
+        <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
       </a>
 
     </section>
