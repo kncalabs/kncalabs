@@ -8,7 +8,6 @@ import {
   Share2,
   Mail,
   Sparkles,
-  ArrowRight,
 } from "lucide-react";
 
 export default function WorkflowSection() {
@@ -226,30 +225,22 @@ export default function WorkflowSection() {
         <div className="rounded-3xl sm:rounded-[2.5rem] border border-white/10 bg-[#070b14]/90 p-8 sm:p-12 lg:p-16 backdrop-blur-2xl shadow-2xl space-y-12">
           
           {/* Source Selector Bar: 3 Clean Minimalist Pills */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-white/5">
-            <div className="flex items-center gap-2">
-              <span className="text-xs font-mono text-slate-500 uppercase tracking-wider">원천 선택:</span>
-              <div className="inline-flex p-1 rounded-xl bg-slate-900/80 border border-white/10">
-                {sources.map((src, idx) => (
-                  <button
-                    key={src.id}
-                    type="button"
-                    onClick={() => setSelectedSource(idx as 0 | 1 | 2)}
-                    className={`px-4 py-2 rounded-lg text-xs font-medium transition-all ${
-                      selectedSource === idx
-                        ? "bg-white text-black font-semibold shadow-md"
-                        : "text-slate-400 hover:text-white"
-                    }`}
-                  >
-                    {src.name}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="text-xs font-mono text-slate-400 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>실시간 자율 확장 작동 중</span>
+          <div className="flex items-center justify-center pb-8 border-b border-white/5">
+            <div className="inline-flex p-1 rounded-xl bg-slate-900/80 border border-white/10">
+              {sources.map((src, idx) => (
+                <button
+                  key={src.id}
+                  type="button"
+                  onClick={() => setSelectedSource(idx as 0 | 1 | 2)}
+                  className={`px-5 py-2 rounded-lg text-xs font-medium transition-all ${
+                    selectedSource === idx
+                      ? "bg-white text-black font-semibold shadow-md"
+                      : "text-slate-400 hover:text-white"
+                  }`}
+                >
+                  {src.name}
+                </button>
+              ))}
             </div>
           </div>
 
@@ -257,12 +248,7 @@ export default function WorkflowSection() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             
             {/* The Single Source (Left Anchor) */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="text-xs font-mono text-slate-400 tracking-wider flex items-center gap-2">
-                <span className="text-white font-bold">ONE SOURCE</span>
-                <span className="text-slate-600">/</span>
-                <span>단 하나의 원천</span>
-              </div>
+            <div className="lg:col-span-5 space-y-4">
 
               <div className={`p-8 rounded-2xl border ${sources[selectedSource].accentBorder} bg-gradient-to-br from-[#0c1426] to-[#060a14] space-y-6 shadow-2xl relative overflow-hidden group`}>
                 {/* Visual Audio/Video Equalizer Bar */}
@@ -310,13 +296,7 @@ export default function WorkflowSection() {
             </div>
 
             {/* The Expanded Deliverables (Right Showcase) */}
-            <div className="lg:col-span-5 space-y-6">
-              <div className="text-xs font-mono text-slate-400 tracking-wider flex items-center gap-2">
-                <span className="text-white font-bold">EXPANDED DELIVERABLES</span>
-                <span className="text-slate-600">/</span>
-                <span>4개 채널 자동 완성</span>
-              </div>
-
+            <div className="lg:col-span-5 space-y-4">
               {/* 4 Interactive Format Selector Tabs */}
               <div className="grid grid-cols-4 gap-2">
                 {currentOutputs.map((out, idx) => (
@@ -336,33 +316,18 @@ export default function WorkflowSection() {
               </div>
 
               {/* Active Deliverable Live Preview Card */}
-              <div className={`p-8 rounded-2xl border ${activeOutput.border} bg-gradient-to-br from-[#0c1426] to-[#060a14] space-y-4 shadow-2xl relative min-h-[180px] flex flex-col justify-between`}>
+              <div className={`p-8 rounded-2xl border ${activeOutput.border} bg-gradient-to-br from-[#0c1426] to-[#060a14] space-y-4 shadow-2xl relative min-h-[220px] flex flex-col justify-between`}>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono text-slate-400">{activeOutput.platform}</span>
-                    <span className="text-xs font-mono text-emerald-400 flex items-center gap-1 font-semibold">
-                      완성본 자동 생성됨
-                    </span>
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-400">
+                    <span>{activeOutput.platform}</span>
+                    <span className="text-white font-medium">{activeOutput.title}</span>
                   </div>
 
-                  <h3 className="text-lg font-bold text-white">
-                    {activeOutput.title}
-                  </h3>
-
-                  <p className="text-sm text-slate-300 leading-relaxed font-normal">
+                  <p className="text-sm text-slate-300 leading-relaxed font-normal pt-2">
                     {activeOutput.content}
                   </p>
                 </div>
-
-                <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-500">
-                  <span>즉시 복사 및 발행 가능</span>
-                  <span className="text-white flex items-center gap-1 font-semibold">
-                    <span>배포 준비 완료</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </div>
               </div>
-
             </div>
 
           </div>
