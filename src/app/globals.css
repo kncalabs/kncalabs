@@ -20,6 +20,14 @@ body {
   overflow-x: hidden;
   word-break: keep-all;
   overflow-wrap: break-word;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Branded Text Selection */
+::selection {
+  background: rgba(56, 189, 248, 0.25);
+  color: #ffffff;
 }
 
 /* Accessible focus ring for keyboard navigation */
