@@ -1,8 +1,11 @@
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import ProblemFriction from "@/components/ProblemFriction";
 import TheShift from "@/components/TheShift";
 import HowItWorks from "@/components/HowItWorks";
 import ProductVisualization from "@/components/ProductVisualization";
+import Capabilities from "@/components/Capabilities";
+import FutureVision from "@/components/FutureVision";
 import AboutSection from "@/components/AboutSection";
 import WaitlistCTA from "@/components/WaitlistCTA";
 import Footer from "@/components/Footer";
@@ -13,25 +16,34 @@ export default function Home() {
     <main className="min-h-screen relative bg-[#080c14] overflow-hidden">
       <Navbar />
       
-      {/* 1. HERO ENGINE: The 5-Second AI Punch & Live Interactive Orchestrator */}
+      {/* 1. Hero: AI Content Orchestration System (First 5-Sec AI Experience) */}
       <Hero />
 
-      {/* 2. THE SHIFT: Old Manual Loop vs KNCA Autonomous AI System */}
+      {/* 2. The Problem: The Manual Content Treadmill */}
+      <ProblemFriction />
+
+      {/* 3. The Paradigm Shift: From Content Creation to Content Systems */}
       <TheShift />
 
-      {/* 3. HOW IT WORKS: 4-Stage Continuous Workflow Architecture (Capture -> Understand -> Transform -> Distribute) */}
+      {/* 4. The Core Pipeline: 4-Stage Connected Workflow Engine */}
       <HowItWorks />
 
-      {/* 4. THE LIVE CONSOLE: Real Ingestion & Multi-Format Output Simulation */}
+      {/* 5. Live Simulation Console: Interactive URL Ingestion & Dispatched Outputs */}
       <ProductVisualization />
 
-      {/* 5. ABOUT & INTEGRITY: Authentic Company Behind the AI (Stay C Jeju, Founded 2023) */}
+      {/* 6. Capabilities: Autonomous AI Architecture Specs */}
+      <Capabilities />
+
+      {/* 7. Future Vision & Flywheel: Content Becoming Infrastructure */}
+      <FutureVision />
+
+      {/* 8. Corporate Trust & Integrity: Stay C Jeju (Founded 2023) */}
       <AboutSection />
 
-      {/* 6. CONVERSION: Closed Beta Access & Direct Contact */}
+      {/* 9. Final Conversion & Closed Beta Access */}
       <WaitlistCTA />
 
-      {/* Minimalist Footer */}
+      {/* Footer & Navigation Controls */}
       <Footer />
       <BackToTop />
     </main>

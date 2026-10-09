@@ -17,6 +17,8 @@ export default function Navbar() {
         "the-shift",
         "how-it-works",
         "product-visualization",
+        "capabilities",
+        "future-vision",
         "about",
         "waitlist"
       ];
@@ -66,7 +68,7 @@ export default function Navbar() {
           </Link>
 
           {/* Middle/Right Active Nav Links aligned with Information Architecture */}
-          <nav className="hidden md:flex items-center gap-7">
+          <nav className="hidden md:flex items-center gap-6">
             <Link
               href="#the-shift"
               className={`text-sm font-medium transition-colors ${
@@ -94,6 +96,24 @@ export default function Navbar() {
               Console
             </Link>
             <Link
+              href="#capabilities"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "capabilities" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Capabilities
+            </Link>
+            <Link
+              href="#future-vision"
+              className={`text-sm font-medium transition-colors ${
+                activeSection === "future-vision"
+                  ? "text-sky-400 font-bold"
+                  : "text-slate-300 hover:text-white"
+              }`}
+            >
+              Vision
+            </Link>
+            <Link
               href="#about"
               className={`text-sm font-medium transition-colors ${
                 activeSection === "about" ? "text-sky-400 font-bold" : "text-slate-300 hover:text-white"
@@ -106,10 +126,10 @@ export default function Navbar() {
           {/* Right CTA Button: Explore Workflow */}
           <div className="hidden md:flex items-center gap-4">
             <Link
-              href="#waitlist"
+              href="#how-it-works"
               className="relative inline-flex items-center gap-2 text-sm font-semibold text-white bg-slate-900 hover:bg-slate-800 border border-slate-700/80 hover:border-slate-600 px-4.5 py-2 rounded-xl transition-all"
             >
-              <span>Closed Beta</span>
+              <span>Explore Workflow</span>
               <ArrowRight className="w-4 h-4 text-sky-400" />
             </Link>
           </div>
@@ -152,6 +172,20 @@ export default function Navbar() {
               Console
             </Link>
             <Link
+              href="#capabilities"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
+            >
+              Capabilities
+            </Link>
+            <Link
+              href="#future-vision"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
+            >
+              Vision
+            </Link>
+            <Link
               href="#about"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-sm font-medium text-slate-300 hover:text-white px-2 py-1"
@@ -160,11 +194,11 @@ export default function Navbar() {
             </Link>
             <div className="pt-2">
               <Link
-                href="#waitlist"
+                href="#how-it-works"
                 onClick={() => setMobileMenuOpen(false)}
                 className="w-full inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-slate-900 border border-slate-800 px-4 py-2.5 rounded-xl"
               >
-                <span>Closed Beta</span>
+                <span>Explore Workflow</span>
                 <ArrowRight className="w-4 h-4 text-sky-400" />
               </Link>
             </div>
