@@ -15,7 +15,7 @@ export default function SystemCapabilities() {
       title: "AI Understanding",
       tagline: "원천 데이터를 읽고 핵심 맥락을 스스로 이해합니다.",
       description:
-        "무작정 문장을 생성하지 않습니다. 45분 인터뷰, 긴 기술 백서, 영상 스크립트의 서사 구조와 의도를 딥러닝 문맥 추론으로 분석하여 재활용 가능한 핵심 지식 자산으로 정제합니다.",
+        "45분 영상이나 긴 기술 문서의 서사 맥락을 딥러닝 추론으로 분석하여 손실 없이 핵심 지식 자산으로 정제합니다.",
       specs: [
         "원천 서사 맥락 및 논점 손실률 0% 정밀 추출",
         "도메인 지식 그래프 및 컨텍스트 앵커 보존",
@@ -34,7 +34,7 @@ export default function SystemCapabilities() {
       title: "AI Content Generation",
       tagline: "하나의 원천에서 다채널 결과물을 동시 생성합니다.",
       description:
-        "매번 처음부터 쓰는 반복 작업을 끝냅니다. 정제된 단일 지식을 바탕으로 쇼츠 0~60초 분초 단위 대본, 3,800자 SEO 심층 칼럼, 소셜 7연작 스레드를 자율 생성합니다.",
+        "정제된 단일 지식을 바탕으로 쇼츠 대본, 3,800자 SEO 칼럼, 소셜 7연작 스레드를 10초 만에 자율 생성합니다.",
       specs: [
         "포맷별 작성 소요 시간 4시간 → 10초 단축",
         "단일 원본 기반 다채널 규격 동시 변환",
@@ -53,7 +53,7 @@ export default function SystemCapabilities() {
       title: "Content Adaptation",
       tagline: "채널과 독자의 문법에 맞춰 톤앤매너를 재설계합니다.",
       description:
-        "같은 내용이라도 플랫폼마다 통하는 언어가 다릅니다. 기술 칼럼에는 전문성을, 숏폼에는 흡입력 있는 훅(Hook)을, 글로벌 독자에게는 자연스러운 문화적 맥락을 최적화합니다.",
+        "플랫폼별 알고리즘과 소비 호흡에 맞추어 전문성, 훅(Hook), 길이 규격을 채널별로 자동 잠금합니다.",
       specs: [
         "플랫폼별 알고리즘과 소비 호흡에 맞춘 문체 재작성",
         "스크롤을 멈추게 하는 썸네일 & 훅 구조 잠금",
@@ -72,7 +72,7 @@ export default function SystemCapabilities() {
       title: "Automated Publishing",
       tagline: "검수부터 다채널 배포까지 단일 레일로 직결됩니다.",
       description:
-        "완성된 결과물을 복사해서 각 사이트에 수동으로 붙여넣지 않습니다. 웹사이트 CMS, 소셜 미디어 API 큐, 뉴스레터 발송 시스템으로 연결되는 단일 자동화 배포 파이프라인을 가동합니다.",
+        "웹사이트 CMS, 소셜 미디어 API 큐, 뉴스레터 발송 시스템으로 이어지는 원클릭 자율 배포 레일을 가동합니다.",
       specs: [
         "Headless CMS 및 테크 블로그 원클릭 퍼블리싱",
         "소셜 채널 동시 릴리즈 큐 & 뉴스레터 직결",
