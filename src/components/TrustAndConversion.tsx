@@ -55,7 +55,7 @@ export default function TrustAndConversion() {
           <div className="max-w-3xl mx-auto text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900/80 border border-white/10 text-slate-300 text-xs font-mono font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              <span>THE CONVERSION POINT</span>
+              <span>5. COMPANY</span>
             </div>
 
             <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]">
@@ -274,6 +274,18 @@ export default function TrustAndConversion() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Downward Scroll Indicator to Footer: ↓ */}
+        <div className="pt-4 text-center">
+          <a
+            href="#footer"
+            className="inline-flex flex-col items-center gap-1.5 text-slate-500 hover:text-white transition-colors group cursor-pointer"
+            aria-label="Scroll to Footer"
+          >
+            <span className="text-[10px] font-mono tracking-widest uppercase opacity-70 group-hover:opacity-100">FOOTER</span>
+            <span className="text-xl font-light animate-bounce text-slate-400 group-hover:text-white leading-none">↓</span>
+          </a>
         </div>
 
       </div>
