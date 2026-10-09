@@ -3,8 +3,6 @@
 import React, { useState } from "react";
 import {
   ArrowRight,
-  Layers,
-  CheckCircle2,
   Terminal,
   Loader2,
   Copy,
@@ -14,14 +12,12 @@ import {
   FileText,
   Mic,
   Cpu,
-  Share2,
 } from "lucide-react";
 
 export default function MonumentalEngine() {
   const [selectedSourceType, setSelectedSourceType] = useState<"video" | "article" | "podcast">("video");
   const [sourceUrl, setSourceUrl] = useState("https://youtube.com/watch?v=agent-architecture-deepdive");
   const [isProcessing, setIsProcessing] = useState(false);
-  const [activeStage, setActiveStage] = useState(1);
   const [activeOutputTab, setActiveOutputTab] = useState<"shorts" | "article" | "social">("shorts");
   const [copied, setCopied] = useState(false);
   const [queueDispatched, setQueueDispatched] = useState(false);
@@ -95,14 +91,9 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
 
   const executePipeline = () => {
     setIsProcessing(true);
-    setActiveStage(1);
-
-    setTimeout(() => setActiveStage(2), 700);
-    setTimeout(() => setActiveStage(3), 1500);
-    setTimeout(() => setActiveStage(4), 2300);
     setTimeout(() => {
       setIsProcessing(false);
-    }, 3100);
+    }, 2800);
   };
 
   const handleCopy = () => {
@@ -119,17 +110,12 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
   return (
     <section
       id="core-engine"
-      className="relative pt-32 pb-24 md:pt-40 md:pb-36 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
+      className="relative pt-32 pb-20 md:pt-40 md:pb-28 overflow-hidden bg-radial-glow min-h-screen flex flex-col items-center justify-center border-b border-sky-950/60"
     >
-      {/* Precision Ambient Grid & Vector Flow Paths */}
+      {/* Precision Ambient Grid */}
       <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden opacity-30" aria-hidden="true">
         <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <linearGradient id="hero-grid-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#38bdf8" stopOpacity="0.16" />
-              <stop offset="45%" stopColor="#818cf8" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#080c14" stopOpacity="0" />
-            </linearGradient>
             <pattern id="hero-precision-grid" width="48" height="48" patternUnits="userSpaceOnUse">
               <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(255, 255, 255, 0.035)" strokeWidth="1" />
               <circle cx="48" cy="48" r="1" fill="rgba(56, 189, 248, 0.3)" />
@@ -139,10 +125,10 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
         </svg>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-12 sm:space-y-16 relative z-10">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-10 sm:space-y-12 relative z-10">
         
-        {/* 1. MONUMENTAL HEADLINE (7rem) & BRAND MANIFESTO */}
-        <div className="text-center max-w-5xl mx-auto space-y-6">
+        {/* MONUMENTAL HEADLINE (7rem) */}
+        <div className="text-center max-w-5xl mx-auto space-y-5">
           <div className="inline-flex items-center justify-center">
             <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-slate-900/90 border border-sky-500/40 text-sky-300 text-xs font-mono font-semibold shadow-lg shadow-sky-950/50 backdrop-blur-md">
               <span className="flex h-2 w-2 relative">
@@ -160,13 +146,13 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
             <span className="text-gradient">Automate More.</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl md:text-3xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed">
+          <p className="text-xl sm:text-2xl text-slate-200 max-w-3xl mx-auto font-normal leading-relaxed">
             단 하나의 원천(Source)이 AI 지능을 통과하여 수십 개의 콘텐츠로 자율 분기합니다.
           </p>
         </div>
 
-        {/* 2. THE SINGLE UNIFIED MASTER ARTIFACT (NO REPETITIVE 4-CARD GRIDS) */}
-        <div className="max-w-6xl mx-auto rounded-3xl bg-slate-950/95 border border-sky-500/40 shadow-2xl shadow-sky-950/50 backdrop-blur-xl overflow-hidden">
+        {/* THE INTEGRATED RUNTIME TERMINAL: 단일 워크플로우 콘솔 (설명문/카드 나열 제로) */}
+        <div className="rounded-3xl bg-slate-950/95 border border-sky-500/40 shadow-2xl shadow-sky-950/50 backdrop-blur-xl overflow-hidden">
           
           {/* Top Engine Chrome Header */}
           <div className="bg-slate-900/95 px-5 py-3.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
@@ -175,125 +161,28 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
               <span className="w-3 h-3 rounded-full bg-amber-500/80" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80" />
               <span className="ml-2 text-xs font-mono text-slate-400">
-                knca-core-runtime.engine // one-source-infinite-manifestations
+                knca-orchestrator.runtime // live-system
               </span>
             </div>
 
             <div className="flex items-center gap-3 text-[11px] font-mono text-slate-400">
               <span className="flex items-center gap-1.5 text-emerald-400 font-semibold">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                Claude API Active
-              </span>
-              <span className="border-l border-slate-800 pl-3 text-slate-500 hidden sm:inline font-mono">
-                Zero-Loss Pipeline
+                Claude API Connected
               </span>
             </div>
           </div>
 
-          <div className="p-6 sm:p-10 space-y-8">
+          <div className="p-6 sm:p-8 space-y-6">
             
-            {/* 2.1 CONTINUOUS STREAM CONDUIT (단일 연속 스트림 도관 - 카드 그리드 완전 폐기) */}
-            <div className="rounded-2xl bg-slate-900/80 border border-slate-800 p-4 sm:p-5">
-              <div className="flex flex-col md:flex-row items-center justify-between gap-4 relative">
-                
-                {/* Stage 1 */}
-                <div
-                  onClick={() => setActiveStage(1)}
-                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
-                    activeStage === 1
-                      ? "bg-sky-500/20 text-sky-200 border border-sky-400/50 shadow-md"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 1 ? "bg-sky-500/30 text-sky-300" : "bg-slate-800 text-slate-500"}`}>
-                    <Video className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">01. INGEST</span>
-                    <span className="text-xs sm:text-sm font-bold text-white truncate block">ONE SOURCE</span>
-                  </div>
-                </div>
-
-                <div className="hidden md:flex text-slate-600 font-mono text-xs">➔</div>
-
-                {/* Stage 2 */}
-                <div
-                  onClick={() => setActiveStage(2)}
-                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
-                    activeStage === 2
-                      ? "bg-indigo-500/20 text-indigo-200 border border-indigo-400/50 shadow-md"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 2 ? "bg-indigo-500/30 text-indigo-300" : "bg-slate-800 text-slate-500"}`}>
-                    <Cpu className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">02. REASON</span>
-                    <span className="text-xs sm:text-sm font-bold text-white truncate block">CLAUDE AI</span>
-                  </div>
-                </div>
-
-                <div className="hidden md:flex text-slate-600 font-mono text-xs">➔</div>
-
-                {/* Stage 3 */}
-                <div
-                  onClick={() => setActiveStage(3)}
-                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
-                    activeStage === 3
-                      ? "bg-amber-500/20 text-amber-200 border border-amber-400/50 shadow-md"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 3 ? "bg-amber-500/30 text-amber-300" : "bg-slate-800 text-slate-500"}`}>
-                    <Layers className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">03. SYNTHESIZE</span>
-                    <span className="text-xs sm:text-sm font-bold text-white truncate block">MANY CONTENTS</span>
-                  </div>
-                </div>
-
-                <div className="hidden md:flex text-slate-600 font-mono text-xs">➔</div>
-
-                {/* Stage 4 */}
-                <div
-                  onClick={() => setActiveStage(4)}
-                  className={`flex-1 w-full flex items-center gap-3 p-3 rounded-xl transition-all cursor-pointer ${
-                    activeStage === 4
-                      ? "bg-emerald-500/20 text-emerald-200 border border-emerald-400/50 shadow-md"
-                      : "text-slate-400 hover:text-white"
-                  }`}
-                >
-                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${activeStage === 4 ? "bg-emerald-500/30 text-emerald-300" : "bg-slate-800 text-slate-500"}`}>
-                    <Share2 className="w-4 h-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <span className="text-[10px] font-mono uppercase tracking-wider block text-slate-500">04. DISPATCH</span>
-                    <span className="text-xs sm:text-sm font-bold text-white truncate block">MANY CHANNELS</span>
-                  </div>
-                </div>
-
-              </div>
-
-              {/* Dynamic Laser Progress Line Under Conduit */}
-              <div className="mt-3 w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-gradient-to-r from-sky-400 via-indigo-400 to-emerald-400 transition-all duration-500 ease-out shadow-sm"
-                  style={{ width: `${(activeStage / 4) * 100}%` }}
-                />
-              </div>
-            </div>
-
-            {/* 2.2 THE INGESTION & TRIGGER BAR */}
-            <div className="space-y-3 pt-1">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            {/* Input Row: Source Selector & URL */}
+            <div className="space-y-3">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                 <span className="text-xs font-mono font-bold text-sky-400 uppercase tracking-wider flex items-center gap-1.5">
                   <Terminal className="w-4 h-4 text-sky-400" />
-                  SINGLE SOURCE INGESTION (단일 원천 주입)
+                  01. SOURCE INGESTION
                 </span>
 
-                {/* Source Selection Buttons */}
                 <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs font-mono">
                   {(["video", "article", "podcast"] as const).map((type) => {
                     const preset = sourcePresets[type];
@@ -322,7 +211,6 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
                 </div>
               </div>
 
-              {/* URL Input & Execute Button */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                 <div className="flex-1 relative">
                   <input
@@ -341,37 +229,43 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
                   type="button"
                   onClick={executePipeline}
                   disabled={isProcessing}
-                  className="px-8 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-sky-500/25 active:scale-[0.98] disabled:opacity-50"
+                  className="px-8 py-3.5 rounded-xl bg-sky-500 hover:bg-sky-400 text-slate-950 font-black text-sm transition-all flex items-center justify-center gap-2 shadow-xl shadow-sky-500/25 active:scale-[0.98] disabled:opacity-50 shrink-0"
                 >
                   {isProcessing ? (
                     <>
                       <Loader2 className="w-4 h-4 animate-spin" />
-                      <span>자율 변환 연산 중...</span>
+                      <span>파이프라인 연산 중...</span>
                     </>
                   ) : (
                     <>
-                      <span>Execute Automation</span>
+                      <span>Run Workflow</span>
                       <ArrowRight className="w-4 h-4" />
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="text-[11px] font-mono text-slate-400 flex items-center gap-2">
-                <span className="text-slate-500">선택된 입력 원천:</span>
-                <span className="text-white font-semibold">{sourcePresets[selectedSourceType].title}</span>
+              <div className="text-[11px] font-mono text-slate-400 flex items-center justify-between">
+                <div>
+                  <span className="text-slate-500 mr-2">Input:</span>
+                  <span className="text-white font-medium">{sourcePresets[selectedSourceType].title}</span>
+                </div>
+                {isProcessing && (
+                  <span className="text-sky-400 font-semibold flex items-center gap-1.5 animate-pulse">
+                    <Cpu className="w-3.5 h-3.5" />
+                    Claude 3.5 Sonnet Synthesizing...
+                  </span>
+                )}
               </div>
             </div>
 
-            {/* 2.3 REAL-TIME TELEMETRY & MULTI-MANIFESTATION DISPLAY */}
-            <div className="space-y-4 pt-2">
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-t border-slate-800/80 pt-6">
-                <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Layers className="w-4 h-4 text-emerald-400" />
-                  SYNTHESIZED MULTI-CHANNEL OUTPUTS
+            {/* Synthesized Output Screen (No repetitive micro-cards) */}
+            <div className="space-y-3 pt-2 border-t border-slate-800/80">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <span className="text-xs font-mono font-bold text-emerald-400 uppercase tracking-wider">
+                  02. AUTONOMOUS OUTPUTS
                 </span>
 
-                {/* Output Tabs */}
                 <div className="inline-flex rounded-xl bg-slate-900 p-1 border border-slate-800 text-xs font-mono">
                   {(["shorts", "article", "social"] as const).map((tab) => (
                     <button
@@ -387,15 +281,14 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
                 </div>
               </div>
 
-              {/* Output Preview Box */}
-              <div className="rounded-2xl bg-slate-900/40 border border-slate-800 p-5 sm:p-6 space-y-4">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800 pb-3">
+              <div className="rounded-2xl bg-slate-900/40 border border-slate-800 p-5 space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-800/80 pb-3">
                   <div>
-                    <h4 className="text-base font-bold text-white">
+                    <h4 className="text-sm sm:text-base font-bold text-white">
                       {outputsData[activeOutputTab].title}
                     </h4>
                     <span className="text-xs font-mono text-slate-400">
-                      Destination Rails: {outputsData[activeOutputTab].channel}
+                      Destination: {outputsData[activeOutputTab].channel}
                     </span>
                   </div>
 
@@ -418,12 +311,10 @@ Claude 3.5 Sonnet 기반 오케스트레이션 엔진은 원본 영상/문서의
                   {outputsData[activeOutputTab].content}
                 </div>
 
-                {/* Queue Publishing Action Bar */}
                 <div className="pt-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs font-mono">
-                  <div className="flex items-center gap-2 text-slate-400">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                    <span>Multi-Channel Publishing Queue: 3개 배포 채널 대기열 준비 완료</span>
-                  </div>
+                  <span className="text-slate-400">
+                    Publishing Queue: 3개 배포 채널 준비 완료
+                  </span>
 
                   <button
                     onClick={handleDispatchQueue}
