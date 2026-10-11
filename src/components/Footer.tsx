@@ -2,13 +2,15 @@
 
 import React from "react";
 import Link from "next/link";
+import { siteConfig } from "@/config/site";
 
 export default function Footer() {
+  const b = siteConfig.business;
   return (
     <footer id="footer" className="bg-[#030712] border-t border-white/5 py-10 text-slate-500 text-xs font-mono">
       <div className="max-w-6xl mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-          
+
           {/* Left: Pure Brand Wordmark & Copyright */}
           <div className="flex items-center gap-3">
             <Link href="/" className="text-white font-bold tracking-wider hover:text-slate-300 transition-colors uppercase">
@@ -28,6 +30,20 @@ export default function Footer() {
             </Link>
           </div>
 
+        </div>
+
+        {/* Business registration info */}
+        <div className="mt-6 pt-6 border-t border-white/5 text-[11px] leading-relaxed text-slate-600">
+          <p>
+            {b.name} · Operated by {b.operator} · {siteConfig.established}
+          </p>
+          <p className="mt-1">
+            사업자등록번호 {b.registrationNumber} · 대표 {b.representative} · {b.address}
+            {b.phone ? ` · ${b.phone}` : ""}
+          </p>
+          <p className="mt-1">
+            Contact: <a href={`mailto:${siteConfig.contact.email}`} className="hover:text-slate-400 transition-colors">{siteConfig.contact.email}</a>
+          </p>
         </div>
       </div>
     </footer>
