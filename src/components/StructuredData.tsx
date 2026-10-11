@@ -2,6 +2,7 @@ import React from "react";
 import { siteConfig } from "@/config/site";
 
 export default function StructuredData() {
+  const b = siteConfig.business;
   const jsonLdOrg = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -10,9 +11,16 @@ export default function StructuredData() {
     "url": siteConfig.url,
     "logo": `${siteConfig.url}/favicon.svg`,
     "description": siteConfig.description,
+    "foundingDate": "2023-04-28",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": b.address,
+      "addressCountry": "KR"
+    },
     "contactPoint": {
       "@type": "ContactPoint",
       "email": siteConfig.contact.email,
+      "telephone": b.phone || undefined,
       "contactType": "customer support"
     }
   };
