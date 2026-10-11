@@ -435,7 +435,6 @@
       .section-head { grid-template-columns: 1fr; gap: 20px; }
       .hero-stage { width: 100%; }
       .pipeline-board { min-height: 760px; }
-      .pipeline-svg, .particle { display: none; }
       .pipeline-node { width: calc(50% - 38px); }
       .pn1 { left: 24px; top: 24px; }
       .pn2 { right: 24px; top: 24px; }
