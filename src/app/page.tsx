@@ -332,6 +332,27 @@ function initPage(root: HTMLElement) {
       }
       function runDemo(videoId) {
         clearDemoTimers();
+        // Fetch real video data from YouTube API via proxy
+        demoState.textContent = '영상 정보를 가져오는 중...';
+        fetch('/api/youtube?id=' + videoId)
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data.items && data.items.length > 0) {
+              var video = data.items[0];
+              var snippet = video.snippet;
+              var stats = video.statistics || {};
+              demoVideoId.textContent = 'VIDEO / ' + snippet.title;
+              // Update demo with real data
+              if (typeof updateDemoWithRealData === 'function') {
+                updateDemoWithRealData(snippet, stats);
+              }
+            } else {
+              demoVideoId.textContent = 'VIDEO ID / ' + videoId + ' (정보 없음)';
+            }
+          })
+          .catch(function() {
+            demoVideoId.textContent = 'VIDEO ID / ' + videoId;
+          });
         demoResults.hidden = true;
         demoCards.forEach(function (card) { card.classList.remove('reveal'); card.hidden = true; });
         demoFinish.classList.remove('reveal');
