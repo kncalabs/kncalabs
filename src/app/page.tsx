@@ -1,304 +1,455 @@
 "use client";
 
-import { useState } from "react";
-import "./team-page.css";
+import { useEffect, useRef, useState } from "react";
+import "./showreel.css";
 
-const stages = [
-  {
-    kicker: "01 · AI UNDERSTANDING",
-    title: "원천의 핵심 맥락을 먼저 이해합니다.",
-    body: "영상·문서·음성의 서사와 논리를 분석해, 여러 포맷으로 확장 가능한 지식 자산으로 정제합니다.",
-    tags: ["KNOWLEDGE GRAPH", "CORE LOGIC", "SOURCE CONTEXT"],
-  },
-  {
-    kicker: "02 · AI CONTENT GENERATION",
-    title: "하나의 원천에서 여러 포맷을 생성합니다.",
-    body: "정제된 맥락을 바탕으로 숏폼 스크립트, 아티클, 뉴스레터, 소셜 스레드를 병렬로 구조화합니다.",
-    tags: ["MULTI-FORMAT", "PARALLEL GENERATION", "CONTENT LOGIC"],
-  },
-  {
-    kicker: "03 · CONTENT ADAPTATION",
-    title: "채널의 문법에 맞게 다시 설계합니다.",
-    body: "플랫폼별 톤, 훅, 길이와 표현 규칙을 적용해 같은 메시지를 각 채널에 자연스럽게 맞춥니다.",
-    tags: ["PLATFORM PERSONA", "HOOK OPTIMIZATION", "FORMAT LOCK"],
-  },
-  {
-    kicker: "04 · AUTOMATED PUBLISHING",
-    title: "검수에서 다채널 배포까지 연결합니다.",
-    body: "사람의 최종 검수를 거친 콘텐츠를 CMS, 소셜 큐, 뉴스레터 레일로 이어 하나의 운영 흐름을 완성합니다.",
-    tags: ["HEADLESS CMS", "SOCIAL API QUEUE", "NEWSLETTER RAILS"],
-  },
+const PHASE_MESSAGES = [
+  "3시간 12분 영상 분석 중...",
+  "하이라이트와 콘텐츠 생성 중...",
+  "채널별 훅과 말투 최적화 중...",
+  "검수·배포 패키지 준비 중...",
 ];
+const PHASE_DURATIONS = [1150, 1150, 900, 900];
+const RESULT_CARD_COUNT = 4;
 
-const stageTabs = ["UNDERSTANDING", "SYNTHESIS", "ADAPTATION", "DISTRIBUTION"];
+function extractYoutubeId(value: string): string {
+  const raw = value.trim();
+  if (!raw) return "";
+  try {
+    const parsed = new URL(/^https?:\/\//i.test(raw) ? raw : "https://" + raw);
+    const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
+    let id = "";
+    if ((host === "youtube.com" || host.slice(-12) === ".youtube.com") && parsed.pathname === "/watch") {
+      id = parsed.searchParams.get("v") || "";
+    } else if (host === "youtu.be") {
+      id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    }
+    return /^[A-Za-z0-9_-]{6,}$/.test(id) ? id : "";
+  } catch {
+    return "";
+  }
+}
+
+function TimestampButton({ label, ariaLabel }: { label: string; ariaLabel: string }) {
+  const [previewing, setPreviewing] = useState(false);
+  const timer = useRef<number | null>(null);
+  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
+  return (
+    <button
+      className="timestamp"
+      type="button"
+      aria-label={ariaLabel}
+      aria-pressed={previewing}
+      onClick={() => {
+        setPreviewing(true);
+        if (timer.current) window.clearTimeout(timer.current);
+        timer.current = window.setTimeout(() => setPreviewing(false), 900);
+      }}
+    >
+      {previewing ? "PREVIEW" : label}
+    </button>
+  );
+}
 
 export default function Home() {
-  const [activeStage, setActiveStage] = useState(0);
-  const stage = stages[activeStage];
+  const rootRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const heroStageRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLElement>(null);
+  const counterRefs = useRef<(HTMLElement | null)[]>([]);
+
+  const [scrolled, setScrolled] = useState(false);
+
+  // nav scrolled state
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 24);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
+  // reveal on scroll
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root) return;
+    const items = root.querySelectorAll(".reveal");
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in");
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
+      );
+      items.forEach((item) => obs.observe(item));
+      return () => obs.disconnect();
+    }
+    items.forEach((item) => item.classList.add("in"));
+  }, []);
+
+  // hero pointer parallax
+  useEffect(() => {
+    const stage = heroStageRef.current;
+    if (!stage) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    if (reduceMotion || !finePointer) return;
+    const cards = stage.querySelectorAll<HTMLElement>("[data-depth]");
+    const onMove = (e: PointerEvent) => {
+      const rect = stage.getBoundingClientRect();
+      const dx = (e.clientX - rect.left) / rect.width - 0.5;
+      const dy = (e.clientY - rect.top) / rect.height - 0.5;
+      cards.forEach((card) => {
+        const depth = Number(card.getAttribute("data-depth"));
+        card.style.marginLeft = `${dx * 18 * depth}px`;
+        card.style.marginTop = `${dy * 14 * depth}px`;
+      });
+    };
+    const onLeave = () => {
+      cards.forEach((card) => {
+        card.style.marginLeft = "";
+        card.style.marginTop = "";
+      });
+    };
+    stage.addEventListener("pointermove", onMove);
+    stage.addEventListener("pointerleave", onLeave);
+    return () => {
+      stage.removeEventListener("pointermove", onMove);
+      stage.removeEventListener("pointerleave", onLeave);
+    };
+  }, []);
+
+  // animated counters
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animate = (el: HTMLElement) => {
+      const target = Number(el.getAttribute("data-count")) || 0;
+      const started = performance.now();
+      const step = (now: number) => {
+        const progress = Math.min(1, (now - started) / 900);
+        el.textContent = String(Math.round(target * (1 - Math.pow(1 - progress, 3)))).padStart(2, "0");
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+    };
+    const els = counterRefs.current.filter(Boolean) as HTMLElement[];
+    if ("IntersectionObserver" in window && !reduceMotion) {
+      const obs = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animate(entry.target as HTMLElement);
+              obs.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.6 }
+      );
+      els.forEach((el) => obs.observe(el));
+      return () => obs.disconnect();
+    }
+    els.forEach((el) => {
+      el.textContent = String(Number(el.getAttribute("data-count"))).padStart(2, "0");
+    });
+  }, []);
+
+  // ---- interactive demo ----
+  const [url, setUrl] = useState("https://youtu.be/P3jFI-VpyLg");
+  const [urlError, setUrlError] = useState("");
+  const [urlInvalid, setUrlInvalid] = useState(false);
+  const [demoRunning, setDemoRunning] = useState(false);
+  const [phase, setPhase] = useState<number | null>(null);
+  const [demoComplete, setDemoComplete] = useState(false);
+  const [showResults, setShowResults] = useState(false);
+  const [revealedCards, setRevealedCards] = useState(0);
+  const [finishRevealed, setFinishRevealed] = useState(false);
+  const [videoIdLabel, setVideoIdLabel] = useState("VIDEO / 바이브 코딩 1인 창업 3시간 통합본");
+  const timersRef = useRef<number[]>([]);
+  const rafRef = useRef<number>(0);
+
+  const clearDemoTimers = () => {
+    timersRef.current.forEach((t) => window.clearTimeout(t));
+    timersRef.current = [];
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    rafRef.current = 0;
+  };
+  useEffect(() => () => clearDemoTimers(), []);
+
+  const runDemo = (videoId: string) => {
+    clearDemoTimers();
+    setShowResults(false);
+    setRevealedCards(0);
+    setFinishRevealed(false);
+    setDemoComplete(false);
+    setPhase(null);
+    if (progressRef.current) progressRef.current.style.width = "0%";
+    setVideoIdLabel(`VIDEO ID / ${videoId}`);
+    setDemoRunning(true);
+    let elapsed = 0;
+    PHASE_DURATIONS.forEach((duration, index) => {
+      const t = window.setTimeout(() => setPhase(index), elapsed);
+      timersRef.current.push(t);
+      elapsed += duration;
+    });
+    timersRef.current.push(
+      window.setTimeout(() => {
+        setDemoComplete(true);
+        setDemoRunning(false);
+        setShowResults(true);
+        if (progressRef.current) progressRef.current.style.width = "100%";
+        for (let i = 0; i < RESULT_CARD_COUNT; i++) {
+          timersRef.current.push(window.setTimeout(() => setRevealedCards(i + 1), i * 220));
+        }
+        timersRef.current.push(window.setTimeout(() => setFinishRevealed(true), RESULT_CARD_COUNT * 220));
+      }, elapsed)
+    );
+    const startedAt = performance.now();
+    const total = elapsed;
+    const updateProgress = (now: number) => {
+      const value = Math.min(100, ((now - startedAt) / total) * 100);
+      if (progressRef.current) progressRef.current.style.width = `${value}%`;
+      if (value < 100) rafRef.current = requestAnimationFrame(updateProgress);
+    };
+    rafRef.current = requestAnimationFrame(updateProgress);
+  };
+
+  const resetDemo = () => {
+    clearDemoTimers();
+    setUrl("https://youtu.be/P3jFI-VpyLg");
+    setUrlInvalid(false);
+    setUrlError("");
+    setDemoRunning(false);
+    setPhase(null);
+    setDemoComplete(false);
+    setShowResults(false);
+    setRevealedCards(0);
+    setFinishRevealed(false);
+    setVideoIdLabel("VIDEO / 바이브 코딩 1인 창업 3시간 통합본");
+    if (progressRef.current) progressRef.current.style.width = "0%";
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const videoId = extractYoutubeId(url);
+    if (!videoId) {
+      setUrlInvalid(true);
+      setUrlError("youtube.com/watch?v= 또는 youtu.be/ 형식의 URL을 입력해 주세요.");
+      return;
+    }
+    setUrlInvalid(false);
+    setUrlError("");
+    runDemo(videoId);
+  };
+
+  const demoPhaseClass = (index: number) => {
+    if (demoComplete) return "demo-phase done";
+    if (phase === null) return "demo-phase";
+    if (index === phase) return "demo-phase active";
+    if (index < phase) return "demo-phase done";
+    return "demo-phase";
+  };
+
+  const demoStateText = demoComplete
+    ? "변환 시퀀스 완료"
+    : phase !== null
+      ? PHASE_MESSAGES[phase]
+      : "예시 영상을 준비했어요";
+  const demoStateClass = demoComplete ? "is-complete" : phase !== null ? "is-running" : "";
+
+  const demoMessageNode = demoComplete ? (
+    <>10개 콘텐츠 자산이 검수 가능한 상태로 준비되었습니다.</>
+  ) : phase === 0 ? (
+    <><strong>바이브 코딩 1인 창업 3시간 통합본</strong>의 전체 맥락과 타임스탬프를 구조화하고 있습니다.</>
+  ) : phase !== null ? (
+    <>{PHASE_MESSAGES[phase]}</>
+  ) : (
+    <>3시간 12분 분량의 예시 영상입니다. 시작 버튼을 누르면 분석 → 생성 → 최적화 → 배포 흐름이 펼쳐집니다.</>
+  );
 
   return (
-    <>
-      <nav className="nav" aria-label="페이지 탐색">
+    <div ref={rootRef} className="showreel-root">
+
+      <nav ref={navRef} className={scrolled ? "nav scrolled" : "nav"} aria-label="페이지 탐색">
         <div className="wrap nav-inner">
-          <a className="wordmark" href="#top" aria-label="KNCA Labs 처음으로">
-            <strong>KNCA</strong>
-            <span>LABS</span>
-          </a>
+          <a className="nav-mark" href="#top">KNCA / ALPHA 02</a>
           <div className="nav-links">
-            <a href="#architecture">PUBLISHING</a>
-            <a href="#principle">PRINCIPLE</a>
+            <a href="#demo">DEMO</a>
+            <a href="#pipeline">PIPELINE</a>
             <a href="#audience">FOR WHOM</a>
-            <a href="#status">COMPANY</a>
-            <a className="nav-pill" href="#status">
-              REQUEST ACCESS
-            </a>
+            <a className="nav-cta" href="https://kncalabs.com/" target="_blank" rel="noreferrer">LIVE SITE ↗</a>
           </div>
         </div>
       </nav>
 
       <main id="top">
         <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-halo" aria-hidden="true"></div>
           <div className="wrap">
             <div className="hero-copy">
-              <span className="badge">
-                <i className="status-dot" aria-hidden="true"></i> AI PUBLISHING INFRASTRUCTURE
-              </span>
+              <p className="kicker">KNCA LABS / AI CONTENT AUTOMATION</p>
               <h1 id="hero-title">
-                One Source.
-                <br />
-                <span className="gradient-text">Many Possibilities.</span>
+                <span className="hero-line"><span>One Source.</span></span>
+                <span className="hero-line blue"><span>Many Possibilities.</span></span>
               </h1>
-              <p className="lede">
-                하나의 원천을 이해하고, 생성하고, 채널에 맞게 조정해 배포까지 연결하는 AI-native 콘텐츠
-                인프라를 만듭니다.
-              </p>
+              <p className="lede">영상이나 문서 하나에서 시작해 보세요. Claude API 기반의 하나의 흐름이 핵심을 이해하고, 여러 콘텐츠로 만들고, 각 채널에 맞게 다듬습니다.</p>
               <div className="hero-actions">
-                <a className="button primary" href="#architecture">
-                  EXPLORE SYSTEM <span aria-hidden="true">↓</span>
-                </a>
-                <a className="button secondary" href="#status">
-                  CORE ALPHA STATUS
-                </a>
+                <a className="button primary" href="#demo">직접 살펴보기 <i aria-hidden="true">↓</i></a>
+                <a className="button" href="#pipeline">작동 방식 보기 <i aria-hidden="true">↓</i></a>
               </div>
             </div>
 
-            <figure
-              className="system-visual"
-              aria-label="하나의 원천에서 여러 채널로 확장되는 AI 퍼블리싱 인프라 모션 그래픽"
-            >
-              <div className="visual-topbar">
-                <span>KNCA / PUBLISHING ENGINE</span>
-                <span>PIPELINE ACTIVITY · LIVE SIMULATION</span>
-              </div>
-              <div className="pipeline-scene">
-                <span className="beam b1" aria-hidden="true"></span>
-                <span className="beam b2" aria-hidden="true"></span>
-                <span className="beam b3" aria-hidden="true"></span>
-                <span className="beam b4" aria-hidden="true"></span>
-                <span className="beam b5" aria-hidden="true"></span>
-                <span className="beam b6" aria-hidden="true"></span>
-                <div className="core-orbit" aria-hidden="true">
-                  <span className="wave-ring"></span>
-                  <span className="wave-ring r2"></span>
-                  <span className="wave-ring r3"></span>
-                  <div className="core-label">
-                    <small>ONE SOURCE</small>
-                    <strong>UNDERSTAND</strong>
-                    <span>AI-native core</span>
+            <div ref={heroStageRef} className="hero-stage" aria-label="하나의 원천에서 영상, 아티클, 뉴스레터, 소셜 콘텐츠로 확장되는 흐름">
+              <svg className="orbit-svg" viewBox="0 0 1040 360" aria-hidden="true">
+                <path d="M70 80 C230 320 370 320 520 180 S810 0 970 84"></path>
+                <path d="M72 282 C275 80 385 80 520 180 S765 326 972 278"></path>
+              </svg>
+              <span className="signal" aria-hidden="true"></span>
+              <div className="source-core"><div className="core-copy"><span>ONE SOURCE</span><strong>UNDERSTAND</strong></div></div>
+              <div className="float-card fc1" data-depth=".8"><span className="glyph">VID</span><strong>영상</strong><small>SOURCE INPUT</small></div>
+              <div className="float-card fc2" data-depth=".45"><span className="glyph">TXT</span><strong>아티클</strong><small>LONG FORM</small></div>
+              <div className="float-card fc3" data-depth=".65"><span className="glyph">LTR</span><strong>뉴스레터</strong><small>OWNED MEDIA</small></div>
+              <div className="float-card fc4" data-depth=".95"><span className="glyph">SOC</span><strong>소셜</strong><small>MULTI CHANNEL</small></div>
+            </div>
+          </div>
+          <span className="hero-corner left">AI PUBLISHING INFRASTRUCTURE<br />BUILDING IN PUBLIC</span>
+          <span className="hero-corner right">SCROLL TO EXPLORE<br />KNCA LABS © 2026</span>
+        </section>
+
+        <div className="ticker" aria-label="핵심 기능">
+          <div className="ticker-track">
+            <span>ONE SOURCE ORCHESTRATION</span><span>UNIFIED AGENT PIPELINE</span><span>HUMAN-IN-THE-LOOP</span><span>BUILT ON CLAUDE API</span>
+            <span aria-hidden="true">ONE SOURCE ORCHESTRATION</span><span aria-hidden="true">UNIFIED AGENT PIPELINE</span><span aria-hidden="true">HUMAN-IN-THE-LOOP</span><span aria-hidden="true">BUILT ON CLAUDE API</span>
+          </div>
+        </div>
+
+        <section className="example" id="demo" aria-labelledby="demo-title">
+          <div className="wrap">
+            <div className="section-head reveal">
+              <p className="kicker">LIVE-FEEL DEMO / START HERE</p>
+              <div><h2 id="demo-title">30분 영상 하나로,<br /><span className="blue">일주일치 콘텐츠.</span></h2><p className="section-intro">YouTube URL 하나만 넣어보세요. 실제 영상 업로드나 서버 전송 없이, 하나의 원천이 여러 결과물로 확장되는 제품 흐름을 인터랙티브 시퀀스로 보여드립니다.</p></div>
+            </div>
+
+            <div className="demo-shell reveal" data-delay="1">
+              <div className="demo-top">
+                <div className="demo-index">01</div>
+                <form className="demo-form" onSubmit={handleSubmit} noValidate>
+                  <label htmlFor="youtubeUrl">PASTE A YOUTUBE SOURCE URL</label>
+                  <div className="demo-input-row">
+                    <input className="demo-input" id="youtubeUrl" name="youtubeUrl" type="url" inputMode="url" autoComplete="url" value={url} onChange={(e) => { setUrl(e.target.value); setUrlInvalid(false); setUrlError(""); }} readOnly={demoRunning} aria-label="YouTube 영상 URL" aria-describedby="demoError" aria-invalid={urlInvalid} />
+                    <button className="demo-start" type="submit" disabled={demoRunning}>변환 시퀀스 시작</button>
                   </div>
-                </div>
-                <span className="source-token" aria-hidden="true"></span>
-                <span className="node n1">SHORTS SCRIPT</span>
-                <span className="node n2">SEO ARTICLE</span>
-                <span className="node n3">MULTI-PLATFORM THREAD</span>
-                <span className="node n4">NEWSLETTER</span>
-                <span className="node n5">SOCIAL CONTENT</span>
-                <span className="node n6">STRUCTURED BLOG</span>
-                <figcaption className="visual-caption">
-                  <span>INPUT · VIDEO / COLUMN / AUDIO</span>
-                  <span>UNDERSTANDING → SYNTHESIS → ADAPTATION → DISTRIBUTION</span>
-                  <span>OUTPUT · MULTI FORMAT</span>
-                </figcaption>
+                  <p className="demo-error" role="alert">{urlError}</p>
+                </form>
               </div>
-            </figure>
+
+              <div className="demo-workspace" id="demoWorkspace" aria-live="polite">
+                <div className="demo-statusbar"><strong className={demoStateClass}>{demoStateText}</strong><span>{videoIdLabel}</span></div>
+                <div className="demo-phases" aria-label="콘텐츠 변환 진행 단계">
+                  <div className={demoPhaseClass(0)}><span>01</span><strong>UNDERSTAND</strong></div>
+                  <div className={demoPhaseClass(1)}><span>02</span><strong>SYNTHESIZE</strong></div>
+                  <div className={demoPhaseClass(2)}><span>03</span><strong>ADAPT</strong></div>
+                  <div className={demoPhaseClass(3)}><span>04</span><strong>PREPARE</strong></div>
+                </div>
+                <div className="demo-progress" aria-hidden="true"><i ref={progressRef}></i></div>
+                <p className="demo-message">{demoMessageNode}</p>
+
+                <div className="demo-results" hidden={!showResults}>
+                  <div className="demo-results-head"><p>OUTPUT PACKAGE / READY TO REVIEW</p><span>하나의 원천에서 10개 콘텐츠 자산 구성</span></div>
+                  <div className="demo-result-grid">
+                    <article className={revealedCards >= 1 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">SHORTS · 3 ASSETS</span><h3>쇼츠 하이라이트 3개</h3><ul className="demo-preview shorts-preview"><li data-no="01"><TimestampButton label="00:42" ariaLabel="42초 구간 미리보기" /><b>바이브 코딩으로 첫 수익 내기</b><small>예상 조회수 48K · 후킹 멘트가 강함</small></li><li data-no="02"><TimestampButton label="1:15:30" ariaLabel="1시간 15분 30초 구간 미리보기" /><b>1인 창업가가 쓰는 AI 도구 5선</b><small>예상 조회수 72K · 실용 정보 밀도가 높음</small></li><li data-no="03"><TimestampButton label="2:48:12" ariaLabel="2시간 48분 12초 구간 미리보기" /><b>실패에서 배운 3가지</b><small>예상 조회수 39K · 경험 기반 서사가 선명함</small></li></ul></article>
+                    <article className={revealedCards >= 2 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">SEO ARTICLE · STRUCTURED GUIDE</span><h3>바이브 코딩 1인 창업 완벽 가이드</h3><ul className="demo-preview"><li data-no="01">아이디어 검증부터 첫 MVP까지의 실행 순서</li><li data-no="02">1인 창업가를 위한 AI 도구 스택과 자동화 포인트</li><li data-no="03">첫 수익 이후 반복 가능한 운영 구조 만들기<small>검색 의도가 분명하고 핵심 내용 구조화에 적합</small></li></ul></article>
+                    <article className={revealedCards >= 3 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">NEWSLETTER · 3 INSIGHTS</span><h3>이번 주 1인 창업 인사이트 3선</h3><ul className="demo-preview"><li data-no="01">완성보다 먼저 유료 문제를 찾는 검증 방식</li><li data-no="02">혼자서도 속도를 유지하는 AI 업무 분담법</li><li data-no="03">실패 기록을 다음 제품의 데이터로 바꾸기<small>실행 가능한 요점이 많아 재방문 가치가 높음</small></li></ul></article>
+                    <article className={revealedCards >= 4 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">X / THREADS · 5 POSTS</span><h3>플랫폼별 소셜 포스트 5개</h3><ul className="demo-preview"><li data-no="01">X — 1인 창업의 첫 목표는 ‘완벽한 제품’이 아니라 ‘첫 결제’입니다.</li><li data-no="02">Threads — 오늘도 도구만 고르고 있다면, 고객 문제 한 문장부터 적어보세요.</li><li data-no="03">LinkedIn — 바이브 코딩은 개발 속도보다 검증 주기를 바꿉니다. +2 posts<small>채널별 말투와 훅이 명확해 공유 가능성이 높음</small></li></ul></article>
+                  </div>
+                  <div className={finishRevealed ? "demo-finish reveal" : "demo-finish"}><p>작업 시간 비교<strong>기존 방식 4시간 <span className="blue">→</span> KNCA 10분 검수</strong></p><button className="demo-retry" type="button" onClick={resetDemo}>다시 해보기</button></div>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="architecture" id="architecture" aria-labelledby="architecture-title">
+        <section className="architecture" id="pipeline" aria-labelledby="pipeline-title">
           <div className="wrap">
-            <div className="section-head">
-              <p className="kicker">01 / CAPABILITIES</p>
-              <div>
-                <h2 id="architecture-title">
-                  Publishing<span className="gradient-text">.</span>
-                </h2>
-                <p className="section-intro">
-                  원천 이해부터 다채널 배포까지, 하나의 시스템으로 연결된 네 단계의 퍼블리싱
-                  아키텍처입니다.
-                </p>
-              </div>
+            <div className="section-head reveal">
+              <p className="kicker">SYSTEM MAP / FOUR STAGES</p>
+              <div><h2 id="pipeline-title">복잡한 도구 대신,<br /><span className="blue">하나의 연결된 흐름.</span></h2><p className="section-intro">원천을 이해하고, 만들고, 채널에 맞춰 다듬은 뒤 배포 준비까지. 네 단계가 같은 맥락을 공유합니다.</p></div>
             </div>
-            <div className="stage-tabs" role="tablist" aria-label="퍼블리싱 아키텍처 단계">
-              {stageTabs.map((tab, i) => (
-                <button
-                  key={tab}
-                  className={`stage-tab${i === activeStage ? " active" : ""}`}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === activeStage}
-                  onClick={() => setActiveStage(i)}
-                >
-                  <span>STAGE 0{i + 1}</span>
-                  {tab}
-                </button>
-              ))}
+
+            <div className="pipeline-board reveal" data-delay="1" aria-label="KNCA Labs의 네 단계 AI 콘텐츠 파이프라인">
+              <svg className="pipeline-svg" viewBox="0 0 1280 640" preserveAspectRatio="none" aria-hidden="true">
+                <path className="blue-path" d="M270 125 C420 145 420 260 545 320"></path>
+                <path d="M1010 125 C850 155 850 265 735 320"></path>
+                <path d="M270 525 C420 490 420 395 545 320"></path>
+                <path className="blue-path" d="M1010 525 C850 490 850 390 735 320"></path>
+                <circle cx="640" cy="320" r="235" fill="none" stroke="currentColor" strokeOpacity=".08"></circle>
+              </svg>
+              <span className="particle p1" aria-hidden="true"></span><span className="particle p2" aria-hidden="true"></span><span className="particle p3" aria-hidden="true"></span><span className="particle p4" aria-hidden="true"></span>
+              <article className="pipeline-node pn1"><span>01 / UNDERSTANDING</span><h3>원천을 읽습니다</h3><p>이야기와 핵심 논리, 반복될 맥락을 구조화합니다.</p></article>
+              <article className="pipeline-node pn2"><span>02 / SYNTHESIS</span><h3>여러 초안을 펼칩니다</h3><p>쇼츠, 아티클, 뉴스레터, 소셜 형식으로 생성합니다.</p></article>
+              <article className="pipeline-node pn3"><span>03 / ADAPTATION</span><h3>채널에 맞춥니다</h3><p>말투, 훅, 길이와 표현을 플랫폼 문법에 맞게 조정합니다.</p></article>
+              <article className="pipeline-node pn4"><span>04 / DISTRIBUTION</span><h3>검수 준비를 마칩니다</h3><p>사람이 사실과 표현을 확인할 수 있는 패키지로 정리합니다.</p></article>
+              <div className="pipeline-core"><div><span>UNIFIED AGENT</span><strong>PIPELINE</strong></div></div>
             </div>
-            <article className="stage-panel" aria-live="polite">
-              <div className="stage-copy">
-                <span className="mono">{stage.kicker}</span>
-                <h3>{stage.title}</h3>
-                <p>{stage.body}</p>
-                <div className="stage-meta">
-                  {stage.tags.map((tag) => (
-                    <span key={tag}>{tag}</span>
-                  ))}
-                </div>
-              </div>
-              <div className="stage-machine" aria-hidden="true">
-                <span className="machine-grid"></span>
-                <span className="machine-ring"></span>
-                <div className="machine-code">
-                  <span className="code-line"></span>
-                  <span className="code-line"></span>
-                  <span className="code-line"></span>
-                </div>
-              </div>
-            </article>
+
+            <div className="stages">
+              <article className="stage-card reveal"><span className="stage-number">01</span><h3>Single Source<br />Orchestration</h3><p>흩어진 입력 대신 하나의 원천을 중심으로 맥락을 유지합니다.</p><div className="stage-tags">KNOWLEDGE GRAPH / SOURCE CONTEXT</div></article>
+              <article className="stage-card reveal" data-delay="1"><span className="stage-number">02</span><h3>Unified Agent<br />Pipeline</h3><p>전문화된 에이전트가 같은 목표와 기준을 공유하며 이어서 작업합니다.</p><div className="stage-tags">HYBRID RAG / FUNCTION CALLING</div></article>
+              <article className="stage-card reveal" data-delay="2"><span className="stage-number">03</span><h3>Channel-native<br />Adaptation</h3><p>복사본을 늘리는 대신 각 채널에서 자연스러운 콘텐츠로 바꿉니다.</p><div className="stage-tags">FORMAT LOGIC / TONE CONTROL</div></article>
+              <article className="stage-card reveal" data-delay="3"><span className="stage-number">04</span><h3>Human-in-the-Loop<br />Control</h3><p>자동화는 반복을 줄이고, 최종 판단과 책임은 사람이 맡습니다.</p><div className="stage-tags">REVIEW GATE / FINAL APPROVAL</div></article>
+            </div>
           </div>
         </section>
 
         <section className="principle" id="principle" aria-labelledby="principle-title">
           <div className="wrap">
-            <p className="kicker">02 / CREATOR AUTOMATION</p>
-            <h2 className="statement" id="principle-title">
-              더 많이 쓰는 대신,
-              <br />
-              <span>하나의 원천에 집중합니다.</span>
-            </h2>
+            <p className="kicker reveal">THE PRINCIPLE / BUILD ONCE</p>
+            <h2 className="principle-title reveal" data-delay="1" id="principle-title">더 많이 만드는 것보다,<br /><span className="outline">좋은 원천 하나에</span><br /><span className="blue">집중해요.</span></h2>
             <div className="comparison">
-              <article className="compare-card">
-                <span className="compare-label">BEFORE · MANUAL</span>
-                <h3>채널마다 다시 쓰는 반복 노동</h3>
-                <p>
-                  플랫폼별 요약과 재작성에 시간이 흩어지고, 핵심 메시지와 브랜드 기준도 조금씩
-                  흔들립니다.
-                </p>
-                <div className="compare-metric">
-                  <span>WORKFLOW</span>
-                  <strong>FRAGMENTED</strong>
-                </div>
-              </article>
-              <div className="compare-arrow" aria-hidden="true">
-                →
-              </div>
-              <article className="compare-card after">
-                <span className="compare-label">AFTER · AI-NATIVE</span>
-                <h3>원천 하나로 전 채널 자율 확장</h3>
-                <p>
-                  콘텐츠의 본질은 사람이 만들고, 채널별 구조화와 조정은 퍼블리싱 인프라가
-                  이어받습니다.
-                </p>
-                <div className="compare-metric">
-                  <span>OPERATING MODEL</span>
-                  <strong>BUILD ONCE</strong>
-                </div>
-              </article>
+              <article className="compare-card reveal"><span className="compare-label">BEFORE / MANUAL</span><h3>채널마다 처음부터 다시 쓰기</h3><p>같은 내용을 요약하고 또 고치는 사이 시간이 흩어지고 메시지도 조금씩 달라집니다.</p><div className="compare-metric"><span>WORKFLOW</span><strong>FRAGMENTED</strong></div></article>
+              <div className="compare-arrow reveal" aria-hidden="true">→</div>
+              <article className="compare-card after reveal" data-delay="2"><span className="compare-label">AFTER / AI-NATIVE</span><h3>원천 하나를 여러 채널로 자연스럽게</h3><p>핵심 아이디어는 사람이 만들고, 반복되는 구조화와 조정은 연결된 시스템이 맡습니다.</p><div className="compare-metric"><span>OPERATING MODEL</span><strong>BUILD ONCE</strong></div></article>
             </div>
           </div>
         </section>
 
         <section className="audience" id="audience" aria-labelledby="audience-title">
           <div className="wrap">
-            <div className="section-head">
-              <p className="kicker">03 / FOR WHOM</p>
-              <div>
-                <h2 id="audience-title">
-                  AI를 따라가는 단계에서,
-                  <br />
-                  운영하는 단계로.
-                </h2>
-                <p className="section-intro">
-                  도구를 더 배우는 것보다, 지금 가진 자료와 목적을 실제 업무 흐름으로 연결해야 하는
-                  사람과 팀을 위한 시스템입니다.
-                </p>
-              </div>
+            <div className="section-head reveal">
+              <p className="kicker">FOR WHOM / START WITH YOUR WORK</p>
+              <div><h2 id="audience-title">AI는 빠른데,<br /><span className="blue">내 일은 그대로라면.</span></h2><p className="section-intro">새 도구를 더 배우기보다, 지금 가진 자료와 아이디어를 실제 업무 흐름으로 연결하고 싶은 사람과 팀을 생각했습니다.</p></div>
             </div>
             <div className="audience-grid">
-              <article className="audience-card featured">
-                <span className="audience-no">PRIMARY / 01</span>
-                <h3>AI의 속도는 체감하지만 내 일의 시작점은 보이지 않는 사람</h3>
-                <p>
-                  빠른 변화에 휩쓸리지 않고, 자신의 업무·창작·사업에 적용되는 구체적인 시스템이
-                  필요한 사람.
-                </p>
-              </article>
-              <article className="audience-card">
-                <span className="audience-no">02 / CONTENT TEAM</span>
-                <h3>반복 제작을 줄여야 하는 콘텐츠 팀</h3>
-                <p>한 메시지를 여러 채널에 맞춰 매번 다시 만드는 운영 구조를 바꾸려는 팀.</p>
-              </article>
-              <article className="audience-card">
-                <span className="audience-no">03 / BRAND</span>
-                <h3>일관성과 속도를 함께 지켜야 하는 브랜드</h3>
-                <p>콘텐츠 규모가 커져도 맥락과 표현 기준을 유지해야 하는 운영자.</p>
-              </article>
+              <article className="audience-card featured reveal"><span className="audience-no">PRIMARY</span><h3>AI가 중요한 건 알지만, 어디서 어떻게 시작할지 막막한 분</h3><p>유행하는 도구를 좇기보다 내 업무·창작·사업에 맞는 실제 흐름부터 만들고 싶은 분께 잘 맞습니다.</p></article>
+              <article className="audience-card reveal" data-delay="1"><span className="audience-no">CONTENT TEAM</span><h3>반복 제작 시간을 줄이고 싶은 팀</h3><p>한 메시지를 채널마다 다시 만드는 대신 더 중요한 기획과 판단에 집중합니다.</p></article>
+              <article className="audience-card reveal" data-delay="2"><span className="audience-no">BRAND</span><h3>일관성과 속도를 함께 지키고 싶은 브랜드</h3><p>콘텐츠가 많아져도 우리다운 말투와 핵심 맥락을 놓치지 않습니다.</p></article>
             </div>
+          </div>
+        </section>
+
+        <section className="team-note" aria-labelledby="team-title">
+          <div className="wrap team-note-inner reveal">
+            <h2 id="team-title">KNCA Labs는<br /><span className="blue">AI 콘텐츠 자동화</span><br />플랫폼을 만듭니다.</h2>
+            <div className="team-note-copy"><p>하나의 원천이 여러 가능성으로 이어지도록, 콘텐츠 제작의 반복을 줄이고 사람이 더 중요한 판단에 집중할 수 있는 퍼블리싱 인프라를 설계합니다.</p><p className="tech">BUILT ON CLAUDE API<br />HYBRID RAG · FUNCTION CALLING · HUMAN REVIEW</p></div>
           </div>
         </section>
 
         <section className="status" id="status" aria-labelledby="status-title">
           <div className="wrap">
-            <div className="terminal">
-              <div className="terminal-bar">
-                <span className="terminal-dots" aria-hidden="true">
-                  <i></i>
-                  <i></i>
-                  <i></i>
-                </span>
-                <span>SYSTEM TERMINAL / KNCA LABS</span>
-              </div>
-              <div className="terminal-body">
-                <div className="terminal-copy">
-                  <span className="mono">● CORE ALPHA TESTING IN PROGRESS</span>
-                  <h2 id="status-title">Building the publishing layer.</h2>
-                  <p>
-                    KNCA Labs는 2023년 대한민국에서 시작한 AI 퍼블리싱 인프라 프로젝트팀입니다.
-                    현재 코어 알파를 검증하며 네 단계 아키텍처를 제품으로 연결하고 있습니다.
-                  </p>
-                </div>
-                <div className="progress-list" aria-label="개발 현황">
-                  <div className="progress-item">
-                    <b>Core infrastructure</b>
-                    <span>READY</span>
-                    <div className="progress-track">
-                      <i style={{ ["--progress" as string]: "100%" }}></i>
-                    </div>
-                  </div>
-                  <div className="progress-item">
-                    <b>Publishing pipeline</b>
-                    <span>BUILDING</span>
-                    <div className="progress-track">
-                      <i style={{ ["--progress" as string]: "72%" }}></i>
-                    </div>
-                  </div>
-                  <div className="progress-item">
-                    <b>Closed beta</b>
-                    <span>NEXT</span>
-                    <div className="progress-track">
-                      <i style={{ ["--progress" as string]: "34%" }}></i>
-                    </div>
-                  </div>
-                </div>
+            <div className="section-head reveal">
+              <p className="kicker">BUILDING IN PUBLIC / 2026</p>
+              <div><h2 id="status-title">지금은 코어 알파를<br /><span className="blue">만들고 있어요.</span></h2><p className="section-intro">작은 단위로 직접 시험하고 다듬으며, 네 단계의 흐름을 실제 제품으로 연결하고 있습니다.</p></div>
+            </div>
+            <div className="status-grid">
+              <article className="status-main reveal"><span className="status-live">CORE ALPHA IN PROGRESS</span><div><h3>One source in.<br />Complete workflow out.</h3><p>Phase 01의 코어 인프라를 마치고, Phase 02 퍼블리싱 파이프라인을 개발하고 있습니다. 다음 단계는 제한된 사용자와 함께하는 Closed Beta입니다.</p></div></article>
+              <div className="status-aside">
+                <article className="metric reveal" data-delay="1"><span>PHASES DESIGNED</span><strong ref={(el) => { counterRefs.current[0] = el; }} className="counter" data-count="4">00</strong><small>이해부터 배포 준비까지</small></article>
+                <article className="metric reveal" data-delay="2"><span>CURRENT PHASE</span><strong>02</strong><small>Publishing Pipeline / Building</small></article>
+                <article className="metric reveal" data-delay="3"><span>NEXT MILESTONE</span><strong>BETA</strong><small>Closed Beta / Planned</small></article>
               </div>
             </div>
           </div>
@@ -307,28 +458,10 @@ export default function Home() {
 
       <footer>
         <div className="wrap">
-          <div className="footer-main">
-            <p className="footer-mark">
-              KNCA Labs<span>.</span>
-            </p>
-            <div className="footer-facts">
-              Founded 2023 · South Korea
-              <br />
-              Creator Automation · Operated by Stay C<br />
-              <a href="https://kncalabs.com/" target="_blank" rel="noreferrer">
-                kncalabs.com ↗
-              </a>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <span>
-              BUSINESS REG. 782-26-015552 · 대표 김하늘 · 제주특별자치도 제주시 애월읍 예원로 144 ·
-              010-3298-3775
-            </span>
-            <span>ONE SOURCE / PUBLISHING INFRASTRUCTURE / MANY POSSIBILITIES · © 2026</span>
-          </div>
+          <div className="footer-top"><p className="footer-statement">One Source.<br /><span className="blue">Many Possibilities.</span></p><div className="footer-links">KNCA Labs · AI Content Automation Platform<br />Operated by Stay C (스테이씨)<br /><a href="mailto:founder@kncalabs.com">founder@kncalabs.com</a> · <a href="https://kncalabs.com/" target="_blank" rel="noreferrer">kncalabs.com ↗</a></div></div>
+          <div className="business"><address>대표 김하늘 · 사업자등록번호 782-26-015552 · 제주특별자치도 제주시 애월읍 예원로 144 · 010-3298-3775</address><span className="corner">KNCA LABS © 2026<br />ALPHA / SOUTH KOREA</span></div>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
