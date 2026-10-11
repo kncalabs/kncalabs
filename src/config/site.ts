@@ -14,6 +14,15 @@ export const siteConfig = {
     email: "founder@kncalabs.com",
     location: "South Korea",
   },
+  // Business registration info (shown in footer). TODO: replace placeholders with real values.
+  business: {
+    name: "KNCA Labs",
+    operator: "Stay C Jeju (스테이씨 제주)",
+    registrationNumber: "782-26-015552",
+    representative: "김하늘",
+    address: "제주특별자치도 제주시 애월읍 예원로 144",
+    phone: "010-3298-3775",
+  },
   stage: {
     badge: "Core alpha testing in progress",
     title: "Building in Public",
