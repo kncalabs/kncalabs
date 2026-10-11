@@ -1,18 +1,32 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 "use client";
-
+/* eslint-disable prefer-const, @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from "react";
 import "./showreel.css";
 
-function initPage(root: HTMLElement) {
-  const q = (sel: string): HTMLElement => root.querySelector(sel) as HTMLElement;
-  const qa = (sel: string): HTMLElement[] => Array.from(root.querySelectorAll(sel)) as HTMLElement[];
-
-  const listeners: Array<{ el: EventTarget; type: string; fn: EventListener; opts?: AddEventListenerOptions | boolean }> = [];
-  const origWinAdd = window.addEventListener.bind(window);
-  (window as unknown as { addEventListener: (type: string, fn: EventListener, opts?: AddEventListenerOptions | boolean) => void }).addEventListener = (type: string, fn: EventListener, opts?: AddEventListenerOptions | boolean) => {
-    listeners.push({ el: window, type, fn, opts });
-    origWinAdd(type, fn, opts);
+function initPage(root: HTMLElement): () => void {
+  // Track everything for cleanup on unmount
+  const listeners: Array<[EventTarget, string, EventListener, AddEventListenerOptions | boolean | undefined]> = [];
+  const origAdd = EventTarget.prototype.addEventListener;
+  (EventTarget.prototype as unknown as { addEventListener: typeof EventTarget.prototype.addEventListener }).addEventListener = function (this: EventTarget, type: string, fn: EventListener, opts?: AddEventListenerOptions | boolean) {
+    listeners.push([this, type, fn, opts]);
+    return origAdd.call(this, type, fn, opts);
   };
+  const timeouts: number[] = [];
+  const origSetTimeout = window.setTimeout.bind(window);
+  (window as unknown as { setTimeout: unknown }).setTimeout = ((fn: (...a: unknown[]) => void, ms?: number, ...args: unknown[]) => {
+    const id = origSetTimeout(fn as (...a: never[]) => void, ms, ...args);
+    timeouts.push(id as unknown as number);
+    return id;
+  }) as unknown as typeof window.setTimeout;
+  const rafs: number[] = [];
+  const origRaf = window.requestAnimationFrame.bind(window);
+  (window as unknown as { requestAnimationFrame: unknown }).requestAnimationFrame = ((fn: FrameRequestCallback) => {
+    const id = origRaf(fn);
+    rafs.push(id);
+    return id;
+  }) as unknown as typeof window.requestAnimationFrame;
   const observers: IntersectionObserver[] = [];
   const OrigIO = window.IntersectionObserver;
   (window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = function (this: unknown, cb: IntersectionObserverCallback, opts?: IntersectionObserverInit) {
@@ -22,394 +36,423 @@ function initPage(root: HTMLElement) {
   } as unknown as typeof IntersectionObserver;
   ((window as unknown as { IntersectionObserver: unknown }).IntersectionObserver as typeof IntersectionObserver).prototype = OrigIO.prototype;
 
-        const nav = q('#nav');
-        function updateNav() { nav.classList.toggle('scrolled', window.scrollY > 24); }
-        updateNav();
-        window.addEventListener('scroll', updateNav, { passive: true });
+  // Non-null DOM helpers scoped to the page root.
+  // NOTE: these must call root.querySelector(All) directly — never q/qa themselves.
+  const q = (sel: string): HTMLElement => root.querySelector(sel) as HTMLElement;
+  const qa = (sel: string): HTMLElement[] => Array.from(root.querySelectorAll(sel)) as HTMLElement[];
 
-        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        const revealItems = qa('.reveal');
-        if ('IntersectionObserver' in window && !reduceMotion) {
-          const revealObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('in');
-                revealObserver.unobserve(entry.target);
-              }
-            });
-          }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
-          revealItems.forEach(function (item) { revealObserver.observe(item); });
-        } else {
-          revealItems.forEach(function (item) { item.classList.add('in'); });
-        }
+(function () {
+      let nav = q('#nav');
+      function updateNav() { nav.classList.toggle('scrolled', window.scrollY > 24); }
+      updateNav();
+      window.addEventListener('scroll', updateNav, { passive: true });
 
-        const heroStage = q('#heroStage');
-        const floatCards = Array.from(heroStage.querySelectorAll('[data-depth]')) as HTMLElement[];
-        if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
-          heroStage.addEventListener('pointermove', function (event) {
-          const pevent = event as PointerEvent;
-            const rect = heroStage.getBoundingClientRect();
-            const dx = (pevent.clientX - rect.left) / rect.width - .5;
-            const dy = (pevent.clientY - rect.top) / rect.height - .5;
-            floatCards.forEach(function (card) {
-              const depth = Number(card.getAttribute('data-depth'));
-              card.style.marginLeft = (dx * 18 * depth) + 'px';
-              card.style.marginTop = (dy * 14 * depth) + 'px';
-            });
+      let reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let revealItems = qa('.reveal:not(.demo-result-card):not(.demo-finish)');
+      revealItems.forEach(function (item) {
+        let delayStep = Number(item.getAttribute('data-delay')) || 0;
+        item.style.setProperty('--reveal-delay', (delayStep * 95) + 'ms');
+      });
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        let revealObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in');
+              revealObserver.unobserve(entry.target);
+            }
           });
-          heroStage.addEventListener('pointerleave', function () {
-            floatCards.forEach(function (card) { card.style.marginLeft = ''; card.style.marginTop = ''; });
-          });
-        }
+        }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+        revealItems.forEach(function (item) { revealObserver.observe(item); });
+      } else {
+        revealItems.forEach(function (item) { item.classList.add('in'); });
+      }
 
-        const counters = qa('.counter');
-        function animateCounter(counter: HTMLElement) {
-          const target = Number(counter.getAttribute('data-count')) || 0;
-          const started = performance.now();
-          function step(now: number) {
-            const progress = Math.min(1, (now - started) / 900);
-            counter.textContent = String(Math.round(target * (1 - Math.pow(1 - progress, 3)))).padStart(2, '0');
-            if (progress < 1) requestAnimationFrame(step);
-          }
-          requestAnimationFrame(step);
-        }
-        if ('IntersectionObserver' in window && !reduceMotion) {
-          const counterObserver = new IntersectionObserver(function (entries) {
-            entries.forEach(function (entry) { if (entry.isIntersecting) { animateCounter(entry.target as HTMLElement); counterObserver.unobserve(entry.target); } });
-          }, { threshold: .6 });
-          counters.forEach(function (counter) { counterObserver.observe(counter); });
-        } else {
-          counters.forEach(function (counter) { counter.textContent = String(Number(counter.getAttribute('data-count'))).padStart(2, '0'); });
-        }
-
-        const demoForm = q('#demoForm');
-        const demoInput = q('#youtubeUrl') as HTMLInputElement;
-        const demoStart = q('#demoStart') as HTMLButtonElement;
-        const demoError = q('#demoError');
-        const demoState = q('#demoState');
-        const demoVideoId = q('#demoVideoId');
-        const demoMessage = q('#demoMessage');
-        const demoProgress = q('#demoProgress');
-        const outputChoices = qa('[data-output-choice]');
-        const demoResults = q('#demoResults');
-        const demoResultsCount = q('.demo-results-head span');
-        const demoFinish = q('#demoFinish');
-        const demoRetry = q('#demoRetry');
-        const demoPhases = qa('[data-demo-phase]');
-        const demoCards = qa('.demo-result-card');
-        let demoTimers: number[] = [];
-        let demoFrame = 0;
-        const phaseMessages = ['YouTube URL을 확인하고 있어요...', '영상의 전체 맥락을 읽고 있어요...', '핵심 구간과 메시지를 찾고 있어요...', '선택한 채널에 맞춰 결과를 준비하고 있어요...'];
-        const phaseDurations = [850, 950, 900, 900];
-        const outputDetails = {
-          youtube: { reasons: ['채널 선호 방식인 3초 결론 선공개로 이탈을 줄이고, 최신 키네틱 자막으로 핵심 단어를 즉시 읽게 했어요.', '완주를 유도하는 숫자형 리스트에 단어 단위 하이라이트 자막을 붙여 다음 항목을 기다리게 했어요.', '반전 장면을 먼저 던지는 오픈 루프와 중간 리훅을 넣어 시청 유지 흐름을 만들었어요.'], seo: '채널 선호 · 시청 유지 / 최신 트렌드 · 3초 훅·키네틱 자막·리훅' },
-          reels: { reasons: ['릴스가 선호하는 저장형 순서 콘텐츠를 트렌딩 오디오의 비트 컷에 맞춰 빠르게 전개했어요.', '공감 문장을 첫 화면에 두고 친구에게 보내기 좋은 공유 훅으로 자연스럽게 연결했어요.', '마지막 프레임이 첫 장면으로 이어지는 심리스 루프와 저장 CTA를 함께 설계했어요.'], seo: '채널 선호 · 저장·공유 / 최신 트렌드 · 트렌딩 오디오·비트 컷·심리스 루프' },
-          tiktok: { reasons: ['틱톡 특유의 POV 챌린지 문법과 빠른 컷으로 시청자가 상황에 바로 들어오게 했어요.', '원본 주장에 바로 답하는 듀엣·리액션 포맷으로 참여와 2차 대화를 만들었어요.', '검색형 문장을 첫 자막에 두고 따라 하기 쉬운 3단계 챌린지를 루프로 마무리했어요.'], seo: '채널 선호 · 참여·재현 / 최신 트렌드 · POV 챌린지·듀엣·검색 훅' },
-          cards: { reasons: ['최신 캐러셀의 에디토리얼 표지와 스와이프 큐로 첫 장에서 다음 장을 기대하게 했어요.', '저장하기 좋은 체크리스트를 장당 한 메시지로 나눠 모바일 가독성을 높였어요.', '문제–발견–실행의 스토리 아크를 한 장 한 문장으로 이어 완독 흐름을 만들었어요.'], seo: '채널 선호 · 저장·완독 / 최신 트렌드 · 에디토리얼 표지·스와이프 큐·스토리 아크' },
-          blog: { reasons: ['Naver 검색 의도를 제목에 분명히 넣고 비용·도구·순서까지 답하는 완결형 구성을 택했어요.', '목차와 실제 사용 경험, 비교 기준을 앞쪽에 배치해 원하는 정보까지 계속 읽게 했어요.', '연관 검색어를 반영한 단계별 설명과 FAQ로 다음 궁금증까지 한 글에서 해결하게 했어요.'], seo: '채널 선호 · 검색 만족·체류 / 최신 트렌드 · 의도형 제목·목차·체험 정보·FAQ' },
-          threads: { reasons: ['의견이 갈리는 한 줄 훅으로 시작해 Threads 특유의 빠른 공감과 답글 흐름을 열었어요.', '번호형 미니 스레드로 한 포스트에 한 팁만 담아 저장하고 이어 읽기 쉽게 했어요.', '정답을 요구하지 않는 열린 질문으로 마무리해 자신의 경험을 댓글로 보태기 쉽게 했어요.'], seo: '채널 선호 · 답글 대화 / 최신 트렌드 · 반론 훅·미니 스레드·열린 질문' },
-          x: { reasons: ['X 피드에서 빠르게 읽히도록 첫 문장에 논지를 압축하고 정보 밀도를 높였어요.', '인용하기 좋은 대비 문장으로 만들어 재게시할 때도 핵심이 그대로 남게 했어요.', '짧은 네이티브 스레드에 시각적 증거를 붙이는 최신 포맷으로 실행 순서를 전개했어요.'], seo: '채널 선호 · 재게시·인용 / 최신 트렌드 · 논지 선공개·대비 문장·네이티브 스레드' },
-          facebook: { reasons: ['피드 미리보기의 첫 두 줄에 질문을 두어 댓글 대화를 시작하기 쉽게 했어요.', '외부 링크보다 맥락이 풍부한 네이티브 경험담으로 읽고 머무를 이유를 만들었어요.', '그룹과 지인에게 전달할 실용 팁을 정리해 공유할 명분이 분명하도록 구성했어요.'], seo: '채널 선호 · 의미 있는 대화·공유 / 최신 트렌드 · 첫 두 줄 훅·네이티브 스토리·그룹 가치' },
-          newsletter: { reasons: ['호기심 간극을 만든 제목 A/B안으로 받은편지함에서 열어볼 이유를 먼저 제시했어요.', '시간과 결과를 구체적으로 약속하고 프리헤더가 제목의 의미를 이어받게 했어요.', '익숙한 시리즈명과 개인적인 말투를 결합해 정기 구독자가 빠르게 알아보게 했어요.'], seo: '채널 선호 · 오픈·클릭 / 최신 트렌드 · 호기심 간극·구체적 혜택·프리헤더' },
-          ad: { reasons: ['광고처럼 보이지 않는 UGC형 데모로 시작해 첫 프레임에서 결과를 직접 보여줬어요.', '문제–해결 구조의 텍스트 중심 소재로 작은 화면에서도 혜택을 바로 이해하게 했어요.', '훅·증거·CTA를 바꾼 매트릭스형 변형을 만들어 성과에 따라 빠르게 비교할 수 있게 했어요.'], seo: '채널 선호 · 첫 프레임 주목·행동 / 최신 트렌드 · UGC 데모·텍스트 중심·훅 매트릭스' }
-        };
-        const viralReferences = {
-          youtube: [
-            { channel: 'AI 실전 노트', subs: '1.2만', views: '71만', ratio: '59.2×', why: '3초 결론 훅 + 단어별 키네틱 자막으로 초반 이탈을 줄인 구성' },
-            { channel: '솔로 빌더 랩', subs: '4.8만', views: '180만', ratio: '37.5×', why: '숫자형 리스트 + 중간 리훅으로 완주 기대를 이어간 구성' },
-            { channel: '노코드 사장님', subs: '6.3천', views: '39만', ratio: '61.9×', why: '실패 장면 선공개 + 열린 결말로 다음 컷을 보게 만든 구성' }
-          ],
-          reels: [
-            { channel: '워크플로우 다이어리', subs: '1.8만', views: '82만', ratio: '45.6×', why: '트렌딩 오디오 비트 컷 + 저장형 5단계 요약' },
-            { channel: '1인팀의 기록', subs: '3.2만', views: '96만', ratio: '30.0×', why: '공감 질문 첫 화면 + 친구 공유를 부르는 결론' },
-            { channel: '메이커스 루틴', subs: '9.4천', views: '51만', ratio: '54.3×', why: '끝과 처음이 맞물리는 심리스 루프로 반복 재생 유도' }
-          ],
-          tiktok: [
-            { channel: 'AI 실험실', subs: '7.6천', views: '68만', ratio: '89.5×', why: 'POV 챌린지 + 1초 단위 빠른 컷으로 즉시 몰입' },
-            { channel: '창업생존기', subs: '2.7만', views: '110만', ratio: '40.7×', why: '화제 영상 듀엣 + 반응형 답변으로 참여 맥락 생성' },
-            { channel: '오늘의 자동화', subs: '1.1만', views: '73만', ratio: '66.4×', why: '검색형 첫 자막 + 따라 하기 쉬운 3단계 챌린지' }
-          ],
-          cards: [
-            { channel: '브랜드 메모', subs: '1.5만', views: '44만', ratio: '29.3×', why: '에디토리얼 표지 + 명확한 스와이프 큐로 넘김 유도' },
-            { channel: '마케팅 한 장', subs: '4.1만', views: '92만', ratio: '22.4×', why: '장당 한 메시지 + 마지막 저장 체크리스트' },
-            { channel: '기획자의 서랍', subs: '8.8천', views: '31만', ratio: '35.2×', why: '문제–발견–실행의 스토리 아크로 완독 흐름 설계' }
-          ],
-          blog: [
-            { channel: '바이브코딩 실전', subs: '3.6천', views: '18만', ratio: '50.0×', why: '검색 의도형 제목 + 첫 화면 목차로 원하는 답에 빠르게 연결' },
-            { channel: '혼자 만드는 사업', subs: '9.2천', views: '27만', ratio: '29.3×', why: '실제 사용 경험 + 비교표로 신뢰와 체류시간 강화' },
-            { channel: 'AI 업무연구소', subs: '1.4만', views: '33만', ratio: '23.6×', why: '연관 키워드 FAQ + 단계별 체크리스트로 후속 검색까지 해결' }
-          ],
-          threads: [
-            { channel: '@build.small', subs: '4.9천', views: '21만', ratio: '42.9×', why: '반론을 부르는 한 줄 훅 + 즉답 가능한 질문' },
-            { channel: '@maker.log', subs: '1.1만', views: '38만', ratio: '34.5×', why: '번호형 미니 스레드 + 포스트당 하나의 실전 팁' },
-            { channel: '@work.less', subs: '6.7천', views: '29만', ratio: '43.3×', why: '개인 경험 고백 + 독자의 사례를 묻는 열린 결말' }
-          ],
-          x: [
-            { channel: '@SoloBuildLab', subs: '8.1천', views: '46만', ratio: '56.8×', why: '첫 문장 논지 선공개 + 인용하기 쉬운 대비 문장' },
-            { channel: '@AIWorkNotes', subs: '2.3만', views: '88만', ratio: '38.3×', why: '고밀도 5포스트 스레드 + 네이티브 도식 첨부' },
-            { channel: '@MakerSignal', subs: '5.4천', views: '34만', ratio: '63.0×', why: '강한 관점 한 줄 + 재게시하며 덧붙이기 좋은 여백' }
-          ],
-          facebook: [
-            { channel: '작은 팀의 AI', subs: '1.7만', views: '39만', ratio: '22.9×', why: '첫 두 줄 질문 + 댓글에서 경험을 나누는 대화 구조' },
-            { channel: '1인 비즈니스 클럽', subs: '3.8만', views: '74만', ratio: '19.5×', why: '외부 링크 없는 네이티브 경험담 + 구체적인 시행착오' },
-            { channel: '일잘러 커뮤니티', subs: '9.6천', views: '28만', ratio: '29.2×', why: '그룹에 공유할 체크리스트 + 함께 해볼 사람 태그 유도' }
-          ],
-          newsletter: [
-            { channel: '월요 메이커 레터', subs: '6.2천', views: '2.9만', ratio: '4.7×', why: '호기심 간극 제목 + 프리헤더에서 구체적 결과 제시' },
-            { channel: 'AI 실무 브리프', subs: '1.9만', views: '7.4만', ratio: '3.9×', why: '숫자·시간·혜택을 한 줄에 담은 실용형 제목' },
-            { channel: '솔로워크 위클리', subs: '8.5천', views: '3.6만', ratio: '4.2×', why: '익숙한 시리즈명 + 개인적인 첫 문장으로 오픈 동기 강화' }
-          ],
-          ad: [
-            { channel: '크리에이터 데모 A', subs: '1.3만', views: '57만', ratio: '43.8×', why: '광고처럼 보이지 않는 UGC 오프닝 + 결과 화면 선공개' },
-            { channel: '퍼포먼스 테스트 B', subs: '2.1만', views: '69만', ratio: '32.9×', why: '문제–해결 텍스트 중심 소재 + 한 문장 혜택' },
-            { channel: '브랜드 실험실 C', subs: '7.9천', views: '41만', ratio: '51.9×', why: '훅·증거·CTA를 바꾼 변형으로 승자 소재를 빠르게 탐색' }
-          ]
-        };
-        qa('.quick-output').forEach(function (card) {
-          const outputKey = card.getAttribute('data-output') as string;
-          const detail: { reasons: string[]; seo: string } = (outputDetails as Record<string, { reasons: string[]; seo: string }>)[outputKey] || { reasons: ['핵심 메시지를 채널에 맞게 다시 구성했어요.'], seo: '길이 · 말투 · 노출 방식' };
-          Array.from(card.querySelectorAll('.quick-sample')).forEach(function (sample, index) {
-            const description = document.createElement('small');
-            description.textContent = '이렇게 만든 이유 · ' + (detail.reasons[index] || detail.reasons[0]);
-            const seo = document.createElement('em');
-            seo.textContent = '최적화 포인트 · ' + detail.seo;
-            sample.appendChild(description);
-            sample.appendChild(seo);
+      let heroStage = q('#heroStage');
+      let floatCards = Array.from(heroStage.querySelectorAll('[data-depth]')) as HTMLElement[];
+      if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
+        let heroMotionFrame = 0;
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        function renderHeroMotion() {
+          currentX += (targetX - currentX) * .085;
+          currentY += (targetY - currentY) * .085;
+          floatCards.forEach(function (card) {
+            let depth = Number(card.getAttribute('data-depth'));
+            card.style.setProperty('--px', (currentX * 20 * depth).toFixed(2) + 'px');
+            card.style.setProperty('--py', (currentY * 15 * depth).toFixed(2) + 'px');
           });
-          const references: Array<{channel: string; subs: string; views: string; ratio: string; why: string}> = (viralReferences as Record<string, Array<{channel: string; subs: string; views: string; ratio: string; why: string}>>)[outputKey] || [];
-          const referenceSection = document.createElement('section');
-          referenceSection.className = 'viral-reference';
-          referenceSection.setAttribute('aria-label', '지난 7일 바이럴 레퍼런스 예시');
-          const referenceHead = document.createElement('div');
-          referenceHead.className = 'viral-reference-head';
-          const referenceTitle = document.createElement('strong');
-          referenceTitle.textContent = '지난 7일, 비슷한 콘텐츠 3개';
-          const referenceNote = document.createElement('small');
-          referenceNote.textContent = '예시 데이터입니다';
-          referenceHead.appendChild(referenceTitle);
-          referenceHead.appendChild(referenceNote);
-          referenceSection.appendChild(referenceHead);
-          const guide = document.createElement('p');
-          guide.className = 'viral-guide';
-          guide.textContent = '‘확산 배수’가 높을수록 구독자 규모를 넘어 더 넓은 이용자에게 도달한 콘텐츠예요.';
-          referenceSection.appendChild(guide);
-          const referenceList = document.createElement('div');
-          referenceList.className = 'viral-list';
-          references.forEach(function (reference, index) {
-            const item = document.createElement('article');
-            item.className = 'viral-item';
-            const thumb = document.createElement('span');
-            thumb.className = 'viral-thumb';
-            thumb.setAttribute('aria-hidden', 'true');
-            thumb.style.filter = 'hue-rotate(' + (index * 34) + 'deg)';
-            const copy = document.createElement('div');
-            copy.className = 'viral-copy';
-            const channel = document.createElement('span');
-            channel.className = 'viral-channel';
-            channel.textContent = reference.channel;
-            const metrics = document.createElement('span');
-            metrics.className = 'viral-metrics';
-            metrics.textContent = '구독자 ' + reference.subs + ' · 조회수 ' + reference.views + ' = 확산 ' + reference.ratio.replace('×', '배');
-            const why = document.createElement('p');
-            why.className = 'viral-why';
-            const whyLabel = document.createElement('b');
-            whyLabel.textContent = '주목받은 이유 · ';
-            why.appendChild(whyLabel);
-            why.appendChild(document.createTextNode(reference.why));
-            copy.appendChild(channel);
-            copy.appendChild(metrics);
-            copy.appendChild(why);
-            item.appendChild(thumb);
-            item.appendChild(copy);
-            referenceList.appendChild(item);
-          });
-          referenceSection.appendChild(referenceList);
-          card.appendChild(referenceSection);
+          if (Math.abs(targetX - currentX) > .002 || Math.abs(targetY - currentY) > .002) heroMotionFrame = window.requestAnimationFrame(renderHeroMotion);
+          else heroMotionFrame = 0;
+        }
+        function queueHeroMotion() { if (!heroMotionFrame) heroMotionFrame = window.requestAnimationFrame(renderHeroMotion); }
+        heroStage.addEventListener('pointermove', function (event) {
+          let rect = heroStage.getBoundingClientRect();
+          targetX = (event.clientX - rect.left) / rect.width - .5;
+          targetY = (event.clientY - rect.top) / rect.height - .5;
+          queueHeroMotion();
         });
+        heroStage.addEventListener('pointerleave', function () { targetX = 0; targetY = 0; queueHeroMotion(); });
+      }
 
-        function setResultDetailMode() {
-          const count = getSelectedChoices().length;
-          demoResults.classList.remove('detail-full', 'detail-medium', 'detail-compact');
-          demoResults.classList.add(count === 1 ? 'detail-full' : count === 2 ? 'detail-medium' : 'detail-compact');
+      let counters = qa('.counter');
+      function animateCounter(counter) {
+        let target = Number(counter.getAttribute('data-count')) || 0;
+        let started = performance.now();
+        function step(now) {
+          let progress = Math.min(1, (now - started) / 1250);
+          let eased = 1 - Math.pow(1 - progress, 5);
+          counter.textContent = String(Math.min(target, Math.round(target * eased))).padStart(2, '0');
+          if (progress < 1) requestAnimationFrame(step);
+          else counter.animate([{ transform: 'translateY(0) scale(1)' }, { transform: 'translateY(-3px) scale(1.08)' }, { transform: 'translateY(0) scale(1)' }], { duration: 420, easing: 'cubic-bezier(.34,1.56,.64,1)' });
         }
+        requestAnimationFrame(step);
+      }
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        let counterObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) { if (entry.isIntersecting) { animateCounter(entry.target); counterObserver.unobserve(entry.target); } });
+        }, { threshold: .6 });
+        counters.forEach(function (counter) { counterObserver.observe(counter); });
+      } else {
+        counters.forEach(function (counter) { counter.textContent = String(Number(counter.getAttribute('data-count'))).padStart(2, '0'); });
+      }
 
-        function extractYoutubeId(value: string): string {
-          const raw = value.trim();
-          if (!raw) return '';
-          try {
-            const parsed = new URL(/^https?:\/\//i.test(raw) ? raw : 'https://' + raw);
-            const host = parsed.hostname.toLowerCase().replace(/^www\./, '');
-            let id = '';
-            if ((host === 'youtube.com' || host.slice(-12) === '.youtube.com') && parsed.pathname === '/watch') id = parsed.searchParams.get('v') || '';
-            else if (host === 'youtu.be') id = parsed.pathname.split('/').filter(Boolean)[0] || '';
-            return /^[A-Za-z0-9_-]{6,}$/.test(id) ? id : '';
-          } catch { return ''; }
-        }
-
-        function clearDemoTimers() {
-          demoTimers.forEach(function (timer) { window.clearTimeout(timer); });
-          demoTimers = [];
-          if (demoFrame) window.cancelAnimationFrame(demoFrame);
-          demoFrame = 0;
-        }
-        function setDemoPhase(index: number): void {
-          demoPhases.forEach(function (phase, phaseIndex) {
-            phase.classList.toggle('active', phaseIndex === index);
-            phase.classList.toggle('done', phaseIndex < index);
-          });
-          demoState.textContent = phaseMessages[index];
-          demoState.className = 'is-running';
-          demoMessage.innerHTML = index === 0 ? '<strong>바이브 코딩 1인 창업 3시간 통합본</strong>의 전체 맥락과 타임스탬프를 구조화하고 있습니다.' : phaseMessages[index];
-        }
-        function getSelectedChoices() {
-          return Array.prototype.filter.call(outputChoices, function (choice) { return choice.getAttribute('aria-pressed') === 'true'; });
-        }
-        function getSelectedGroups() {
-          const groups: string[] = [];
-          getSelectedChoices().forEach(function (choice) {
-            const group = choice.getAttribute('data-output-group') as string;
-            if (groups.indexOf(group) === -1) groups.push(group);
-          });
-          return groups;
-        }
-        function updateSelectionState() {
-          const count = getSelectedChoices().length;
-          const groups = getSelectedGroups();
-          demoStart.disabled = count === 0;
-          demoStart.textContent = count ? '선택한 ' + count + '개 변환 시작' : '채널을 선택해 주세요';
-          setResultDetailMode();
-          q('#optimizationEmpty').hidden = count > 0;
-          qa('[data-optimization]').forEach(function (card) {
-            card.hidden = groups.indexOf((card.getAttribute('data-optimization') as string)) === -1;
-          });
-        }
-        function revealDemoResults() {
-          const selected = getSelectedChoices();
-          const groups = getSelectedGroups();
-          const visibleCards: HTMLElement[] = [];
-          demoPhases.forEach(function (phase) { phase.classList.remove('active'); phase.classList.add('done'); });
-          demoProgress.style.width = '100%';
-          demoState.textContent = '선택한 콘텐츠가 준비됐어요';
-          demoState.className = 'is-complete';
-          demoMessage.textContent = selected.length + '개 채널에 맞춘 결과를 검수할 수 있어요.';
-          demoResultsCount.textContent = '선택한 ' + selected.length + '개 플랫폼용 콘텐츠 구성';
-          demoCards.forEach(function (card) {
-            const visible = groups.indexOf(card.getAttribute('data-output') as string) !== -1;
-            card.hidden = !visible;
-            card.classList.remove('reveal');
-            if (visible) visibleCards.push(card);
-          });
-          demoResults.hidden = false;
-          visibleCards.forEach(function (card, index) { demoTimers.push(window.setTimeout(function () { card.classList.add('reveal'); }, index * 180)); });
-          demoTimers.push(window.setTimeout(function () { demoFinish.classList.add('reveal'); }, visibleCards.length * 180));
-          demoStart.disabled = false;
-          demoInput.readOnly = false;
-          outputChoices.forEach(function (choice) { (choice as HTMLButtonElement).disabled = false; });
-          updateSelectionState();
-        }
-        function runDemo(videoId: string): void {
-          clearDemoTimers();
-          demoResults.hidden = true;
-          demoCards.forEach(function (card) { card.classList.remove('reveal'); card.hidden = true; });
-          demoFinish.classList.remove('reveal');
-          demoPhases.forEach(function (phase) { phase.classList.remove('active', 'done'); });
-          demoProgress.style.width = '0%';
-          demoVideoId.textContent = 'VIDEO ID / ' + videoId;
-          demoStart.disabled = true;
-          demoInput.readOnly = true;
-          outputChoices.forEach(function (choice) { (choice as HTMLButtonElement).disabled = true; });
-          let elapsed = 0;
-          phaseDurations.forEach(function (duration, index) { demoTimers.push(window.setTimeout(function () { setDemoPhase(index); }, elapsed)); elapsed += duration; });
-          demoTimers.push(window.setTimeout(revealDemoResults, elapsed));
-          const startedAt = performance.now();
-          function updateProgress(now: number) {
-            const value = Math.min(100, ((now - startedAt) / elapsed) * 100);
-            demoProgress.style.width = value + '%';
-            if (value < 100) demoFrame = window.requestAnimationFrame(updateProgress);
-          }
-          demoFrame = window.requestAnimationFrame(updateProgress);
-        }
-        function resetDemo() {
-          clearDemoTimers();
-          demoInput.value = 'https://youtu.be/P3jFI-VpyLg';
-          demoInput.readOnly = false;
-          demoInput.setAttribute('aria-invalid', 'false');
-          demoStart.disabled = false;
-          demoError.textContent = '';
-          demoState.textContent = '예시 영상을 준비했어요';
-          demoState.className = '';
-          demoVideoId.textContent = 'VIDEO / 바이브 코딩 1인 창업 3시간 통합본';
-          demoMessage.textContent = '3시간 12분 분량의 예시 영상입니다. 원하는 채널을 고르면 분석부터 결과 준비까지 보여드려요.';
-          demoProgress.style.width = '0%';
-          demoPhases.forEach(function (phase) { phase.classList.remove('active', 'done'); });
-          demoCards.forEach(function (card) { card.classList.remove('reveal'); card.hidden = true; });
-          demoFinish.classList.remove('reveal');
-          demoResults.hidden = true;
-          outputChoices.forEach(function (choice) { (choice as HTMLButtonElement).disabled = false; choice.setAttribute('aria-pressed', 'false'); });
-          updateSelectionState();
-          demoInput.focus();
-        }
-        demoForm.addEventListener('submit', function (event) {
-          event.preventDefault();
-          const videoId = extractYoutubeId(demoInput.value);
-          if (!videoId) {
-            demoInput.setAttribute('aria-invalid', 'true');
-            demoError.textContent = 'youtube.com/watch?v= 또는 youtu.be/ 형식의 URL을 입력해 주세요.';
-            demoInput.focus();
-            return;
-          }
-          if (!getSelectedChoices().length) {
-            demoError.textContent = '먼저 만들고 싶은 콘텐츠를 하나 이상 선택해 주세요.';
-            return;
-          }
-          demoInput.setAttribute('aria-invalid', 'false');
-          demoError.textContent = '';
-          runDemo(videoId);
+      let demoForm = q('#demoForm');
+      let demoInput = q('#youtubeUrl');
+      let demoStart = q('#demoStart');
+      let demoError = q('#demoError');
+      let demoState = q('#demoState');
+      let demoVideoId = q('#demoVideoId');
+      let demoMessage = q('#demoMessage');
+      let demoProgress = q('#demoProgress');
+      let demoChoices = q('#demoChoices');
+      let outputChoices = qa('[data-output-choice]');
+      let demoResults = q('#demoResults');
+      let demoResultsCount = q('.demo-results-head span');
+      let demoFinish = q('#demoFinish');
+      let demoRetry = q('#demoRetry');
+      let demoPhases = qa('[data-demo-phase]');
+      let demoCards = qa('.demo-result-card');
+      let demoTimers = [];
+      let demoFrame = 0;
+      let phaseMessages = ['YouTube URL을 확인하고 있어요...', '영상의 전체 맥락을 읽고 있어요...', '핵심 구간과 메시지를 찾고 있어요...', '선택한 채널에 맞춰 결과를 준비하고 있어요...'];
+      let phaseDurations = [850, 950, 900, 900];
+      let outputDetails = {
+        youtube: { reasons: ['채널 선호 방식인 3초 결론 선공개로 이탈을 줄이고, 최신 키네틱 자막으로 핵심 단어를 즉시 읽게 했어요.', '완주를 유도하는 숫자형 리스트에 단어 단위 하이라이트 자막을 붙여 다음 항목을 기다리게 했어요.', '반전 장면을 먼저 던지는 오픈 루프와 중간 리훅을 넣어 시청 유지 흐름을 만들었어요.'], seo: '채널 선호 · 시청 유지 / 최신 트렌드 · 3초 훅·키네틱 자막·리훅' },
+        reels: { reasons: ['릴스가 선호하는 저장형 순서 콘텐츠를 트렌딩 오디오의 비트 컷에 맞춰 빠르게 전개했어요.', '공감 문장을 첫 화면에 두고 친구에게 보내기 좋은 공유 훅으로 자연스럽게 연결했어요.', '마지막 프레임이 첫 장면으로 이어지는 심리스 루프와 저장 CTA를 함께 설계했어요.'], seo: '채널 선호 · 저장·공유 / 최신 트렌드 · 트렌딩 오디오·비트 컷·심리스 루프' },
+        tiktok: { reasons: ['틱톡 특유의 POV 챌린지 문법과 빠른 컷으로 시청자가 상황에 바로 들어오게 했어요.', '원본 주장에 바로 답하는 듀엣·리액션 포맷으로 참여와 2차 대화를 만들었어요.', '검색형 문장을 첫 자막에 두고 따라 하기 쉬운 3단계 챌린지를 루프로 마무리했어요.'], seo: '채널 선호 · 참여·재현 / 최신 트렌드 · POV 챌린지·듀엣·검색 훅' },
+        cards: { reasons: ['최신 캐러셀의 에디토리얼 표지와 스와이프 큐로 첫 장에서 다음 장을 기대하게 했어요.', '저장하기 좋은 체크리스트를 장당 한 메시지로 나눠 모바일 가독성을 높였어요.', '문제–발견–실행의 스토리 아크를 한 장 한 문장으로 이어 완독 흐름을 만들었어요.'], seo: '채널 선호 · 저장·완독 / 최신 트렌드 · 에디토리얼 표지·스와이프 큐·스토리 아크' },
+        blog: { reasons: ['Naver 검색 의도를 제목에 분명히 넣고 비용·도구·순서까지 답하는 완결형 구성을 택했어요.', '목차와 실제 사용 경험, 비교 기준을 앞쪽에 배치해 원하는 정보까지 계속 읽게 했어요.', '연관 검색어를 반영한 단계별 설명과 FAQ로 다음 궁금증까지 한 글에서 해결하게 했어요.'], seo: '채널 선호 · 검색 만족·체류 / 최신 트렌드 · 의도형 제목·목차·체험 정보·FAQ' },
+        threads: { reasons: ['의견이 갈리는 한 줄 훅으로 시작해 Threads 특유의 빠른 공감과 답글 흐름을 열었어요.', '번호형 미니 스레드로 한 포스트에 한 팁만 담아 저장하고 이어 읽기 쉽게 했어요.', '정답을 요구하지 않는 열린 질문으로 마무리해 자신의 경험을 댓글로 보태기 쉽게 했어요.'], seo: '채널 선호 · 답글 대화 / 최신 트렌드 · 반론 훅·미니 스레드·열린 질문' },
+        x: { reasons: ['X 피드에서 빠르게 읽히도록 첫 문장에 논지를 압축하고 정보 밀도를 높였어요.', '인용하기 좋은 대비 문장으로 만들어 재게시할 때도 핵심이 그대로 남게 했어요.', '짧은 네이티브 스레드에 시각적 증거를 붙이는 최신 포맷으로 실행 순서를 전개했어요.'], seo: '채널 선호 · 재게시·인용 / 최신 트렌드 · 논지 선공개·대비 문장·네이티브 스레드' },
+        facebook: { reasons: ['피드 미리보기의 첫 두 줄에 질문을 두어 댓글 대화를 시작하기 쉽게 했어요.', '외부 링크보다 맥락이 풍부한 네이티브 경험담으로 읽고 머무를 이유를 만들었어요.', '그룹과 지인에게 전달할 실용 팁을 정리해 공유할 명분이 분명하도록 구성했어요.'], seo: '채널 선호 · 의미 있는 대화·공유 / 최신 트렌드 · 첫 두 줄 훅·네이티브 스토리·그룹 가치' },
+        newsletter: { reasons: ['호기심 간극을 만든 제목 A/B안으로 받은편지함에서 열어볼 이유를 먼저 제시했어요.', '시간과 결과를 구체적으로 약속하고 프리헤더가 제목의 의미를 이어받게 했어요.', '익숙한 시리즈명과 개인적인 말투를 결합해 정기 구독자가 빠르게 알아보게 했어요.'], seo: '채널 선호 · 오픈·클릭 / 최신 트렌드 · 호기심 간극·구체적 혜택·프리헤더' },
+        ad: { reasons: ['광고처럼 보이지 않는 UGC형 데모로 시작해 첫 프레임에서 결과를 직접 보여줬어요.', '문제–해결 구조의 텍스트 중심 소재로 작은 화면에서도 혜택을 바로 이해하게 했어요.', '훅·증거·CTA를 바꾼 매트릭스형 변형을 만들어 성과에 따라 빠르게 비교할 수 있게 했어요.'], seo: '채널 선호 · 첫 프레임 주목·행동 / 최신 트렌드 · UGC 데모·텍스트 중심·훅 매트릭스' }
+      };
+      let viralReferences = {
+        youtube: [
+          { channel: 'AI 실전 노트', subs: '1.2만', views: '71만', ratio: '59.2×', why: '3초 결론 훅 + 단어별 키네틱 자막으로 초반 이탈을 줄인 구성' },
+          { channel: '솔로 빌더 랩', subs: '4.8만', views: '180만', ratio: '37.5×', why: '숫자형 리스트 + 중간 리훅으로 완주 기대를 이어간 구성' },
+          { channel: '노코드 사장님', subs: '6.3천', views: '39만', ratio: '61.9×', why: '실패 장면 선공개 + 열린 결말로 다음 컷을 보게 만든 구성' }
+        ],
+        reels: [
+          { channel: '워크플로우 다이어리', subs: '1.8만', views: '82만', ratio: '45.6×', why: '트렌딩 오디오 비트 컷 + 저장형 5단계 요약' },
+          { channel: '1인팀의 기록', subs: '3.2만', views: '96만', ratio: '30.0×', why: '공감 질문 첫 화면 + 친구 공유를 부르는 결론' },
+          { channel: '메이커스 루틴', subs: '9.4천', views: '51만', ratio: '54.3×', why: '끝과 처음이 맞물리는 심리스 루프로 반복 재생 유도' }
+        ],
+        tiktok: [
+          { channel: 'AI 실험실', subs: '7.6천', views: '68만', ratio: '89.5×', why: 'POV 챌린지 + 1초 단위 빠른 컷으로 즉시 몰입' },
+          { channel: '창업생존기', subs: '2.7만', views: '110만', ratio: '40.7×', why: '화제 영상 듀엣 + 반응형 답변으로 참여 맥락 생성' },
+          { channel: '오늘의 자동화', subs: '1.1만', views: '73만', ratio: '66.4×', why: '검색형 첫 자막 + 따라 하기 쉬운 3단계 챌린지' }
+        ],
+        cards: [
+          { channel: '브랜드 메모', subs: '1.5만', views: '44만', ratio: '29.3×', why: '에디토리얼 표지 + 명확한 스와이프 큐로 넘김 유도' },
+          { channel: '마케팅 한 장', subs: '4.1만', views: '92만', ratio: '22.4×', why: '장당 한 메시지 + 마지막 저장 체크리스트' },
+          { channel: '기획자의 서랍', subs: '8.8천', views: '31만', ratio: '35.2×', why: '문제–발견–실행의 스토리 아크로 완독 흐름 설계' }
+        ],
+        blog: [
+          { channel: '바이브코딩 실전', subs: '3.6천', views: '18만', ratio: '50.0×', why: '검색 의도형 제목 + 첫 화면 목차로 원하는 답에 빠르게 연결' },
+          { channel: '혼자 만드는 사업', subs: '9.2천', views: '27만', ratio: '29.3×', why: '실제 사용 경험 + 비교표로 신뢰와 체류시간 강화' },
+          { channel: 'AI 업무연구소', subs: '1.4만', views: '33만', ratio: '23.6×', why: '연관 키워드 FAQ + 단계별 체크리스트로 후속 검색까지 해결' }
+        ],
+        threads: [
+          { channel: '@build.small', subs: '4.9천', views: '21만', ratio: '42.9×', why: '반론을 부르는 한 줄 훅 + 즉답 가능한 질문' },
+          { channel: '@maker.log', subs: '1.1만', views: '38만', ratio: '34.5×', why: '번호형 미니 스레드 + 포스트당 하나의 실전 팁' },
+          { channel: '@work.less', subs: '6.7천', views: '29만', ratio: '43.3×', why: '개인 경험 고백 + 독자의 사례를 묻는 열린 결말' }
+        ],
+        x: [
+          { channel: '@SoloBuildLab', subs: '8.1천', views: '46만', ratio: '56.8×', why: '첫 문장 논지 선공개 + 인용하기 쉬운 대비 문장' },
+          { channel: '@AIWorkNotes', subs: '2.3만', views: '88만', ratio: '38.3×', why: '고밀도 5포스트 스레드 + 네이티브 도식 첨부' },
+          { channel: '@MakerSignal', subs: '5.4천', views: '34만', ratio: '63.0×', why: '강한 관점 한 줄 + 재게시하며 덧붙이기 좋은 여백' }
+        ],
+        facebook: [
+          { channel: '작은 팀의 AI', subs: '1.7만', views: '39만', ratio: '22.9×', why: '첫 두 줄 질문 + 댓글에서 경험을 나누는 대화 구조' },
+          { channel: '1인 비즈니스 클럽', subs: '3.8만', views: '74만', ratio: '19.5×', why: '외부 링크 없는 네이티브 경험담 + 구체적인 시행착오' },
+          { channel: '일잘러 커뮤니티', subs: '9.6천', views: '28만', ratio: '29.2×', why: '그룹에 공유할 체크리스트 + 함께 해볼 사람 태그 유도' }
+        ],
+        newsletter: [
+          { channel: '월요 메이커 레터', subs: '6.2천', views: '2.9만', ratio: '4.7×', why: '호기심 간극 제목 + 프리헤더에서 구체적 결과 제시' },
+          { channel: 'AI 실무 브리프', subs: '1.9만', views: '7.4만', ratio: '3.9×', why: '숫자·시간·혜택을 한 줄에 담은 실용형 제목' },
+          { channel: '솔로워크 위클리', subs: '8.5천', views: '3.6만', ratio: '4.2×', why: '익숙한 시리즈명 + 개인적인 첫 문장으로 오픈 동기 강화' }
+        ],
+        ad: [
+          { channel: '크리에이터 데모 A', subs: '1.3만', views: '57만', ratio: '43.8×', why: '광고처럼 보이지 않는 UGC 오프닝 + 결과 화면 선공개' },
+          { channel: '퍼포먼스 테스트 B', subs: '2.1만', views: '69만', ratio: '32.9×', why: '문제–해결 텍스트 중심 소재 + 한 문장 혜택' },
+          { channel: '브랜드 실험실 C', subs: '7.9천', views: '41만', ratio: '51.9×', why: '훅·증거·CTA를 바꾼 변형으로 승자 소재를 빠르게 탐색' }
+        ]
+      };
+      qa('.quick-output').forEach(function (card) {
+        let outputKey = card.getAttribute('data-output');
+        let detail = outputDetails[outputKey] || { reasons: ['핵심 메시지를 채널에 맞게 다시 구성했어요.'], seo: '길이 · 말투 · 노출 방식' };
+        (card.querySelectorAll('.quick-sample') as unknown as HTMLElement[]).forEach(function (sample, index) {
+          let description = document.createElement('small');
+          description.textContent = '이렇게 만든 이유 · ' + (detail.reasons[index] || detail.reasons[0]);
+          let seo = document.createElement('em');
+          seo.textContent = '최적화 포인트 · ' + detail.seo;
+          sample.appendChild(description);
+          sample.appendChild(seo);
         });
-        demoInput.addEventListener('input', function () { demoInput.setAttribute('aria-invalid', 'false'); demoError.textContent = ''; });
-        outputChoices.forEach(function (choice) {
-          choice.addEventListener('click', function () {
-            const selected = choice.getAttribute('aria-pressed') === 'true';
-            choice.setAttribute('aria-pressed', selected ? 'false' : 'true');
-            demoError.textContent = '';
-            updateSelectionState();
-          });
+        let references = viralReferences[outputKey] || [];
+        let referenceSection = document.createElement('section');
+        referenceSection.className = 'viral-reference';
+        referenceSection.setAttribute('aria-label', '지난 7일 바이럴 레퍼런스 예시');
+        let referenceHead = document.createElement('div');
+        referenceHead.className = 'viral-reference-head';
+        let referenceTitle = document.createElement('strong');
+        referenceTitle.textContent = '지난 7일, 비슷한 콘텐츠 3개';
+        let referenceNote = document.createElement('small');
+        referenceNote.textContent = '예시 데이터입니다';
+        referenceHead.appendChild(referenceTitle);
+        referenceHead.appendChild(referenceNote);
+        referenceSection.appendChild(referenceHead);
+        let guide = document.createElement('p');
+        guide.className = 'viral-guide';
+        guide.textContent = '‘확산 배수’가 높을수록 구독자 규모를 넘어 더 넓은 이용자에게 도달한 콘텐츠예요.';
+        referenceSection.appendChild(guide);
+        let referenceList = document.createElement('div');
+        referenceList.className = 'viral-list';
+        references.forEach(function (reference, index) {
+          let item = document.createElement('article');
+          item.className = 'viral-item';
+          let thumb = document.createElement('span');
+          thumb.className = 'viral-thumb';
+          thumb.setAttribute('aria-hidden', 'true');
+          thumb.style.filter = 'hue-rotate(' + (index * 34) + 'deg)';
+          let copy = document.createElement('div');
+          copy.className = 'viral-copy';
+          let channel = document.createElement('span');
+          channel.className = 'viral-channel';
+          channel.textContent = reference.channel;
+          let metrics = document.createElement('span');
+          metrics.className = 'viral-metrics';
+          metrics.textContent = '구독자 ' + reference.subs + ' · 조회수 ' + reference.views + ' = 확산 ' + reference.ratio.replace('×', '배');
+          let why = document.createElement('p');
+          why.className = 'viral-why';
+          let whyLabel = document.createElement('b');
+          whyLabel.textContent = '주목받은 이유 · ';
+          why.appendChild(whyLabel);
+          why.appendChild(document.createTextNode(reference.why));
+          copy.appendChild(channel);
+          copy.appendChild(metrics);
+          copy.appendChild(why);
+          item.appendChild(thumb);
+          item.appendChild(copy);
+          referenceList.appendChild(item);
         });
+        referenceSection.appendChild(referenceList);
+        card.appendChild(referenceSection);
+      });
+
+      function setResultDetailMode() {
+        let count = getSelectedChoices().length;
+        demoResults.classList.remove('detail-full', 'detail-medium', 'detail-compact');
+        demoResults.classList.add(count === 1 ? 'detail-full' : count === 2 ? 'detail-medium' : 'detail-compact');
+      }
+
+      function extractYoutubeId(value) {
+        let raw = value.trim();
+        if (!raw) return '';
+        try {
+          let parsed = new URL(/^https?:\/\//i.test(raw) ? raw : 'https://' + raw);
+          let host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+          let id = '';
+          if ((host === 'youtube.com' || host.slice(-12) === '.youtube.com') && parsed.pathname === '/watch') id = parsed.searchParams.get('v') || '';
+          else if (host === 'youtu.be') id = parsed.pathname.split('/').filter(Boolean)[0] || '';
+          return /^[A-Za-z0-9_-]{6,}$/.test(id) ? id : '';
+        } catch (error) { return ''; }
+      }
+
+      function clearDemoTimers() {
+        demoTimers.forEach(function (timer) { window.clearTimeout(timer); });
+        demoTimers = [];
+        if (demoFrame) window.cancelAnimationFrame(demoFrame);
+        demoFrame = 0;
+      }
+      function setDemoPhase(index, videoId) {
+        demoPhases.forEach(function (phase, phaseIndex) {
+          phase.classList.toggle('active', phaseIndex === index);
+          phase.classList.toggle('done', phaseIndex < index);
+        });
+        demoState.textContent = phaseMessages[index];
+        demoState.className = 'is-running';
+        demoMessage.innerHTML = index === 0 ? '<strong>바이브 코딩 1인 창업 3시간 통합본</strong>의 전체 맥락과 타임스탬프를 구조화하고 있습니다.' : phaseMessages[index];
+      }
+      function getSelectedChoices() {
+        return Array.prototype.filter.call(outputChoices, function (choice) { return choice.getAttribute('aria-pressed') === 'true'; });
+      }
+      function getSelectedGroups() {
+        let groups = [];
+        getSelectedChoices().forEach(function (choice) {
+          let group = choice.getAttribute('data-output-group');
+          if (groups.indexOf(group) === -1) groups.push(group);
+        });
+        return groups;
+      }
+      function updateSelectionState() {
+        let count = getSelectedChoices().length;
+        let groups = getSelectedGroups();
+        demoStart.disabled = count === 0;
+        demoStart.textContent = count ? '선택한 ' + count + '개 변환 시작' : '채널을 선택해 주세요';
+        setResultDetailMode();
+        q('#optimizationEmpty').hidden = count > 0;
+        qa('[data-optimization]').forEach(function (card) {
+          card.hidden = groups.indexOf(card.getAttribute('data-optimization')) === -1;
+        });
+      }
+      function revealDemoResults() {
+        let selected = getSelectedChoices();
+        let groups = getSelectedGroups();
+        let visibleCards = [];
+        demoPhases.forEach(function (phase) { phase.classList.remove('active'); phase.classList.add('done'); });
+        demoProgress.style.width = '100%';
+        demoState.textContent = '선택한 콘텐츠가 준비됐어요';
+        demoState.className = 'is-complete';
+        demoMessage.textContent = selected.length + '개 채널에 맞춘 결과를 검수할 수 있어요.';
+        demoResultsCount.textContent = '선택한 ' + selected.length + '개 플랫폼용 콘텐츠 구성';
+        demoCards.forEach(function (card) {
+          let visible = groups.indexOf(card.getAttribute('data-output')) !== -1;
+          card.hidden = !visible;
+          card.classList.remove('reveal');
+          if (visible) visibleCards.push(card);
+        });
+        demoResults.hidden = false;
+        visibleCards.forEach(function (card, index) { demoTimers.push(window.setTimeout(function () { card.classList.add('reveal'); }, index * 180)); });
+        demoTimers.push(window.setTimeout(function () { demoFinish.classList.add('reveal'); }, visibleCards.length * 180));
+        demoStart.disabled = false;
+        demoInput.readOnly = false;
+        outputChoices.forEach(function (choice) { choice.disabled = false; });
         updateSelectionState();
-        qa('.timestamp').forEach(function (button) {
-          button.addEventListener('click', function () {
-            const previous = button.textContent;
-            button.textContent = 'PREVIEW';
-            button.setAttribute('aria-pressed', 'true');
-            window.setTimeout(function () { button.textContent = previous; button.setAttribute('aria-pressed', 'false'); }, 900);
-          });
+      }
+      function runDemo(videoId) {
+        clearDemoTimers();
+        demoResults.hidden = true;
+        demoCards.forEach(function (card) { card.classList.remove('reveal'); card.hidden = true; });
+        demoFinish.classList.remove('reveal');
+        demoPhases.forEach(function (phase) { phase.classList.remove('active', 'done'); });
+        demoProgress.style.width = '0%';
+        demoVideoId.textContent = 'VIDEO ID / ' + videoId;
+        demoStart.disabled = true;
+        demoInput.readOnly = true;
+        outputChoices.forEach(function (choice) { choice.disabled = true; });
+        let elapsed = 0;
+        phaseDurations.forEach(function (duration, index) { demoTimers.push(window.setTimeout(function () { setDemoPhase(index, videoId); }, elapsed)); elapsed += duration; });
+        demoTimers.push(window.setTimeout(revealDemoResults, elapsed));
+        let startedAt = performance.now();
+        function updateProgress(now) {
+          let progress = Math.min(1, (now - startedAt) / elapsed);
+          let eased = progress < .5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+          demoProgress.style.width = (eased * 100) + '%';
+          if (progress < 1) demoFrame = window.requestAnimationFrame(updateProgress);
+        }
+        demoFrame = window.requestAnimationFrame(updateProgress);
+      }
+      function resetDemo() {
+        clearDemoTimers();
+        demoInput.value = 'https://youtu.be/P3jFI-VpyLg';
+        demoInput.readOnly = false;
+        demoInput.setAttribute('aria-invalid', 'false');
+        demoStart.disabled = false;
+        demoError.textContent = '';
+        demoState.textContent = '예시 영상을 준비했어요';
+        demoState.className = '';
+        demoVideoId.textContent = 'VIDEO / 바이브 코딩 1인 창업 3시간 통합본';
+        demoMessage.textContent = '3시간 12분 분량의 예시 영상입니다. 원하는 채널을 고르면 분석부터 결과 준비까지 보여드려요.';
+        demoProgress.style.width = '0%';
+        demoPhases.forEach(function (phase) { phase.classList.remove('active', 'done'); });
+        demoCards.forEach(function (card) { card.classList.remove('reveal'); card.hidden = true; });
+        demoFinish.classList.remove('reveal');
+        demoResults.hidden = true;
+        outputChoices.forEach(function (choice) { choice.disabled = false; choice.setAttribute('aria-pressed', 'false'); });
+        updateSelectionState();
+        demoInput.focus();
+      }
+      demoForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        let videoId = extractYoutubeId(demoInput.value);
+        if (!videoId) {
+          demoInput.setAttribute('aria-invalid', 'true');
+          demoError.textContent = 'youtube.com/watch?v= 또는 youtu.be/ 형식의 URL을 입력해 주세요.';
+          demoInput.focus();
+          return;
+        }
+        if (!getSelectedChoices().length) {
+          demoError.textContent = '먼저 만들고 싶은 콘텐츠를 하나 이상 선택해 주세요.';
+          return;
+        }
+        demoInput.setAttribute('aria-invalid', 'false');
+        demoError.textContent = '';
+        runDemo(videoId);
+      });
+      demoInput.addEventListener('input', function () { demoInput.setAttribute('aria-invalid', 'false'); demoError.textContent = ''; });
+      outputChoices.forEach(function (choice) {
+        choice.addEventListener('click', function () {
+          let selected = choice.getAttribute('aria-pressed') === 'true';
+          choice.setAttribute('aria-pressed', selected ? 'false' : 'true');
+          demoError.textContent = '';
+          updateSelectionState();
         });
-        demoRetry.addEventListener('click', resetDemo);
+      });
+      updateSelectionState();
+      qa('.timestamp').forEach(function (button) {
+        button.addEventListener('click', function () {
+          let previous = button.textContent;
+          button.textContent = 'PREVIEW';
+          button.setAttribute('aria-pressed', 'true');
+          window.setTimeout(function () { button.textContent = previous; button.setAttribute('aria-pressed', 'false'); }, 900);
+        });
+      });
+      demoRetry.addEventListener('click', resetDemo);
 
-        const channelTabs = qa('.channel-tab');
-        const channelPreview = q('#channelPreview');
-        const channelName = q('#channelName');
-        const channelFormat = q('#channelFormat');
-        const channelTitle = q('#channelTitle');
-        const channelCopy = q('#channelCopy');
-        const channelMeta = q('#channelMeta');
-        channelTabs.forEach(function (tab) {
-          tab.addEventListener('click', function () {
-            channelTabs.forEach(function (item) { item.setAttribute('aria-selected', 'false'); });
-            tab.setAttribute('aria-selected', 'true');
-            channelPreview.setAttribute('data-platform', tab.getAttribute('data-platform') || '');
-            channelName.textContent = tab.getAttribute('data-name') || '';
-            channelFormat.textContent = tab.getAttribute('data-format') || '';
-            channelTitle.textContent = tab.getAttribute('data-title') || '';
-            channelCopy.textContent = tab.getAttribute('data-copy') || '';
-            channelMeta.textContent = tab.getAttribute('data-meta') || '';
-          });
+      let channelTabs = qa('.channel-tab');
+      let channelPreview = q('#channelPreview');
+      let channelName = q('#channelName');
+      let channelFormat = q('#channelFormat');
+      let channelTitle = q('#channelTitle');
+      let channelCopy = q('#channelCopy');
+      let channelMeta = q('#channelMeta');
+      channelTabs.forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          channelTabs.forEach(function (item) { item.setAttribute('aria-selected', 'false'); });
+          tab.setAttribute('aria-selected', 'true');
+          channelPreview.setAttribute('data-platform', tab.getAttribute('data-platform'));
+          channelName.textContent = tab.getAttribute('data-name');
+          channelFormat.textContent = tab.getAttribute('data-format');
+          channelTitle.textContent = tab.getAttribute('data-title');
+          channelCopy.textContent = tab.getAttribute('data-copy');
+          channelMeta.textContent = tab.getAttribute('data-meta');
         });
-    
-  (window as unknown as { addEventListener: typeof window.addEventListener }).addEventListener = origWinAdd;
-  (window as unknown as { IntersectionObserver: typeof IntersectionObserver }).IntersectionObserver = OrigIO;
+      });
+    }());
+
   return () => {
-    listeners.forEach((l) => { try { l.el.removeEventListener(l.type, l.fn, l.opts); } catch {} });
+    (EventTarget.prototype as unknown as { addEventListener: typeof EventTarget.prototype.addEventListener }).addEventListener = origAdd;
+    (window as unknown as { setTimeout: typeof window.setTimeout }).setTimeout = origSetTimeout;
+    (window as unknown as { requestAnimationFrame: typeof window.requestAnimationFrame }).requestAnimationFrame = origRaf;
+    (window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = OrigIO;
+    listeners.forEach(([el, type, fn, opts]) => { try { el.removeEventListener(type, fn as EventListener, opts); } catch {} });
+    timeouts.forEach((id) => { try { window.clearTimeout(id); } catch {} });
+    rafs.forEach((id) => { try { window.cancelAnimationFrame(id); } catch {} });
     observers.forEach((o) => { try { o.disconnect(); } catch {} });
   };
 }
@@ -418,6 +461,7 @@ export default function Home() {
   const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!rootRef.current) return;
+    document.documentElement.classList.add("motion-ready");
     const cleanup = initPage(rootRef.current);
     return cleanup;
   }, []);
@@ -451,6 +495,7 @@ export default function Home() {
             <a className="button primary" href="#demo">직접 살펴보기 <i aria-hidden="true">↓</i></a>
             <a className="button" href="#pipeline">작동 방식 보기 <i aria-hidden="true">↓</i></a>
           </div>
+          <span className="hero-founded">STAY C · SINCE 2023</span>
         </div>
 
         <div className="hero-stage" id="heroStage" aria-label="하나의 원천에서 영상, 아티클, 뉴스레터, 소셜 콘텐츠로 확장되는 흐름">
@@ -459,6 +504,7 @@ export default function Home() {
             <path d="M72 282 C275 80 385 80 520 180 S765 326 972 278"></path>
           </svg>
           <span className="signal" aria-hidden="true"></span>
+          <span className="hero-particle hp1" aria-hidden="true"></span><span className="hero-particle hp2" aria-hidden="true"></span><span className="hero-particle hp3" aria-hidden="true"></span><span className="hero-particle hp4" aria-hidden="true"></span>
           <div className="source-core"><div className="core-copy"><span>ONE SOURCE</span><strong>UNDERSTAND</strong></div></div>
           <div className="float-card fc1" data-depth=".8"><span className="glyph">VID</span><strong>영상</strong><small>SOURCE INPUT</small></div>
           <div className="float-card fc2" data-depth=".45"><span className="glyph">TXT</span><strong>아티클</strong><small>LONG FORM</small></div>
@@ -625,6 +671,10 @@ export default function Home() {
             <path d="M1010 125 C850 155 850 265 735 320"></path>
             <path d="M270 525 C420 490 420 395 545 320"></path>
             <path className="blue-path" d="M1010 525 C850 490 850 390 735 320"></path>
+            <path className="energy-path e1" d="M270 125 C420 145 420 260 545 320"></path>
+            <path className="energy-path e2" d="M1010 125 C850 155 850 265 735 320"></path>
+            <path className="energy-path e3" d="M270 525 C420 490 420 395 545 320"></path>
+            <path className="energy-path e4" d="M1010 525 C850 490 850 390 735 320"></path>
             <circle cx="640" cy="320" r="235" fill="none" stroke="currentColor" strokeOpacity=".08"></circle>
           </svg>
           <span className="particle p1" aria-hidden="true"></span><span className="particle p2" aria-hidden="true"></span><span className="particle p3" aria-hidden="true"></span><span className="particle p4" aria-hidden="true"></span>
@@ -697,7 +747,7 @@ export default function Home() {
 
   <footer>
     <div className="wrap">
-      <div className="footer-top"><p className="footer-statement">One Source.<br /><span className="blue">Many Possibilities.</span></p><div className="footer-links">KNCA Labs · AI Content Automation Platform<br />Operated by Stay C (스테이씨)<br /><a href="mailto:founder@kncalabs.com">founder@kncalabs.com</a> · <a href="https://kncalabs.com/" target="_blank" rel="noreferrer">kncalabs.com ↗</a></div></div>
+      <div className="footer-top"><p className="footer-statement">One Source.<br /><span className="blue">Many Possibilities.</span></p><div className="footer-links">KNCA Labs · AI Content Automation Platform<br />Operated by Stay C (스테이씨)<br /><span className="founded-badge">2023년 설립</span><br /><a href="mailto:founder@kncalabs.com">founder@kncalabs.com</a> · <a href="https://kncalabs.com/" target="_blank" rel="noreferrer">kncalabs.com ↗</a></div></div>
       <div className="business"><address>대표 김하늘 · 사업자등록번호 782-26-015552 · 제주특별자치도 제주시 애월읍 예원로 144 · 010-3298-3775</address><span className="corner">KNCA LABS © 2026<br />ALPHA / SOUTH KOREA</span></div>
     </div>
   </footer>
