@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+    @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
     :root {
       color-scheme: light;
@@ -285,6 +286,8 @@
     .demo-start:hover, .demo-retry:hover { transform: translateY(-3px); background: var(--blue-dark); box-shadow: 0 14px 28px color-mix(in srgb, var(--blue) 24%, transparent); }
     .demo-start:disabled { cursor: wait; opacity: .56; transform: none; }
     .demo-error { min-height: 17px; margin: 8px 0 -3px; color: #d94a59; font-size: 12px; }
+    .demo-note { display: flex; align-items: center; gap: 7px; margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+    .demo-note::before { content: ""; flex: 0 0 auto; width: 6px; height: 6px; border-radius: 50%; background: var(--blue); }
     .demo-workspace { padding: 30px; }
     .demo-statusbar { display: flex; justify-content: space-between; gap: 18px; color: var(--faint); font: 500 9px/1.4 "IBM Plex Mono", monospace; letter-spacing: .11em; }
     .demo-statusbar strong { color: var(--muted); font-weight: 500; }
@@ -1175,3 +1178,4 @@
       .reveal, .motion-ready .reveal:not(.in) { opacity: 1; transform: none; clip-path: none; }
       .float-card { translate: 0 0; rotate: 0deg; }
     }
+  

@@ -1,32 +1,20 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
+/* eslint-disable */
 "use client";
-/* eslint-disable prefer-const, @typescript-eslint/no-unused-vars */
 import { useEffect, useRef } from "react";
 import "./showreel.css";
 
-function initPage(root: HTMLElement): () => void {
-  // Track everything for cleanup on unmount
-  const listeners: Array<[EventTarget, string, EventListener, AddEventListenerOptions | boolean | undefined]> = [];
-  const origAdd = EventTarget.prototype.addEventListener;
-  (EventTarget.prototype as unknown as { addEventListener: typeof EventTarget.prototype.addEventListener }).addEventListener = function (this: EventTarget, type: string, fn: EventListener, opts?: AddEventListenerOptions | boolean) {
-    listeners.push([this, type, fn, opts]);
-    return origAdd.call(this, type, fn, opts);
+function initPage(root: HTMLElement) {
+  const q = (sel: string): HTMLElement => root.querySelector(sel) as HTMLElement;
+  const qa = (sel: string): HTMLElement[] => Array.from(root.querySelectorAll(sel)) as HTMLElement[];
+
+  const listeners: Array<{ el: EventTarget; type: string; fn: EventListener; opts?: AddEventListenerOptions | boolean }> = [];
+  const origWinAdd = window.addEventListener.bind(window);
+  (window as unknown as { addEventListener: (type: string, fn: EventListener, opts?: AddEventListenerOptions | boolean) => void }).addEventListener = (type: string, fn: EventListener, opts?: AddEventListenerOptions | boolean) => {
+    listeners.push({ el: window, type, fn, opts });
+    origWinAdd(type, fn, opts);
   };
-  const timeouts: number[] = [];
-  const origSetTimeout = window.setTimeout.bind(window);
-  (window as unknown as { setTimeout: unknown }).setTimeout = ((fn: (...a: unknown[]) => void, ms?: number, ...args: unknown[]) => {
-    const id = origSetTimeout(fn as (...a: never[]) => void, ms, ...args);
-    timeouts.push(id as unknown as number);
-    return id;
-  }) as unknown as typeof window.setTimeout;
-  const rafs: number[] = [];
-  const origRaf = window.requestAnimationFrame.bind(window);
-  (window as unknown as { requestAnimationFrame: unknown }).requestAnimationFrame = ((fn: FrameRequestCallback) => {
-    const id = origRaf(fn);
-    rafs.push(id);
-    return id;
-  }) as unknown as typeof window.requestAnimationFrame;
   const observers: IntersectionObserver[] = [];
   const OrigIO = window.IntersectionObserver;
   (window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = function (this: unknown, cb: IntersectionObserverCallback, opts?: IntersectionObserverInit) {
@@ -36,25 +24,20 @@ function initPage(root: HTMLElement): () => void {
   } as unknown as typeof IntersectionObserver;
   ((window as unknown as { IntersectionObserver: unknown }).IntersectionObserver as typeof IntersectionObserver).prototype = OrigIO.prototype;
 
-  // Non-null DOM helpers scoped to the page root.
-  // NOTE: these must call root.querySelector(All) directly — never q/qa themselves.
-  const q = (sel: string): HTMLElement => root.querySelector(sel) as HTMLElement;
-  const qa = (sel: string): HTMLElement[] => Array.from(root.querySelectorAll(sel)) as HTMLElement[];
 
-(function () {
-      let nav = q('#nav');
+      var nav = root.querySelector('#nav');
       function updateNav() { nav.classList.toggle('scrolled', window.scrollY > 24); }
       updateNav();
       window.addEventListener('scroll', updateNav, { passive: true });
 
-      let reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let revealItems = qa('.reveal:not(.demo-result-card):not(.demo-finish)');
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      var revealItems = root.querySelectorAll('.reveal:not(.demo-result-card):not(.demo-finish)');
       revealItems.forEach(function (item) {
-        let delayStep = Number(item.getAttribute('data-delay')) || 0;
+        var delayStep = Number(item.getAttribute('data-delay')) || 0;
         item.style.setProperty('--reveal-delay', (delayStep * 95) + 'ms');
       });
       if ('IntersectionObserver' in window && !reduceMotion) {
-        let revealObserver = new IntersectionObserver(function (entries) {
+        var revealObserver = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) {
             if (entry.isIntersecting) {
               entry.target.classList.add('in');
@@ -67,19 +50,19 @@ function initPage(root: HTMLElement): () => void {
         revealItems.forEach(function (item) { item.classList.add('in'); });
       }
 
-      let heroStage = q('#heroStage');
-      let floatCards = Array.from(heroStage.querySelectorAll('[data-depth]')) as HTMLElement[];
+      var heroStage = root.querySelector('#heroStage');
+      var floatCards = heroStage.querySelectorAll('[data-depth]');
       if (!reduceMotion && window.matchMedia('(pointer: fine)').matches) {
-        let heroMotionFrame = 0;
-        let targetX = 0;
-        let targetY = 0;
-        let currentX = 0;
-        let currentY = 0;
+        var heroMotionFrame = 0;
+        var targetX = 0;
+        var targetY = 0;
+        var currentX = 0;
+        var currentY = 0;
         function renderHeroMotion() {
           currentX += (targetX - currentX) * .085;
           currentY += (targetY - currentY) * .085;
           floatCards.forEach(function (card) {
-            let depth = Number(card.getAttribute('data-depth'));
+            var depth = Number(card.getAttribute('data-depth'));
             card.style.setProperty('--px', (currentX * 20 * depth).toFixed(2) + 'px');
             card.style.setProperty('--py', (currentY * 15 * depth).toFixed(2) + 'px');
           });
@@ -88,7 +71,7 @@ function initPage(root: HTMLElement): () => void {
         }
         function queueHeroMotion() { if (!heroMotionFrame) heroMotionFrame = window.requestAnimationFrame(renderHeroMotion); }
         heroStage.addEventListener('pointermove', function (event) {
-          let rect = heroStage.getBoundingClientRect();
+          var rect = heroStage.getBoundingClientRect();
           targetX = (event.clientX - rect.left) / rect.width - .5;
           targetY = (event.clientY - rect.top) / rect.height - .5;
           queueHeroMotion();
@@ -96,13 +79,13 @@ function initPage(root: HTMLElement): () => void {
         heroStage.addEventListener('pointerleave', function () { targetX = 0; targetY = 0; queueHeroMotion(); });
       }
 
-      let counters = qa('.counter');
+      var counters = root.querySelectorAll('.counter');
       function animateCounter(counter) {
-        let target = Number(counter.getAttribute('data-count')) || 0;
-        let started = performance.now();
+        var target = Number(counter.getAttribute('data-count')) || 0;
+        var started = performance.now();
         function step(now) {
-          let progress = Math.min(1, (now - started) / 1250);
-          let eased = 1 - Math.pow(1 - progress, 5);
+          var progress = Math.min(1, (now - started) / 1250);
+          var eased = 1 - Math.pow(1 - progress, 5);
           counter.textContent = String(Math.min(target, Math.round(target * eased))).padStart(2, '0');
           if (progress < 1) requestAnimationFrame(step);
           else counter.animate([{ transform: 'translateY(0) scale(1)' }, { transform: 'translateY(-3px) scale(1.08)' }, { transform: 'translateY(0) scale(1)' }], { duration: 420, easing: 'cubic-bezier(.34,1.56,.64,1)' });
@@ -110,7 +93,7 @@ function initPage(root: HTMLElement): () => void {
         requestAnimationFrame(step);
       }
       if ('IntersectionObserver' in window && !reduceMotion) {
-        let counterObserver = new IntersectionObserver(function (entries) {
+        var counterObserver = new IntersectionObserver(function (entries) {
           entries.forEach(function (entry) { if (entry.isIntersecting) { animateCounter(entry.target); counterObserver.unobserve(entry.target); } });
         }, { threshold: .6 });
         counters.forEach(function (counter) { counterObserver.observe(counter); });
@@ -118,27 +101,27 @@ function initPage(root: HTMLElement): () => void {
         counters.forEach(function (counter) { counter.textContent = String(Number(counter.getAttribute('data-count'))).padStart(2, '0'); });
       }
 
-      let demoForm = q('#demoForm');
-      let demoInput = q('#youtubeUrl');
-      let demoStart = q('#demoStart');
-      let demoError = q('#demoError');
-      let demoState = q('#demoState');
-      let demoVideoId = q('#demoVideoId');
-      let demoMessage = q('#demoMessage');
-      let demoProgress = q('#demoProgress');
-      let demoChoices = q('#demoChoices');
-      let outputChoices = qa('[data-output-choice]');
-      let demoResults = q('#demoResults');
-      let demoResultsCount = q('.demo-results-head span');
-      let demoFinish = q('#demoFinish');
-      let demoRetry = q('#demoRetry');
-      let demoPhases = qa('[data-demo-phase]');
-      let demoCards = qa('.demo-result-card');
-      let demoTimers = [];
-      let demoFrame = 0;
-      let phaseMessages = ['YouTube URL을 확인하고 있어요...', '영상의 전체 맥락을 읽고 있어요...', '핵심 구간과 메시지를 찾고 있어요...', '선택한 채널에 맞춰 결과를 준비하고 있어요...'];
-      let phaseDurations = [850, 950, 900, 900];
-      let outputDetails = {
+      var demoForm = root.querySelector('#demoForm');
+      var demoInput = root.querySelector('#youtubeUrl');
+      var demoStart = root.querySelector('#demoStart');
+      var demoError = root.querySelector('#demoError');
+      var demoState = root.querySelector('#demoState');
+      var demoVideoId = root.querySelector('#demoVideoId');
+      var demoMessage = root.querySelector('#demoMessage');
+      var demoProgress = root.querySelector('#demoProgress');
+      var demoChoices = root.querySelector('#demoChoices');
+      var outputChoices = root.querySelectorAll('[data-output-choice]');
+      var demoResults = root.querySelector('#demoResults');
+      var demoResultsCount = root.querySelector('.demo-results-head span');
+      var demoFinish = root.querySelector('#demoFinish');
+      var demoRetry = root.querySelector('#demoRetry');
+      var demoPhases = root.querySelectorAll('[data-demo-phase]');
+      var demoCards = root.querySelectorAll('.demo-result-card');
+      var demoTimers = [];
+      var demoFrame = 0;
+      var phaseMessages = ['YouTube URL을 확인하고 있어요...', '영상의 전체 맥락을 읽고 있어요...', '핵심 구간과 메시지를 찾고 있어요...', '선택한 채널에 맞춰 결과를 준비하고 있어요...'];
+      var phaseDurations = [850, 950, 900, 900];
+      var outputDetails = {
         youtube: { reasons: ['채널 선호 방식인 3초 결론 선공개로 이탈을 줄이고, 최신 키네틱 자막으로 핵심 단어를 즉시 읽게 했어요.', '완주를 유도하는 숫자형 리스트에 단어 단위 하이라이트 자막을 붙여 다음 항목을 기다리게 했어요.', '반전 장면을 먼저 던지는 오픈 루프와 중간 리훅을 넣어 시청 유지 흐름을 만들었어요.'], seo: '채널 선호 · 시청 유지 / 최신 트렌드 · 3초 훅·키네틱 자막·리훅' },
         reels: { reasons: ['릴스가 선호하는 저장형 순서 콘텐츠를 트렌딩 오디오의 비트 컷에 맞춰 빠르게 전개했어요.', '공감 문장을 첫 화면에 두고 친구에게 보내기 좋은 공유 훅으로 자연스럽게 연결했어요.', '마지막 프레임이 첫 장면으로 이어지는 심리스 루프와 저장 CTA를 함께 설계했어요.'], seo: '채널 선호 · 저장·공유 / 최신 트렌드 · 트렌딩 오디오·비트 컷·심리스 루프' },
         tiktok: { reasons: ['틱톡 특유의 POV 챌린지 문법과 빠른 컷으로 시청자가 상황에 바로 들어오게 했어요.', '원본 주장에 바로 답하는 듀엣·리액션 포맷으로 참여와 2차 대화를 만들었어요.', '검색형 문장을 첫 자막에 두고 따라 하기 쉬운 3단계 챌린지를 루프로 마무리했어요.'], seo: '채널 선호 · 참여·재현 / 최신 트렌드 · POV 챌린지·듀엣·검색 훅' },
@@ -150,7 +133,7 @@ function initPage(root: HTMLElement): () => void {
         newsletter: { reasons: ['호기심 간극을 만든 제목 A/B안으로 받은편지함에서 열어볼 이유를 먼저 제시했어요.', '시간과 결과를 구체적으로 약속하고 프리헤더가 제목의 의미를 이어받게 했어요.', '익숙한 시리즈명과 개인적인 말투를 결합해 정기 구독자가 빠르게 알아보게 했어요.'], seo: '채널 선호 · 오픈·클릭 / 최신 트렌드 · 호기심 간극·구체적 혜택·프리헤더' },
         ad: { reasons: ['광고처럼 보이지 않는 UGC형 데모로 시작해 첫 프레임에서 결과를 직접 보여줬어요.', '문제–해결 구조의 텍스트 중심 소재로 작은 화면에서도 혜택을 바로 이해하게 했어요.', '훅·증거·CTA를 바꾼 매트릭스형 변형을 만들어 성과에 따라 빠르게 비교할 수 있게 했어요.'], seo: '채널 선호 · 첫 프레임 주목·행동 / 최신 트렌드 · UGC 데모·텍스트 중심·훅 매트릭스' }
       };
-      let viralReferences = {
+      var viralReferences = {
         youtube: [
           { channel: 'AI 실전 노트', subs: '1.2만', views: '71만', ratio: '59.2×', why: '3초 결론 훅 + 단어별 키네틱 자막으로 초반 이탈을 줄인 구성' },
           { channel: '솔로 빌더 랩', subs: '4.8만', views: '180만', ratio: '37.5×', why: '숫자형 리스트 + 중간 리훅으로 완주 기대를 이어간 구성' },
@@ -202,54 +185,54 @@ function initPage(root: HTMLElement): () => void {
           { channel: '브랜드 실험실 C', subs: '7.9천', views: '41만', ratio: '51.9×', why: '훅·증거·CTA를 바꾼 변형으로 승자 소재를 빠르게 탐색' }
         ]
       };
-      qa('.quick-output').forEach(function (card) {
-        let outputKey = card.getAttribute('data-output');
-        let detail = outputDetails[outputKey] || { reasons: ['핵심 메시지를 채널에 맞게 다시 구성했어요.'], seo: '길이 · 말투 · 노출 방식' };
-        (card.querySelectorAll('.quick-sample') as unknown as HTMLElement[]).forEach(function (sample, index) {
-          let description = document.createElement('small');
+      root.querySelectorAll('.quick-output').forEach(function (card) {
+        var outputKey = card.getAttribute('data-output');
+        var detail = outputDetails[outputKey] || { reasons: ['핵심 메시지를 채널에 맞게 다시 구성했어요.'], seo: '길이 · 말투 · 노출 방식' };
+        card.querySelectorAll('.quick-sample').forEach(function (sample, index) {
+          var description = document.createElement('small');
           description.textContent = '이렇게 만든 이유 · ' + (detail.reasons[index] || detail.reasons[0]);
-          let seo = document.createElement('em');
+          var seo = document.createElement('em');
           seo.textContent = '최적화 포인트 · ' + detail.seo;
           sample.appendChild(description);
           sample.appendChild(seo);
         });
-        let references = viralReferences[outputKey] || [];
-        let referenceSection = document.createElement('section');
+        var references = viralReferences[outputKey] || [];
+        var referenceSection = document.createElement('section');
         referenceSection.className = 'viral-reference';
         referenceSection.setAttribute('aria-label', '지난 7일 바이럴 레퍼런스 예시');
-        let referenceHead = document.createElement('div');
+        var referenceHead = document.createElement('div');
         referenceHead.className = 'viral-reference-head';
-        let referenceTitle = document.createElement('strong');
+        var referenceTitle = document.createElement('strong');
         referenceTitle.textContent = '지난 7일, 비슷한 콘텐츠 3개';
-        let referenceNote = document.createElement('small');
+        var referenceNote = document.createElement('small');
         referenceNote.textContent = '예시 데이터입니다';
         referenceHead.appendChild(referenceTitle);
         referenceHead.appendChild(referenceNote);
         referenceSection.appendChild(referenceHead);
-        let guide = document.createElement('p');
+        var guide = document.createElement('p');
         guide.className = 'viral-guide';
         guide.textContent = '‘확산 배수’가 높을수록 구독자 규모를 넘어 더 넓은 이용자에게 도달한 콘텐츠예요.';
         referenceSection.appendChild(guide);
-        let referenceList = document.createElement('div');
+        var referenceList = document.createElement('div');
         referenceList.className = 'viral-list';
         references.forEach(function (reference, index) {
-          let item = document.createElement('article');
+          var item = document.createElement('article');
           item.className = 'viral-item';
-          let thumb = document.createElement('span');
+          var thumb = document.createElement('span');
           thumb.className = 'viral-thumb';
           thumb.setAttribute('aria-hidden', 'true');
           thumb.style.filter = 'hue-rotate(' + (index * 34) + 'deg)';
-          let copy = document.createElement('div');
+          var copy = document.createElement('div');
           copy.className = 'viral-copy';
-          let channel = document.createElement('span');
+          var channel = document.createElement('span');
           channel.className = 'viral-channel';
           channel.textContent = reference.channel;
-          let metrics = document.createElement('span');
+          var metrics = document.createElement('span');
           metrics.className = 'viral-metrics';
           metrics.textContent = '구독자 ' + reference.subs + ' · 조회수 ' + reference.views + ' = 확산 ' + reference.ratio.replace('×', '배');
-          let why = document.createElement('p');
+          var why = document.createElement('p');
           why.className = 'viral-why';
-          let whyLabel = document.createElement('b');
+          var whyLabel = document.createElement('b');
           whyLabel.textContent = '주목받은 이유 · ';
           why.appendChild(whyLabel);
           why.appendChild(document.createTextNode(reference.why));
@@ -265,20 +248,23 @@ function initPage(root: HTMLElement): () => void {
       });
 
       function setResultDetailMode() {
-        let count = getSelectedChoices().length;
+        var count = getSelectedChoices().length;
         demoResults.classList.remove('detail-full', 'detail-medium', 'detail-compact');
         demoResults.classList.add(count === 1 ? 'detail-full' : count === 2 ? 'detail-medium' : 'detail-compact');
       }
 
       function extractYoutubeId(value) {
-        let raw = value.trim();
+        var raw = value.trim();
         if (!raw) return '';
         try {
-          let parsed = new URL(/^https?:\/\//i.test(raw) ? raw : 'https://' + raw);
-          let host = parsed.hostname.toLowerCase().replace(/^www\./, '');
-          let id = '';
-          if ((host === 'youtube.com' || host.slice(-12) === '.youtube.com') && parsed.pathname === '/watch') id = parsed.searchParams.get('v') || '';
-          else if (host === 'youtu.be') id = parsed.pathname.split('/').filter(Boolean)[0] || '';
+          var parsed = new URL(/^https?:\/\//i.test(raw) ? raw : 'https://' + raw);
+          var host = parsed.hostname.toLowerCase().replace(/^www\./, '');
+          var isYoutubeHost = host === 'youtube.com' || host.endsWith('.youtube.com');
+          var pathParts = parsed.pathname.split('/').filter(Boolean);
+          var id = '';
+          if (isYoutubeHost && pathParts[0] === 'watch') id = parsed.searchParams.get('v') || '';
+          else if (host === 'youtu.be') id = pathParts[0] || '';
+          else if (isYoutubeHost && pathParts[0] === 'shorts') id = pathParts[1] || '';
           return /^[A-Za-z0-9_-]{6,}$/.test(id) ? id : '';
         } catch (error) { return ''; }
       }
@@ -294,36 +280,36 @@ function initPage(root: HTMLElement): () => void {
           phase.classList.toggle('active', phaseIndex === index);
           phase.classList.toggle('done', phaseIndex < index);
         });
-        demoState.textContent = phaseMessages[index];
+        demoState.textContent = '영상 ID ' + videoId + ' 분석 중...';
         demoState.className = 'is-running';
-        demoMessage.innerHTML = index === 0 ? '<strong>바이브 코딩 1인 창업 3시간 통합본</strong>의 전체 맥락과 타임스탬프를 구조화하고 있습니다.' : phaseMessages[index];
+        demoMessage.textContent = index === 0 ? '입력한 영상의 형식을 확인했습니다. 예시 데이터로 분석 흐름을 시연합니다.' : phaseMessages[index];
       }
       function getSelectedChoices() {
         return Array.prototype.filter.call(outputChoices, function (choice) { return choice.getAttribute('aria-pressed') === 'true'; });
       }
       function getSelectedGroups() {
-        let groups = [];
+        var groups = [];
         getSelectedChoices().forEach(function (choice) {
-          let group = choice.getAttribute('data-output-group');
+          var group = choice.getAttribute('data-output-group');
           if (groups.indexOf(group) === -1) groups.push(group);
         });
         return groups;
       }
       function updateSelectionState() {
-        let count = getSelectedChoices().length;
-        let groups = getSelectedGroups();
+        var count = getSelectedChoices().length;
+        var groups = getSelectedGroups();
         demoStart.disabled = count === 0;
         demoStart.textContent = count ? '선택한 ' + count + '개 변환 시작' : '채널을 선택해 주세요';
         setResultDetailMode();
-        q('#optimizationEmpty').hidden = count > 0;
-        qa('[data-optimization]').forEach(function (card) {
+        root.querySelector('#optimizationEmpty').hidden = count > 0;
+        root.querySelectorAll('[data-optimization]').forEach(function (card) {
           card.hidden = groups.indexOf(card.getAttribute('data-optimization')) === -1;
         });
       }
       function revealDemoResults() {
-        let selected = getSelectedChoices();
-        let groups = getSelectedGroups();
-        let visibleCards = [];
+        var selected = getSelectedChoices();
+        var groups = getSelectedGroups();
+        var visibleCards = [];
         demoPhases.forEach(function (phase) { phase.classList.remove('active'); phase.classList.add('done'); });
         demoProgress.style.width = '100%';
         demoState.textContent = '선택한 콘텐츠가 준비됐어요';
@@ -331,7 +317,7 @@ function initPage(root: HTMLElement): () => void {
         demoMessage.textContent = selected.length + '개 채널에 맞춘 결과를 검수할 수 있어요.';
         demoResultsCount.textContent = '선택한 ' + selected.length + '개 플랫폼용 콘텐츠 구성';
         demoCards.forEach(function (card) {
-          let visible = groups.indexOf(card.getAttribute('data-output')) !== -1;
+          var visible = groups.indexOf(card.getAttribute('data-output')) !== -1;
           card.hidden = !visible;
           card.classList.remove('reveal');
           if (visible) visibleCards.push(card);
@@ -355,13 +341,13 @@ function initPage(root: HTMLElement): () => void {
         demoStart.disabled = true;
         demoInput.readOnly = true;
         outputChoices.forEach(function (choice) { choice.disabled = true; });
-        let elapsed = 0;
+        var elapsed = 0;
         phaseDurations.forEach(function (duration, index) { demoTimers.push(window.setTimeout(function () { setDemoPhase(index, videoId); }, elapsed)); elapsed += duration; });
         demoTimers.push(window.setTimeout(revealDemoResults, elapsed));
-        let startedAt = performance.now();
+        var startedAt = performance.now();
         function updateProgress(now) {
-          let progress = Math.min(1, (now - startedAt) / elapsed);
-          let eased = progress < .5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+          var progress = Math.min(1, (now - startedAt) / elapsed);
+          var eased = progress < .5 ? 4 * progress * progress * progress : 1 - Math.pow(-2 * progress + 2, 3) / 2;
           demoProgress.style.width = (eased * 100) + '%';
           if (progress < 1) demoFrame = window.requestAnimationFrame(updateProgress);
         }
@@ -389,14 +375,22 @@ function initPage(root: HTMLElement): () => void {
       }
       demoForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        let videoId = extractYoutubeId(demoInput.value);
+        var rawUrl = demoInput.value.trim();
+        if (!rawUrl) {
+          demoInput.setAttribute('aria-invalid', 'true');
+          demoError.textContent = '분석할 YouTube 영상 URL을 입력해 주세요.';
+          demoInput.focus();
+          return;
+        }
+        var videoId = extractYoutubeId(rawUrl);
         if (!videoId) {
           demoInput.setAttribute('aria-invalid', 'true');
-          demoError.textContent = 'youtube.com/watch?v= 또는 youtu.be/ 형식의 URL을 입력해 주세요.';
+          demoError.textContent = '올바른 YouTube URL을 입력해 주세요. watch?v=, youtu.be/, shorts/ 형식을 사용할 수 있어요.';
           demoInput.focus();
           return;
         }
         if (!getSelectedChoices().length) {
+          demoInput.setAttribute('aria-invalid', 'false');
           demoError.textContent = '먼저 만들고 싶은 콘텐츠를 하나 이상 선택해 주세요.';
           return;
         }
@@ -407,16 +401,16 @@ function initPage(root: HTMLElement): () => void {
       demoInput.addEventListener('input', function () { demoInput.setAttribute('aria-invalid', 'false'); demoError.textContent = ''; });
       outputChoices.forEach(function (choice) {
         choice.addEventListener('click', function () {
-          let selected = choice.getAttribute('aria-pressed') === 'true';
+          var selected = choice.getAttribute('aria-pressed') === 'true';
           choice.setAttribute('aria-pressed', selected ? 'false' : 'true');
           demoError.textContent = '';
           updateSelectionState();
         });
       });
       updateSelectionState();
-      qa('.timestamp').forEach(function (button) {
+      root.querySelectorAll('.timestamp').forEach(function (button) {
         button.addEventListener('click', function () {
-          let previous = button.textContent;
+          var previous = button.textContent;
           button.textContent = 'PREVIEW';
           button.setAttribute('aria-pressed', 'true');
           window.setTimeout(function () { button.textContent = previous; button.setAttribute('aria-pressed', 'false'); }, 900);
@@ -424,13 +418,13 @@ function initPage(root: HTMLElement): () => void {
       });
       demoRetry.addEventListener('click', resetDemo);
 
-      let channelTabs = qa('.channel-tab');
-      let channelPreview = q('#channelPreview');
-      let channelName = q('#channelName');
-      let channelFormat = q('#channelFormat');
-      let channelTitle = q('#channelTitle');
-      let channelCopy = q('#channelCopy');
-      let channelMeta = q('#channelMeta');
+      var channelTabs = root.querySelectorAll('.channel-tab');
+      var channelPreview = root.querySelector('#channelPreview');
+      var channelName = root.querySelector('#channelName');
+      var channelFormat = root.querySelector('#channelFormat');
+      var channelTitle = root.querySelector('#channelTitle');
+      var channelCopy = root.querySelector('#channelCopy');
+      var channelMeta = root.querySelector('#channelMeta');
       channelTabs.forEach(function (tab) {
         tab.addEventListener('click', function () {
           channelTabs.forEach(function (item) { item.setAttribute('aria-selected', 'false'); });
@@ -443,25 +437,22 @@ function initPage(root: HTMLElement): () => void {
           channelMeta.textContent = tab.getAttribute('data-meta');
         });
       });
-    }());
 
   return () => {
-    (EventTarget.prototype as unknown as { addEventListener: typeof EventTarget.prototype.addEventListener }).addEventListener = origAdd;
-    (window as unknown as { setTimeout: typeof window.setTimeout }).setTimeout = origSetTimeout;
-    (window as unknown as { requestAnimationFrame: typeof window.requestAnimationFrame }).requestAnimationFrame = origRaf;
+    listeners.forEach(({ el, type, fn, opts }) => {
+      el.removeEventListener(type, fn, opts);
+    });
+    observers.forEach(o => o.disconnect());
+    (window as unknown as { addEventListener: unknown }).addEventListener = origWinAdd;
     (window as unknown as { IntersectionObserver: unknown }).IntersectionObserver = OrigIO;
-    listeners.forEach(([el, type, fn, opts]) => { try { el.removeEventListener(type, fn as EventListener, opts); } catch {} });
-    timeouts.forEach((id) => { try { window.clearTimeout(id); } catch {} });
-    rafs.forEach((id) => { try { window.cancelAnimationFrame(id); } catch {} });
-    observers.forEach((o) => { try { o.disconnect(); } catch {} });
   };
 }
+
 
 export default function Home() {
   const rootRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!rootRef.current) return;
-    document.documentElement.classList.add("motion-ready");
     const cleanup = initPage(rootRef.current);
     return cleanup;
   }, []);
@@ -538,13 +529,14 @@ export default function Home() {
           <div className="demo-shell">
           <div className="demo-top">
             <div className="demo-index">01</div>
-            <form className="demo-form" id="demoForm" noValidate>
+            <form className="demo-form" id="demoForm" novalidate>
               <label htmlFor="youtubeUrl">PASTE A YOUTUBE SOURCE URL</label>
               <div className="demo-input-row">
-                <input className="demo-input" id="youtubeUrl" name="youtubeUrl" type="url" inputMode="url" autoComplete="url" defaultValue="https://youtu.be/P3jFI-VpyLg" aria-label="YouTube 영상 URL" aria-describedby="demoError" />
+                <input className="demo-input" id="youtubeUrl" name="youtubeUrl" type="url" inputmode="url" autocomplete="url" value="https://youtu.be/P3jFI-VpyLg" aria-label="YouTube 영상 URL" aria-describedby="demoError" />
                 <button className="demo-start" id="demoStart" type="submit" disabled>채널을 선택해 주세요</button>
               </div>
               <p className="demo-error" id="demoError" role="alert"></p>
+              <p className="demo-note">URL 형식을 확인한 뒤, 아래 결과는 예시 데이터로 시연합니다.</p>
               <div className="demo-choices" id="demoChoices">
                 <div className="demo-choice-head"><div><p>CHOOSE CHANNELS</p><h3>원하는 채널을 골라주세요</h3></div><span>멀티 선택</span></div>
                 <div className="demo-choice-grid" aria-label="만들 콘텐츠 선택">
@@ -675,7 +667,7 @@ export default function Home() {
             <path className="energy-path e2" d="M1010 125 C850 155 850 265 735 320"></path>
             <path className="energy-path e3" d="M270 525 C420 490 420 395 545 320"></path>
             <path className="energy-path e4" d="M1010 525 C850 490 850 390 735 320"></path>
-            <circle cx="640" cy="320" r="235" fill="none" stroke="currentColor" strokeOpacity=".08"></circle>
+            <circle cx="640" cy="320" r="235" fill="none" stroke="currentColor" stroke-opacity=".08"></circle>
           </svg>
           <span className="particle p1" aria-hidden="true"></span><span className="particle p2" aria-hidden="true"></span><span className="particle p3" aria-hidden="true"></span><span className="particle p4" aria-hidden="true"></span>
           <article className="pipeline-node pn1"><span>01 / UNDERSTANDING</span><h3>원천을 읽습니다</h3><p>이야기와 핵심 논리, 반복될 맥락을 구조화합니다.</p></article>
