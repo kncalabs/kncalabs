@@ -1,468 +1,538 @@
 
-"use client";
+    @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
-import { useEffect, useRef, useState } from "react";
-import "./showreel.css";
-
-const PHASE_MESSAGES = [
-  "3시간 12분 영상 분석 중...",
-  "하이라이트와 콘텐츠 생성 중...",
-  "채널별 훅과 말투 최적화 중...",
-  "검수·배포 패키지 준비 중...",
-];
-const PHASE_DURATIONS = [1150, 1150, 900, 900];
-const RESULT_CARD_COUNT = 4;
-
-function extractYoutubeId(value: string): string {
-  const raw = value.trim();
-  if (!raw) return "";
-  try {
-    const parsed = new URL(/^https?:\/\//i.test(raw) ? raw : "https://" + raw);
-    const host = parsed.hostname.toLowerCase().replace(/^www\./, "");
-    let id = "";
-    if ((host === "youtube.com" || host.slice(-12) === ".youtube.com") && parsed.pathname === "/watch") {
-      id = parsed.searchParams.get("v") || "";
-    } else if (host === "youtu.be") {
-      id = parsed.pathname.split("/").filter(Boolean)[0] || "";
+    :root {
+      color-scheme: light;
+      --bg: #fafaf6;
+      --bg-2: #f3f3ed;
+      --paper: #fffefa;
+      --ink: #171714;
+      --muted: #666660;
+      --faint: #92928a;
+      --blue: #0a66ff;
+      --blue-dark: #0751ca;
+      --blue-soft: #e8f0ff;
+      --line: rgba(23, 23, 20, .14);
+      --line-strong: rgba(10, 102, 255, .42);
+      --shadow: 0 26px 70px rgba(30, 34, 42, .12), 0 4px 14px rgba(30, 34, 42, .06);
+      --shadow-soft: 0 16px 40px rgba(30, 34, 42, .10);
+      --nav: rgba(250, 250, 246, .84);
+      --inverse: #171714;
+      --inverse-text: #fafaf6;
     }
-    return /^[A-Za-z0-9_-]{6,}$/.test(id) ? id : "";
-  } catch {
-    return "";
-  }
-}
-
-function TimestampButton({ label, ariaLabel }: { label: string; ariaLabel: string }) {
-  const [previewing, setPreviewing] = useState(false);
-  const timer = useRef<number | null>(null);
-  useEffect(() => () => { if (timer.current) window.clearTimeout(timer.current); }, []);
-  return (
-    <button
-      className="timestamp"
-      type="button"
-      aria-label={ariaLabel}
-      aria-pressed={previewing}
-      onClick={() => {
-        setPreviewing(true);
-        if (timer.current) window.clearTimeout(timer.current);
-        timer.current = window.setTimeout(() => setPreviewing(false), 900);
-      }}
-    >
-      {previewing ? "PREVIEW" : label}
-    </button>
-  );
-}
-
-export default function Home() {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLElement>(null);
-  const heroStageRef = useRef<HTMLDivElement>(null);
-  const progressRef = useRef<HTMLElement>(null);
-  const counterRefs = useRef<(HTMLElement | null)[]>([]);
-
-  const [scrolled, setScrolled] = useState(false);
-
-  // nav scrolled state
-  useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 24);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
-
-  // reveal on scroll
-  useEffect(() => {
-    const root = rootRef.current;
-    if (!root) return;
-    const items = root.querySelectorAll(".reveal");
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if ("IntersectionObserver" in window && !reduceMotion) {
-      const obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("in");
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.12, rootMargin: "0px 0px -6% 0px" }
-      );
-      items.forEach((item) => obs.observe(item));
-      return () => obs.disconnect();
+    @media (prefers-color-scheme: dark) {
+      :root {
+        color-scheme: dark;
+        --bg: #171714;
+        --bg-2: #20201c;
+        --paper: #24241f;
+        --ink: #f7f6ef;
+        --muted: #bab9b0;
+        --faint: #85847b;
+        --blue: #69a2ff;
+        --blue-dark: #8bb7ff;
+        --blue-soft: #1e3354;
+        --line: rgba(255, 255, 255, .14);
+        --line-strong: rgba(105, 162, 255, .52);
+        --shadow: 0 26px 70px rgba(0, 0, 0, .34), 0 4px 14px rgba(0, 0, 0, .20);
+        --shadow-soft: 0 16px 40px rgba(0, 0, 0, .26);
+        --nav: rgba(23, 23, 20, .84);
+        --inverse: #f7f6ef;
+        --inverse-text: #171714;
+      }
     }
-    items.forEach((item) => item.classList.add("in"));
-  }, []);
 
-  // hero pointer parallax
-  useEffect(() => {
-    const stage = heroStageRef.current;
-    if (!stage) return;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const finePointer = window.matchMedia("(pointer: fine)").matches;
-    if (reduceMotion || !finePointer) return;
-    const cards = stage.querySelectorAll<HTMLElement>("[data-depth]");
-    const onMove = (e: PointerEvent) => {
-      const rect = stage.getBoundingClientRect();
-      const dx = (e.clientX - rect.left) / rect.width - 0.5;
-      const dy = (e.clientY - rect.top) / rect.height - 0.5;
-      cards.forEach((card) => {
-        const depth = Number(card.getAttribute("data-depth"));
-        card.style.marginLeft = `${dx * 18 * depth}px`;
-        card.style.marginTop = `${dy * 14 * depth}px`;
-      });
-    };
-    const onLeave = () => {
-      cards.forEach((card) => {
-        card.style.marginLeft = "";
-        card.style.marginTop = "";
-      });
-    };
-    stage.addEventListener("pointermove", onMove);
-    stage.addEventListener("pointerleave", onLeave);
-    return () => {
-      stage.removeEventListener("pointermove", onMove);
-      stage.removeEventListener("pointerleave", onLeave);
-    };
-  }, []);
-
-  // animated counters
-  useEffect(() => {
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const animate = (el: HTMLElement) => {
-      const target = Number(el.getAttribute("data-count")) || 0;
-      const started = performance.now();
-      const step = (now: number) => {
-        const progress = Math.min(1, (now - started) / 900);
-        el.textContent = String(Math.round(target * (1 - Math.pow(1 - progress, 3)))).padStart(2, "0");
-        if (progress < 1) requestAnimationFrame(step);
-      };
-      requestAnimationFrame(step);
-    };
-    const els = counterRefs.current.filter(Boolean) as HTMLElement[];
-    if ("IntersectionObserver" in window && !reduceMotion) {
-      const obs = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              animate(entry.target as HTMLElement);
-              obs.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.6 }
-      );
-      els.forEach((el) => obs.observe(el));
-      return () => obs.disconnect();
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-width: 320px;
+      overflow-x: hidden;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Archivo", "Noto Sans KR", sans-serif;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
     }
-    els.forEach((el) => {
-      el.textContent = String(Number(el.getAttribute("data-count"))).padStart(2, "0");
-    });
-  }, []);
-
-  // ---- interactive demo ----
-  const [url, setUrl] = useState("https://youtu.be/P3jFI-VpyLg");
-  const [urlError, setUrlError] = useState("");
-  const [urlInvalid, setUrlInvalid] = useState(false);
-  const [demoRunning, setDemoRunning] = useState(false);
-  const [phase, setPhase] = useState<number | null>(null);
-  const [demoComplete, setDemoComplete] = useState(false);
-  const [showResults, setShowResults] = useState(false);
-  const [revealedCards, setRevealedCards] = useState(0);
-  const [finishRevealed, setFinishRevealed] = useState(false);
-  const [videoIdLabel, setVideoIdLabel] = useState("VIDEO / 바이브 코딩 1인 창업 3시간 통합본");
-  const timersRef = useRef<number[]>([]);
-  const rafRef = useRef<number>(0);
-
-  const clearDemoTimers = () => {
-    timersRef.current.forEach((t) => window.clearTimeout(t));
-    timersRef.current = [];
-    if (rafRef.current) cancelAnimationFrame(rafRef.current);
-    rafRef.current = 0;
-  };
-  useEffect(() => () => clearDemoTimers(), []);
-
-  const runDemo = (videoId: string) => {
-    clearDemoTimers();
-    setShowResults(false);
-    setRevealedCards(0);
-    setFinishRevealed(false);
-    setDemoComplete(false);
-    setPhase(null);
-    if (progressRef.current) progressRef.current.style.width = "0%";
-    setVideoIdLabel(`VIDEO ID / ${videoId}`);
-    setDemoRunning(true);
-    let elapsed = 0;
-    PHASE_DURATIONS.forEach((duration, index) => {
-      const t = window.setTimeout(() => setPhase(index), elapsed);
-      timersRef.current.push(t);
-      elapsed += duration;
-    });
-    timersRef.current.push(
-      window.setTimeout(() => {
-        setDemoComplete(true);
-        setDemoRunning(false);
-        setShowResults(true);
-        if (progressRef.current) progressRef.current.style.width = "100%";
-        for (let i = 0; i < RESULT_CARD_COUNT; i++) {
-          timersRef.current.push(window.setTimeout(() => setRevealedCards(i + 1), i * 220));
-        }
-        timersRef.current.push(window.setTimeout(() => setFinishRevealed(true), RESULT_CARD_COUNT * 220));
-      }, elapsed)
-    );
-    const startedAt = performance.now();
-    const total = elapsed;
-    const updateProgress = (now: number) => {
-      const value = Math.min(100, ((now - startedAt) / total) * 100);
-      if (progressRef.current) progressRef.current.style.width = `${value}%`;
-      if (value < 100) rafRef.current = requestAnimationFrame(updateProgress);
-    };
-    rafRef.current = requestAnimationFrame(updateProgress);
-  };
-
-  const resetDemo = () => {
-    clearDemoTimers();
-    setUrl("https://youtu.be/P3jFI-VpyLg");
-    setUrlInvalid(false);
-    setUrlError("");
-    setDemoRunning(false);
-    setPhase(null);
-    setDemoComplete(false);
-    setShowResults(false);
-    setRevealedCards(0);
-    setFinishRevealed(false);
-    setVideoIdLabel("VIDEO / 바이브 코딩 1인 창업 3시간 통합본");
-    if (progressRef.current) progressRef.current.style.width = "0%";
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const videoId = extractYoutubeId(url);
-    if (!videoId) {
-      setUrlInvalid(true);
-      setUrlError("youtube.com/watch?v= 또는 youtu.be/ 형식의 URL을 입력해 주세요.");
-      return;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      pointer-events: none;
+      opacity: .38;
+      background-image: radial-gradient(circle, color-mix(in srgb, var(--ink) 16%, transparent) .75px, transparent .9px);
+      background-size: 9px 9px;
+      mask-image: linear-gradient(to bottom, #000, transparent 72%);
     }
-    setUrlInvalid(false);
-    setUrlError("");
-    runDemo(videoId);
-  };
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      pointer-events: none;
+      opacity: .035;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.7'/%3E%3C/svg%3E");
+      mix-blend-mode: multiply;
+    }
+    a, button, input { font: inherit; }
+    button, a { color: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    .mono { font-family: "IBM Plex Mono", monospace; }
+    .wrap { width: min(1280px, calc(100% - 56px)); margin-inline: auto; }
 
-  const demoPhaseClass = (index: number) => {
-    if (demoComplete) return "demo-phase done";
-    if (phase === null) return "demo-phase";
-    if (index === phase) return "demo-phase active";
-    if (index < phase) return "demo-phase done";
-    return "demo-phase";
-  };
+    .nav {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 60;
+      border-bottom: 1px solid transparent;
+      background: linear-gradient(to bottom, var(--nav), transparent);
+      backdrop-filter: blur(16px);
+      transition: border-color .3s ease, background .3s ease;
+    }
+    .nav.scrolled { border-color: var(--line); background: var(--nav); }
+    .nav-inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .nav-mark {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      font: 600 10px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .16em;
+    }
+    .nav-mark::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 5px color-mix(in srgb, var(--blue) 12%, transparent); }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { color: var(--muted); text-decoration: none; font: 500 9px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; }
+    .nav-links a:hover { color: var(--blue); }
+    .nav-cta { padding: 11px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--paper); color: var(--ink) !important; box-shadow: 0 8px 20px rgba(20, 24, 32, .05); }
 
-  const demoStateText = demoComplete
-    ? "변환 시퀀스 완료"
-    : phase !== null
-      ? PHASE_MESSAGES[phase]
-      : "예시 영상을 준비했어요";
-  const demoStateClass = demoComplete ? "is-complete" : phase !== null ? "is-running" : "";
+    .hero {
+      position: relative;
+      min-height: 100svh;
+      display: grid;
+      align-items: center;
+      padding: 132px 0 92px;
+      isolation: isolate;
+    }
+    .hero-halo {
+      position: absolute;
+      width: min(76vw, 980px);
+      aspect-ratio: 1;
+      left: 50%; top: 44%;
+      translate: -50% -50%;
+      z-index: -2;
+      border-radius: 50%;
+      background: radial-gradient(circle, color-mix(in srgb, var(--blue) 12%, transparent), transparent 63%);
+      filter: blur(18px);
+      animation: haloBreathe 8s ease-in-out infinite;
+    }
+    .hero-copy { position: relative; z-index: 4; text-align: center; }
+    .kicker {
+      margin: 0;
+      color: var(--muted);
+      font: 600 10px/1.45 "IBM Plex Mono", monospace;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+    }
+    .kicker::before { content: "•"; color: var(--blue); margin-right: 9px; }
+    h1 {
+      max-width: 1120px;
+      margin: 28px auto 0;
+      font-size: clamp(62px, 9.7vw, 132px);
+      line-height: .88;
+      letter-spacing: -.072em;
+      font-weight: 900;
+    }
+    .blue { color: var(--blue); }
+    .hero-line { display: block; overflow: hidden; padding: 0 .07em .08em; margin: 0 -.07em -.08em; }
+    .hero-line > span { display: block; transform: translateY(112%); animation: titleIn 1s cubic-bezier(.16, 1, .3, 1) forwards; }
+    .hero-line:nth-child(2) > span { animation-delay: .13s; }
+    .lede {
+      max-width: 730px;
+      margin: 30px auto 0;
+      color: var(--muted);
+      font-size: clamp(17px, 1.65vw, 22px);
+      letter-spacing: -.025em;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .8s .55s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .hero-actions {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 30px;
+      opacity: 0;
+      transform: translateY(16px);
+      animation: fadeUp .8s .68s cubic-bezier(.16,1,.3,1) forwards;
+    }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 50px;
+      padding: 0 22px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      text-decoration: none;
+      background: var(--paper);
+      font: 600 10px/1 "IBM Plex Mono", monospace;
+      letter-spacing: .08em;
+      transition: transform .42s cubic-bezier(.16,1,.3,1), box-shadow .42s ease, border-color .3s ease;
+    }
+    .button:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); border-color: var(--line-strong); }
+    .button.primary { color: white; background: var(--blue); border-color: var(--blue); }
+    .button i { font-style: normal; font-size: 14px; transition: transform .35s ease; }
+    .button:hover i { transform: translateY(3px); }
 
-  const demoMessageNode = demoComplete ? (
-    <>10개 콘텐츠 자산이 검수 가능한 상태로 준비되었습니다.</>
-  ) : phase === 0 ? (
-    <><strong>바이브 코딩 1인 창업 3시간 통합본</strong>의 전체 맥락과 타임스탬프를 구조화하고 있습니다.</>
-  ) : phase !== null ? (
-    <>{PHASE_MESSAGES[phase]}</>
-  ) : (
-    <>3시간 12분 분량의 예시 영상입니다. 시작 버튼을 누르면 분석 → 생성 → 최적화 → 배포 흐름이 펼쳐집니다.</>
-  );
+    .hero-stage {
+      position: relative;
+      width: min(1040px, 92vw);
+      height: 360px;
+      margin: 34px auto -10px;
+      opacity: 0;
+      animation: stageIn 1.15s .78s cubic-bezier(.16,1,.3,1) forwards;
+      perspective: 1200px;
+    }
+    .orbit-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+    .orbit-svg path { fill: none; stroke: color-mix(in srgb, var(--ink) 25%, transparent); stroke-width: 1.15; stroke-dasharray: 7 7; stroke-dashoffset: 140; animation: drawOrbit 3.2s 1s cubic-bezier(.4,0,.2,1) forwards, orbitFlow 16s 4.2s linear infinite; }
+    .orbit-svg path:nth-child(2) { stroke: color-mix(in srgb, var(--blue) 38%, transparent); animation-delay: 1.2s, 4.4s; }
+    .source-core {
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 150px; height: 150px;
+      translate: -50% -50%;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      background: var(--paper);
+      box-shadow: 0 0 0 18px color-mix(in srgb, var(--blue) 5%, transparent), var(--shadow-soft);
+      animation: coreDrift 5s ease-in-out infinite;
+    }
+    .source-core::before, .source-core::after { content: ""; position: absolute; border-radius: 50%; pointer-events: none; }
+    .source-core::before { inset: -31px; border: 1px solid color-mix(in srgb, var(--blue) 24%, transparent); animation: orbitSpin 16s linear infinite; }
+    .source-core::after { width: 8px; height: 8px; left: 1px; top: 24px; background: var(--blue); box-shadow: 0 0 18px var(--blue); }
+    .core-copy { text-align: center; }
+    .core-copy span { display: block; color: var(--blue); font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .16em; }
+    .core-copy strong { display: block; margin-top: 10px; font-size: 18px; letter-spacing: -.045em; }
+    .float-card {
+      position: absolute;
+      width: 122px;
+      min-height: 104px;
+      padding: 15px;
+      border: 1px solid color-mix(in srgb, var(--ink) 10%, transparent);
+      border-radius: 24px;
+      background: color-mix(in srgb, var(--paper) 94%, transparent);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(14px);
+      transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease;
+      animation: floatCard 5.5s ease-in-out infinite;
+    }
+    .float-card:hover { transform: translateY(-7px) rotate(0deg) !important; box-shadow: var(--shadow); }
+    .float-card .glyph { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 11px; color: white; background: var(--blue); font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .03em; }
+    .float-card strong { display: block; margin-top: 13px; font-size: 12px; letter-spacing: -.02em; }
+    .float-card small { display: block; margin-top: 2px; color: var(--faint); font: 500 8px/1.3 "IBM Plex Mono", monospace; letter-spacing: .05em; }
+    .fc1 { left: 2%; top: 9%; transform: rotate(-7deg); }
+    .fc2 { left: 18%; bottom: 5%; transform: rotate(5deg); animation-delay: -.8s; }
+    .fc3 { right: 18%; top: 5%; transform: rotate(6deg); animation-delay: -1.6s; }
+    .fc4 { right: 1%; bottom: 10%; transform: rotate(-5deg); animation-delay: -2.4s; }
+    .signal {
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 0 8px color-mix(in srgb, var(--blue) 10%, transparent);
+      offset-path: path("M80,80 C250,350 730,0 960,255");
+      animation: signalMove 7s 1.3s cubic-bezier(.45,0,.55,1) infinite;
+    }
+    .hero-corner { position: absolute; bottom: 26px; color: var(--faint); font: 500 8px/1.5 "IBM Plex Mono", monospace; letter-spacing: .13em; }
+    .hero-corner.left { left: 28px; }
+    .hero-corner.right { right: 28px; text-align: right; }
 
-  return (
-    <div ref={rootRef} className="showreel-root">
+    .ticker { overflow: hidden; border-block: 1px solid var(--line); background: var(--blue); color: white; transform: rotate(-1.2deg) scale(1.02); }
+    .ticker-track { display: flex; width: max-content; animation: ticker 26s linear infinite; }
+    .ticker-track span { flex: none; padding: 15px 22px; font: 600 10px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; white-space: nowrap; }
+    .ticker-track span::after { content: "•"; margin-left: 44px; opacity: .55; }
 
-      <nav ref={navRef} className={scrolled ? "nav scrolled" : "nav"} aria-label="페이지 탐색">
-        <div className="wrap nav-inner">
-          <a className="nav-mark" href="#top">KNCA / ALPHA 02</a>
-          <div className="nav-links">
-            <a href="#demo">DEMO</a>
-            <a href="#pipeline">PIPELINE</a>
-            <a href="#audience">FOR WHOM</a>
-            <a className="nav-cta" href="https://kncalabs.com/" target="_blank" rel="noreferrer">LIVE SITE ↗</a>
-          </div>
-        </div>
-      </nav>
+    section { position: relative; padding: 138px 0; }
+    .section-head { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 42px; align-items: start; margin-bottom: 64px; }
+    h2 { margin: 0; max-width: 920px; font-size: clamp(44px, 6vw, 76px); line-height: .98; letter-spacing: -.06em; font-weight: 800; }
+    .section-intro { max-width: 720px; margin: 24px 0 0; color: var(--muted); font-size: 18px; letter-spacing: -.02em; }
+    .reveal { opacity: 1; transform: none; }
+    .reveal.in { animation: sectionIn .82s cubic-bezier(.16,1,.3,1) both; }
+    .reveal.in[data-delay="1"] { animation-delay: .09s; }
+    .reveal.in[data-delay="2"] { animation-delay: .18s; }
+    .reveal.in[data-delay="3"] { animation-delay: .27s; }
 
-      <main id="top">
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="hero-halo" aria-hidden="true"></div>
-          <div className="wrap">
-            <div className="hero-copy">
-              <p className="kicker">KNCA LABS / AI CONTENT AUTOMATION</p>
-              <h1 id="hero-title">
-                <span className="hero-line"><span>One Source.</span></span>
-                <span className="hero-line blue"><span>Many Possibilities.</span></span>
-              </h1>
-              <p className="lede">영상이나 문서 하나에서 시작해 보세요. Claude API 기반의 하나의 흐름이 핵심을 이해하고, 여러 콘텐츠로 만들고, 각 채널에 맞게 다듬습니다.</p>
-              <div className="hero-actions">
-                <a className="button primary" href="#demo">직접 살펴보기 <i aria-hidden="true">↓</i></a>
-                <a className="button" href="#pipeline">작동 방식 보기 <i aria-hidden="true">↓</i></a>
-              </div>
-            </div>
+    .example { background: var(--bg); }
+    .demo-shell { border: 1px solid var(--line); border-radius: 34px; background: var(--paper); box-shadow: var(--shadow); overflow: hidden; }
+    .demo-top { display: grid; grid-template-columns: 86px minmax(0,1fr); min-height: 108px; border-bottom: 1px solid var(--line); }
+    .demo-index { display: grid; place-items: center; border-right: 1px solid var(--line); color: var(--blue); font: 600 15px/1 "IBM Plex Mono", monospace; }
+    .demo-form { padding: 25px 28px; }
+    .demo-form label { display: block; margin-bottom: 10px; color: var(--muted); font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .16em; }
+    .demo-input-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; }
+    .demo-input { width: 100%; min-width: 0; height: 54px; padding: 0 17px; border: 1px solid var(--line); border-radius: 15px; outline: 0; background: var(--bg-2); color: var(--ink); font: 500 13px/1 "IBM Plex Mono", monospace; transition: box-shadow .25s ease, border-color .25s ease; }
+    .demo-input::placeholder { color: var(--faint); }
+    .demo-input:focus { border-color: var(--blue); box-shadow: 0 0 0 4px color-mix(in srgb, var(--blue) 12%, transparent); }
+    .demo-input[aria-invalid="true"] { border-color: #d94a59; }
+    .demo-start, .demo-retry { min-height: 54px; padding: 0 22px; border: 1px solid var(--blue); border-radius: 15px; background: var(--blue); color: white; cursor: pointer; font: 600 10px/1 "IBM Plex Mono", monospace; letter-spacing: .08em; transition: transform .35s cubic-bezier(.16,1,.3,1), background .25s ease, box-shadow .25s ease; }
+    .demo-start:hover, .demo-retry:hover { transform: translateY(-3px); background: var(--blue-dark); box-shadow: 0 14px 28px color-mix(in srgb, var(--blue) 24%, transparent); }
+    .demo-start:disabled { cursor: wait; opacity: .56; transform: none; }
+    .demo-error { min-height: 17px; margin: 8px 0 -3px; color: #d94a59; font-size: 12px; }
+    .demo-workspace { padding: 30px; }
+    .demo-statusbar { display: flex; justify-content: space-between; gap: 18px; color: var(--faint); font: 500 9px/1.4 "IBM Plex Mono", monospace; letter-spacing: .11em; }
+    .demo-statusbar strong { color: var(--muted); font-weight: 500; }
+    .demo-statusbar .is-running { color: var(--blue); }
+    .demo-statusbar .is-complete { color: var(--blue); }
+    .demo-phases { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 22px; gap: 10px; }
+    .demo-phase { position: relative; min-height: 126px; padding: 18px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: var(--bg); color: var(--faint); transition: transform .45s cubic-bezier(.16,1,.3,1), border-color .3s ease, background .3s ease; }
+    .demo-phase span { display: block; color: var(--blue); font: 600 10px/1 "IBM Plex Mono", monospace; }
+    .demo-phase strong { display: block; margin-top: 39px; font-size: 13px; letter-spacing: -.01em; }
+    .demo-phase::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 0; height: 4px; background: var(--blue); transition: right .35s ease; }
+    .demo-phase.active { transform: translateY(-6px); border-color: var(--line-strong); background: var(--blue-soft); color: var(--ink); }
+    .demo-phase.active::after, .demo-phase.done::after { right: 0; }
+    .demo-phase.done strong::after { content: " / DONE"; color: var(--blue); font: 500 8px/1 "IBM Plex Mono", monospace; }
+    .demo-progress { height: 2px; margin-top: 22px; overflow: hidden; background: var(--line); }
+    .demo-progress i { display: block; width: 0; height: 100%; background: var(--blue); box-shadow: 0 0 14px var(--blue); }
+    .demo-message { min-height: 28px; margin: 14px 0 0; color: var(--muted); font-size: 14px; }
+    .demo-message strong { color: var(--ink); }
+    .demo-results { margin-top: 26px; padding-top: 26px; border-top: 1px solid var(--line); }
+    .demo-results[hidden] { display: none; }
+    .demo-results-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 15px; }
+    .demo-results-head p { margin: 0; color: var(--blue); font: 600 10px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; }
+    .demo-results-head span { color: var(--faint); font-size: 13px; }
+    .demo-result-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; counter-reset: result; }
+    .demo-result-card { counter-increment: result; position: relative; min-height: 280px; padding: 24px; overflow: hidden; border: 1px solid var(--line); border-radius: 23px; background: var(--bg); opacity: 0; transform: translateY(25px) scale(.97); transition: opacity .56s ease, transform .7s cubic-bezier(.16,1,.3,1), border-color .3s ease, box-shadow .3s ease; }
+    .demo-result-card::after { content: "0" counter(result); position: absolute; right: 18px; top: 13px; color: color-mix(in srgb, var(--blue) 14%, transparent); font-size: 64px; font-weight: 900; letter-spacing: -.08em; }
+    .demo-result-card.reveal { opacity: 1; transform: translateY(0) scale(1); }
+    .demo-result-card:hover { transform: translateY(-5px); border-color: var(--line-strong); box-shadow: var(--shadow-soft); }
+    .demo-result-type { position: relative; z-index: 1; color: var(--blue); font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .13em; }
+    .demo-result-card h3 { position: relative; z-index: 1; margin: 47px 0 13px; font-size: clamp(22px, 2.5vw, 32px); line-height: 1.1; letter-spacing: -.045em; }
+    .demo-preview { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+    .demo-preview li { position: relative; padding: 10px 0 10px 21px; border-bottom: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+    .demo-preview li::before { content: attr(data-no); position: absolute; left: 0; top: 12px; color: var(--blue); font: 500 8px/1 "IBM Plex Mono", monospace; }
+    .demo-preview b { display: block; color: var(--ink); font-weight: 600; }
+    .demo-preview small { display: block; margin-top: 5px; color: var(--faint); font-size: 11px; }
+    .shorts-preview li { padding-left: 0; }
+    .shorts-preview li::before { display: none; }
+    .timestamp { float: left; min-width: 66px; margin: 1px 10px 8px 0; padding: 6px 8px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--paper); color: var(--blue); cursor: pointer; font: 600 9px/1 "IBM Plex Mono", monospace; transition: transform .25s ease, background .25s ease, color .25s ease; }
+    .timestamp:hover, .timestamp:focus-visible { transform: translateY(-2px); background: var(--blue); color: white; outline: none; }
+    .demo-finish { display: flex; align-items: center; justify-content: space-between; gap: 22px; margin-top: 14px; padding: 23px 25px; border: 1px solid var(--line-strong); border-radius: 20px; background: var(--blue-soft); opacity: 0; transform: translateY(14px); transition: opacity .48s ease, transform .6s cubic-bezier(.16,1,.3,1); }
+    .demo-finish.reveal { opacity: 1; transform: translateY(0); }
+    .demo-finish p { margin: 0; color: var(--muted); font-size: 14px; }
+    .demo-finish strong { display: block; margin-top: 4px; color: var(--ink); font-size: clamp(19px,2.3vw,28px); letter-spacing: -.035em; }
+    .demo-retry { min-height: 46px; flex: 0 0 auto; background: transparent; color: var(--blue); }
 
-            <div ref={heroStageRef} className="hero-stage" aria-label="하나의 원천에서 영상, 아티클, 뉴스레터, 소셜 콘텐츠로 확장되는 흐름">
-              <svg className="orbit-svg" viewBox="0 0 1040 360" aria-hidden="true">
-                <path d="M70 80 C230 320 370 320 520 180 S810 0 970 84"></path>
-                <path d="M72 282 C275 80 385 80 520 180 S765 326 972 278"></path>
-              </svg>
-              <span className="signal" aria-hidden="true"></span>
-              <div className="source-core"><div className="core-copy"><span>ONE SOURCE</span><strong>UNDERSTAND</strong></div></div>
-              <div className="float-card fc1" data-depth=".8"><span className="glyph">VID</span><strong>영상</strong><small>SOURCE INPUT</small></div>
-              <div className="float-card fc2" data-depth=".45"><span className="glyph">TXT</span><strong>아티클</strong><small>LONG FORM</small></div>
-              <div className="float-card fc3" data-depth=".65"><span className="glyph">LTR</span><strong>뉴스레터</strong><small>OWNED MEDIA</small></div>
-              <div className="float-card fc4" data-depth=".95"><span className="glyph">SOC</span><strong>소셜</strong><small>MULTI CHANNEL</small></div>
-            </div>
-          </div>
-          <span className="hero-corner left">AI PUBLISHING INFRASTRUCTURE<br />BUILDING IN PUBLIC</span>
-          <span className="hero-corner right">SCROLL TO EXPLORE<br />KNCA LABS © 2026</span>
-        </section>
+    .architecture { overflow: hidden; border-block: 1px solid var(--line); background: var(--bg-2); }
+    .architecture::before { content: ""; position: absolute; width: 600px; height: 600px; right: -180px; top: -240px; border: 1px solid var(--line); border-radius: 50%; box-shadow: 0 0 0 70px color-mix(in srgb, var(--blue) 3%, transparent), 0 0 0 140px color-mix(in srgb, var(--blue) 2%, transparent); }
+    .pipeline-board { position: relative; min-height: 640px; overflow: hidden; border: 1px solid var(--line); border-radius: 36px; background: var(--paper); box-shadow: var(--shadow); }
+    .pipeline-board::before { content: ""; position: absolute; inset: 0; opacity: .34; background-image: radial-gradient(circle, color-mix(in srgb, var(--ink) 14%, transparent) .7px, transparent .9px); background-size: 10px 10px; }
+    .pipeline-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+    .pipeline-svg path { fill: none; stroke: color-mix(in srgb, var(--ink) 22%, transparent); stroke-width: 1.2; stroke-dasharray: 8 8; animation: orbitFlow 13s linear infinite; }
+    .pipeline-svg .blue-path { stroke: var(--blue); stroke-width: 1.6; }
+    .pipeline-node { position: absolute; width: 220px; min-height: 160px; padding: 23px; border: 1px solid var(--line); border-radius: 25px; background: color-mix(in srgb, var(--paper) 94%, transparent); box-shadow: var(--shadow-soft); backdrop-filter: blur(14px); transition: transform .48s cubic-bezier(.16,1,.3,1), border-color .3s ease; }
+    .pipeline-node:hover { transform: translateY(-8px); border-color: var(--line-strong); }
+    .pipeline-node span { color: var(--blue); font: 600 10px/1 "IBM Plex Mono", monospace; }
+    .pipeline-node h3 { margin: 34px 0 8px; font-size: 20px; line-height: 1.12; letter-spacing: -.035em; }
+    .pipeline-node p { margin: 0; color: var(--muted); font-size: 13px; }
+    .pn1 { left: 6%; top: 10%; }
+    .pn2 { right: 6%; top: 10%; }
+    .pn3 { left: 6%; bottom: 10%; }
+    .pn4 { right: 6%; bottom: 10%; }
+    .pipeline-core { position: absolute; left: 50%; top: 50%; width: 190px; height: 190px; translate: -50% -50%; display: grid; place-items: center; text-align: center; border-radius: 50%; background: var(--blue); color: white; box-shadow: 0 0 0 22px color-mix(in srgb, var(--blue) 10%, transparent), 0 26px 70px color-mix(in srgb, var(--blue) 26%, transparent); animation: coreDrift 5.4s ease-in-out infinite; }
+    .pipeline-core span { font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; }
+    .pipeline-core strong { display: block; margin-top: 9px; font-size: 22px; letter-spacing: -.04em; }
+    .particle { position: absolute; width: 8px; height: 8px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 16px var(--blue); }
+    .particle.p1 { offset-path: path("M270,125 C420,145 420,260 545,320"); animation: pathOne 5s linear infinite; }
+    .particle.p2 { offset-path: path("M1010,125 C850,155 850,265 735,320"); animation: pathOne 5s 1.2s linear infinite; }
+    .particle.p3 { offset-path: path("M270,525 C420,490 420,395 545,320"); animation: pathOne 5s 2.4s linear infinite; }
+    .particle.p4 { offset-path: path("M1010,525 C850,490 850,390 735,320"); animation: pathOne 5s 3.6s linear infinite; }
 
-        <div className="ticker" aria-label="핵심 기능">
-          <div className="ticker-track">
-            <span>ONE SOURCE ORCHESTRATION</span><span>UNIFIED AGENT PIPELINE</span><span>HUMAN-IN-THE-LOOP</span><span>BUILT ON CLAUDE API</span>
-            <span aria-hidden="true">ONE SOURCE ORCHESTRATION</span><span aria-hidden="true">UNIFIED AGENT PIPELINE</span><span aria-hidden="true">HUMAN-IN-THE-LOOP</span><span aria-hidden="true">BUILT ON CLAUDE API</span>
-          </div>
-        </div>
+    .stages { margin-top: 56px; display: grid; grid-template-columns: repeat(4, 1fr); border-top: 1px solid var(--line); }
+    .stage-card { min-height: 275px; padding: 28px 24px; border-right: 1px solid var(--line); }
+    .stage-card:last-child { border-right: 0; }
+    .stage-number { color: var(--blue); font: 600 12px/1 "IBM Plex Mono", monospace; }
+    .stage-card h3 { margin: 78px 0 12px; font-size: 22px; letter-spacing: -.035em; }
+    .stage-card p { margin: 0; color: var(--muted); font-size: 14px; }
+    .stage-tags { margin-top: 20px; color: var(--faint); font: 500 8px/1.55 "IBM Plex Mono", monospace; letter-spacing: .08em; }
 
-        <section className="example" id="demo" aria-labelledby="demo-title">
-          <div className="wrap">
-            <div className="section-head reveal">
-              <p className="kicker">LIVE-FEEL DEMO / START HERE</p>
-              <div><h2 id="demo-title">30분 영상 하나로,<br /><span className="blue">일주일치 콘텐츠.</span></h2><p className="section-intro">YouTube URL 하나만 넣어보세요. 실제 영상 업로드나 서버 전송 없이, 하나의 원천이 여러 결과물로 확장되는 제품 흐름을 인터랙티브 시퀀스로 보여드립니다.</p></div>
-            </div>
+    .principle { overflow: hidden; }
+    .principle-title { max-width: 1080px; margin: 0; font-size: clamp(50px, 7.4vw, 98px); line-height: .96; letter-spacing: -.07em; font-weight: 900; }
+    .principle-title .outline { color: transparent; -webkit-text-stroke: 1px var(--ink); }
+    .comparison { display: grid; grid-template-columns: 1fr 90px 1fr; align-items: stretch; margin-top: 78px; }
+    .compare-card { min-height: 350px; padding: 34px; border: 1px solid var(--line); border-radius: 28px; background: var(--paper); box-shadow: var(--shadow-soft); }
+    .compare-card.after { border-color: var(--blue); background: var(--blue); color: white; transform: rotate(1.5deg); }
+    .compare-label { font: 600 10px/1 "IBM Plex Mono", monospace; letter-spacing: .15em; opacity: .62; }
+    .compare-card h3 { margin: 76px 0 15px; font-size: clamp(28px,3vw,40px); line-height: 1.08; letter-spacing: -.05em; }
+    .compare-card p { margin: 0; color: var(--muted); font-size: 16px; }
+    .compare-card.after p { color: rgba(255,255,255,.78); }
+    .compare-metric { margin-top: 40px; padding-top: 17px; border-top: 1px solid currentColor; display: flex; justify-content: space-between; gap: 16px; opacity: .72; font: 500 9px/1 "IBM Plex Mono", monospace; letter-spacing: .1em; }
+    .compare-arrow { display: grid; place-items: center; color: var(--blue); font: 500 24px/1 "IBM Plex Mono", monospace; }
 
-            <div className="demo-shell reveal" data-delay="1">
-              <div className="demo-top">
-                <div className="demo-index">01</div>
-                <form className="demo-form" onSubmit={handleSubmit} noValidate>
-                  <label htmlFor="youtubeUrl">PASTE A YOUTUBE SOURCE URL</label>
-                  <div className="demo-input-row">
-                    <input className="demo-input" id="youtubeUrl" name="youtubeUrl" type="url" inputMode="url" autoComplete="url" value={url} onChange={(e) => { setUrl(e.target.value); setUrlInvalid(false); setUrlError(""); }} readOnly={demoRunning} aria-label="YouTube 영상 URL" aria-describedby="demoError" aria-invalid={urlInvalid} />
-                    <button className="demo-start" type="submit" disabled={demoRunning}>변환 시퀀스 시작</button>
-                  </div>
-                  <p className="demo-error" role="alert">{urlError}</p>
-                </form>
-              </div>
+    .audience { border-block: 1px solid var(--line); background: var(--bg-2); }
+    .audience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: audience; }
+    .audience-card { counter-increment: audience; position: relative; min-height: 340px; padding: 28px; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: var(--paper); display: flex; flex-direction: column; transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .4s ease, border-color .3s ease; }
+    .audience-card:hover { transform: translateY(-8px); border-color: var(--line-strong); box-shadow: var(--shadow-soft); }
+    .audience-card::after { content: "0" counter(audience); position: absolute; right: 18px; top: 10px; color: color-mix(in srgb, var(--blue) 12%, transparent); font-size: 76px; line-height: 1; font-weight: 900; letter-spacing: -.09em; }
+    .audience-card.featured { grid-column: span 2; background: var(--blue); color: white; border-color: var(--blue); }
+    .audience-card.featured::after { color: rgba(255,255,255,.14); }
+    .audience-no { position: relative; z-index: 1; color: var(--blue); font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; }
+    .audience-card.featured .audience-no { color: white; }
+    .audience-card h3 { position: relative; z-index: 1; max-width: 650px; margin: auto 0 13px; font-size: clamp(25px,3vw,40px); line-height: 1.1; letter-spacing: -.048em; }
+    .audience-card p { position: relative; z-index: 1; margin: 0; color: var(--muted); font-size: 14px; }
+    .audience-card.featured p { color: rgba(255,255,255,.78); }
 
-              <div className="demo-workspace" id="demoWorkspace" aria-live="polite">
-                <div className="demo-statusbar"><strong className={demoStateClass}>{demoStateText}</strong><span>{videoIdLabel}</span></div>
-                <div className="demo-phases" aria-label="콘텐츠 변환 진행 단계">
-                  <div className={demoPhaseClass(0)}><span>01</span><strong>UNDERSTAND</strong></div>
-                  <div className={demoPhaseClass(1)}><span>02</span><strong>SYNTHESIZE</strong></div>
-                  <div className={demoPhaseClass(2)}><span>03</span><strong>ADAPT</strong></div>
-                  <div className={demoPhaseClass(3)}><span>04</span><strong>PREPARE</strong></div>
-                </div>
-                <div className="demo-progress" aria-hidden="true"><i ref={progressRef}></i></div>
-                <p className="demo-message">{demoMessageNode}</p>
+    .team-note { padding: 92px 0; }
+    .team-note-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; padding: 48px 0; border-block: 1px solid var(--line); }
+    .team-note h2 { font-size: clamp(38px,5vw,64px); }
+    .team-note-copy { color: var(--muted); font-size: 18px; }
+    .team-note-copy p { margin: 0; }
+    .team-note-copy .tech { margin-top: 20px; color: var(--blue); font: 600 10px/1.6 "IBM Plex Mono", monospace; letter-spacing: .1em; }
 
-                <div className="demo-results" hidden={!showResults}>
-                  <div className="demo-results-head"><p>OUTPUT PACKAGE / READY TO REVIEW</p><span>하나의 원천에서 10개 콘텐츠 자산 구성</span></div>
-                  <div className="demo-result-grid">
-                    <article className={revealedCards >= 1 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">SHORTS · 3 ASSETS</span><h3>쇼츠 하이라이트 3개</h3><ul className="demo-preview shorts-preview"><li data-no="01"><TimestampButton label="00:42" ariaLabel="42초 구간 미리보기" /><b>바이브 코딩으로 첫 수익 내기</b><small>예상 조회수 48K · 후킹 멘트가 강함</small></li><li data-no="02"><TimestampButton label="1:15:30" ariaLabel="1시간 15분 30초 구간 미리보기" /><b>1인 창업가가 쓰는 AI 도구 5선</b><small>예상 조회수 72K · 실용 정보 밀도가 높음</small></li><li data-no="03"><TimestampButton label="2:48:12" ariaLabel="2시간 48분 12초 구간 미리보기" /><b>실패에서 배운 3가지</b><small>예상 조회수 39K · 경험 기반 서사가 선명함</small></li></ul></article>
-                    <article className={revealedCards >= 2 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">SEO ARTICLE · STRUCTURED GUIDE</span><h3>바이브 코딩 1인 창업 완벽 가이드</h3><ul className="demo-preview"><li data-no="01">아이디어 검증부터 첫 MVP까지의 실행 순서</li><li data-no="02">1인 창업가를 위한 AI 도구 스택과 자동화 포인트</li><li data-no="03">첫 수익 이후 반복 가능한 운영 구조 만들기<small>검색 의도가 분명하고 핵심 내용 구조화에 적합</small></li></ul></article>
-                    <article className={revealedCards >= 3 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">NEWSLETTER · 3 INSIGHTS</span><h3>이번 주 1인 창업 인사이트 3선</h3><ul className="demo-preview"><li data-no="01">완성보다 먼저 유료 문제를 찾는 검증 방식</li><li data-no="02">혼자서도 속도를 유지하는 AI 업무 분담법</li><li data-no="03">실패 기록을 다음 제품의 데이터로 바꾸기<small>실행 가능한 요점이 많아 재방문 가치가 높음</small></li></ul></article>
-                    <article className={revealedCards >= 4 ? "demo-result-card reveal" : "demo-result-card"}><span className="demo-result-type">X / THREADS · 5 POSTS</span><h3>플랫폼별 소셜 포스트 5개</h3><ul className="demo-preview"><li data-no="01">X — 1인 창업의 첫 목표는 ‘완벽한 제품’이 아니라 ‘첫 결제’입니다.</li><li data-no="02">Threads — 오늘도 도구만 고르고 있다면, 고객 문제 한 문장부터 적어보세요.</li><li data-no="03">LinkedIn — 바이브 코딩은 개발 속도보다 검증 주기를 바꿉니다. +2 posts<small>채널별 말투와 훅이 명확해 공유 가능성이 높음</small></li></ul></article>
-                  </div>
-                  <div className={finishRevealed ? "demo-finish reveal" : "demo-finish"}><p>작업 시간 비교<strong>기존 방식 4시간 <span className="blue">→</span> KNCA 10분 검수</strong></p><button className="demo-retry" type="button" onClick={resetDemo}>다시 해보기</button></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+    .status { border-top: 1px solid var(--line); background: var(--inverse); color: var(--inverse-text); }
+    .status .kicker { color: color-mix(in srgb, var(--inverse-text) 62%, transparent); }
+    .status .section-intro { color: color-mix(in srgb, var(--inverse-text) 68%, transparent); }
+    .status-grid { display: grid; grid-template-columns: 1.3fr .7fr; gap: 18px; }
+    .status-main { min-height: 420px; padding: 42px; border: 1px solid color-mix(in srgb, var(--inverse-text) 20%, transparent); border-radius: 32px; display: flex; flex-direction: column; justify-content: space-between; background: color-mix(in srgb, var(--inverse-text) 4%, transparent); }
+    .status-live { display: inline-flex; align-items: center; gap: 9px; align-self: flex-start; font: 600 9px/1 "IBM Plex Mono", monospace; letter-spacing: .14em; }
+    .status-live::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 0 var(--blue); animation: statusPulse 2.3s infinite; }
+    .status-main h3 { max-width: 700px; margin: 0; font-size: clamp(40px,5vw,68px); line-height: .98; letter-spacing: -.06em; }
+    .status-main p { max-width: 660px; margin: 18px 0 0; color: color-mix(in srgb, var(--inverse-text) 68%, transparent); font-size: 16px; }
+    .status-aside { display: grid; gap: 14px; }
+    .metric { padding: 27px; border: 1px solid color-mix(in srgb, var(--inverse-text) 20%, transparent); border-radius: 25px; background: color-mix(in srgb, var(--inverse-text) 4%, transparent); }
+    .metric span { display: block; color: color-mix(in srgb, var(--inverse-text) 54%, transparent); font: 500 9px/1 "IBM Plex Mono", monospace; letter-spacing: .13em; }
+    .metric strong { display: block; margin-top: 24px; color: var(--blue); font-size: 42px; line-height: 1; letter-spacing: -.06em; }
+    .metric small { display: block; margin-top: 8px; color: color-mix(in srgb, var(--inverse-text) 66%, transparent); font-size: 12px; }
 
-        <section className="architecture" id="pipeline" aria-labelledby="pipeline-title">
-          <div className="wrap">
-            <div className="section-head reveal">
-              <p className="kicker">SYSTEM MAP / FOUR STAGES</p>
-              <div><h2 id="pipeline-title">복잡한 도구 대신,<br /><span className="blue">하나의 연결된 흐름.</span></h2><p className="section-intro">원천을 이해하고, 만들고, 채널에 맞춰 다듬은 뒤 배포 준비까지. 네 단계가 같은 맥락을 공유합니다.</p></div>
-            </div>
+    footer { padding: 68px 0 32px; border-top: 1px solid var(--line); }
+    .footer-top { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; }
+    .footer-statement { margin: 0; font-size: clamp(42px,6.6vw,88px); line-height: .92; letter-spacing: -.068em; font-weight: 900; }
+    .footer-links { justify-self: end; text-align: right; color: var(--muted); font-size: 13px; }
+    .footer-links a { color: var(--blue); text-decoration: none; border-bottom: 1px solid var(--line-strong); }
+    .business { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--line); display: grid; grid-template-columns: 1fr auto; gap: 24px; color: var(--faint); font: 500 9px/1.7 "IBM Plex Mono", monospace; letter-spacing: .06em; }
+    .business address { max-width: 900px; font-style: normal; }
+    .business .corner { text-align: right; white-space: nowrap; }
 
-            <div className="pipeline-board reveal" data-delay="1" aria-label="KNCA Labs의 네 단계 AI 콘텐츠 파이프라인">
-              <svg className="pipeline-svg" viewBox="0 0 1280 640" preserveAspectRatio="none" aria-hidden="true">
-                <path className="blue-path" d="M270 125 C420 145 420 260 545 320"></path>
-                <path d="M1010 125 C850 155 850 265 735 320"></path>
-                <path d="M270 525 C420 490 420 395 545 320"></path>
-                <path className="blue-path" d="M1010 525 C850 490 850 390 735 320"></path>
-                <circle cx="640" cy="320" r="235" fill="none" stroke="currentColor" strokeOpacity=".08"></circle>
-              </svg>
-              <span className="particle p1" aria-hidden="true"></span><span className="particle p2" aria-hidden="true"></span><span className="particle p3" aria-hidden="true"></span><span className="particle p4" aria-hidden="true"></span>
-              <article className="pipeline-node pn1"><span>01 / UNDERSTANDING</span><h3>원천을 읽습니다</h3><p>이야기와 핵심 논리, 반복될 맥락을 구조화합니다.</p></article>
-              <article className="pipeline-node pn2"><span>02 / SYNTHESIS</span><h3>여러 초안을 펼칩니다</h3><p>쇼츠, 아티클, 뉴스레터, 소셜 형식으로 생성합니다.</p></article>
-              <article className="pipeline-node pn3"><span>03 / ADAPTATION</span><h3>채널에 맞춥니다</h3><p>말투, 훅, 길이와 표현을 플랫폼 문법에 맞게 조정합니다.</p></article>
-              <article className="pipeline-node pn4"><span>04 / DISTRIBUTION</span><h3>검수 준비를 마칩니다</h3><p>사람이 사실과 표현을 확인할 수 있는 패키지로 정리합니다.</p></article>
-              <div className="pipeline-core"><div><span>UNIFIED AGENT</span><strong>PIPELINE</strong></div></div>
-            </div>
+    @keyframes titleIn { to { transform: translateY(0); } }
+    @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+    @keyframes sectionIn { from { opacity: .01; transform: translateY(28px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes stageIn { from { opacity: 0; transform: translateY(30px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes haloBreathe { 0%,100% { transform: scale(.88); opacity: .58; } 50% { transform: scale(1.08); opacity: 1; } }
+    @keyframes drawOrbit { to { stroke-dashoffset: 0; } }
+    @keyframes orbitFlow { to { stroke-dashoffset: -260; } }
+    @keyframes floatCard { 0%,100% { translate: 0 -5px; } 50% { translate: 0 10px; } }
+    @keyframes coreDrift { 0%,100% { transform: translateY(-5px); } 50% { transform: translateY(7px); } }
+    @keyframes orbitSpin { to { transform: rotate(360deg); } }
+    @keyframes signalMove { 0% { offset-distance: 0%; opacity: 0; } 12%,86% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+    @keyframes ticker { to { transform: translateX(-50%); } }
+    @keyframes pathOne { 0% { offset-distance: 0%; opacity: 0; } 14%,86% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+    @keyframes statusPulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--blue) 54%, transparent); } 70%,100% { box-shadow: 0 0 0 10px transparent; } }
 
-            <div className="stages">
-              <article className="stage-card reveal"><span className="stage-number">01</span><h3>Single Source<br />Orchestration</h3><p>흩어진 입력 대신 하나의 원천을 중심으로 맥락을 유지합니다.</p><div className="stage-tags">KNOWLEDGE GRAPH / SOURCE CONTEXT</div></article>
-              <article className="stage-card reveal" data-delay="1"><span className="stage-number">02</span><h3>Unified Agent<br />Pipeline</h3><p>전문화된 에이전트가 같은 목표와 기준을 공유하며 이어서 작업합니다.</p><div className="stage-tags">HYBRID RAG / FUNCTION CALLING</div></article>
-              <article className="stage-card reveal" data-delay="2"><span className="stage-number">03</span><h3>Channel-native<br />Adaptation</h3><p>복사본을 늘리는 대신 각 채널에서 자연스러운 콘텐츠로 바꿉니다.</p><div className="stage-tags">FORMAT LOGIC / TONE CONTROL</div></article>
-              <article className="stage-card reveal" data-delay="3"><span className="stage-number">04</span><h3>Human-in-the-Loop<br />Control</h3><p>자동화는 반복을 줄이고, 최종 판단과 책임은 사람이 맡습니다.</p><div className="stage-tags">REVIEW GATE / FINAL APPROVAL</div></article>
-            </div>
-          </div>
-        </section>
+    @media (max-width: 980px) {
+      .section-head { grid-template-columns: 1fr; gap: 20px; }
+      .hero-stage { width: 100%; }
+      .pipeline-board { min-height: 760px; }
+      .pipeline-svg, .particle { display: none; }
+      .pipeline-node { width: calc(50% - 38px); }
+      .pn1 { left: 24px; top: 24px; }
+      .pn2 { right: 24px; top: 24px; }
+      .pn3 { left: 24px; bottom: 24px; }
+      .pn4 { right: 24px; bottom: 24px; }
+      .pipeline-core { width: 160px; height: 160px; }
+      .stages { grid-template-columns: repeat(2, 1fr); }
+      .stage-card:nth-child(2) { border-right: 0; }
+      .stage-card:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
+      .audience-grid { grid-template-columns: 1fr 1fr; }
+      .audience-card.featured { grid-column: 1/-1; }
+    }
 
-        <section className="principle" id="principle" aria-labelledby="principle-title">
-          <div className="wrap">
-            <p className="kicker reveal">THE PRINCIPLE / BUILD ONCE</p>
-            <h2 className="principle-title reveal" data-delay="1" id="principle-title">더 많이 만드는 것보다,<br /><span className="outline">좋은 원천 하나에</span><br /><span className="blue">집중해요.</span></h2>
-            <div className="comparison">
-              <article className="compare-card reveal"><span className="compare-label">BEFORE / MANUAL</span><h3>채널마다 처음부터 다시 쓰기</h3><p>같은 내용을 요약하고 또 고치는 사이 시간이 흩어지고 메시지도 조금씩 달라집니다.</p><div className="compare-metric"><span>WORKFLOW</span><strong>FRAGMENTED</strong></div></article>
-              <div className="compare-arrow reveal" aria-hidden="true">→</div>
-              <article className="compare-card after reveal" data-delay="2"><span className="compare-label">AFTER / AI-NATIVE</span><h3>원천 하나를 여러 채널로 자연스럽게</h3><p>핵심 아이디어는 사람이 만들고, 반복되는 구조화와 조정은 연결된 시스템이 맡습니다.</p><div className="compare-metric"><span>OPERATING MODEL</span><strong>BUILD ONCE</strong></div></article>
-            </div>
-          </div>
-        </section>
+    @media (max-width: 680px) {
+      .wrap { width: min(1280px, calc(100% - 30px)); }
+      .nav-inner { min-height: 60px; }
+      .nav-links { display: none; }
+      .nav-mark { font-size: 9px; }
+      .nav-cta { padding: 10px 13px; }
+      .hero { min-height: auto; padding: 120px 0 62px; }
+      h1 { font-size: clamp(53px, 16.5vw, 78px); line-height: .91; }
+      .lede { margin-top: 23px; font-size: 16px; }
+      .hero-actions { margin-top: 24px; }
+      .button { width: 100%; }
+      .hero-stage { height: 380px; margin-top: 25px; }
+      .orbit-svg { left: -28%; width: 156%; }
+      .source-core { width: 118px; height: 118px; }
+      .source-core::before { inset: -18px; }
+      .core-copy strong { font-size: 15px; }
+      .float-card { width: 92px; min-height: 84px; padding: 11px; border-radius: 18px; box-shadow: 0 10px 26px rgba(30,34,42,.09); backdrop-filter: none; }
+      .float-card .glyph { width: 28px; height: 28px; border-radius: 9px; font-size: 8px; }
+      .float-card strong { margin-top: 9px; font-size: 10px; }
+      .float-card small { font-size: 7px; }
+      .fc1 { left: 1%; top: 1%; }
+      .fc2 { left: 2%; bottom: 4%; }
+      .fc3 { right: 1%; top: 1%; }
+      .fc4 { right: 2%; bottom: 4%; }
+      .signal { display: none; }
+      .hero-corner { display: none; }
+      section { padding: 92px 0; }
+      h2 { font-size: clamp(39px, 12.5vw, 58px); }
+      .section-intro { font-size: 16px; }
+      .demo-shell { border-radius: 24px; }
+      .demo-top { grid-template-columns: 58px minmax(0,1fr); }
+      .demo-form { padding: 20px 15px; }
+      .demo-input-row { grid-template-columns: 1fr; }
+      .demo-input { font-size: 11px; }
+      .demo-start { width: 100%; }
+      .demo-workspace { padding: 21px 16px; }
+      .demo-input, .demo-start { min-height: 56px; }
+      .demo-statusbar { flex-direction: column; gap: 5px; }
+      .demo-statusbar span { max-width: 100%; overflow-wrap: anywhere; }
+      .demo-phases { grid-template-columns: 1fr 1fr; }
+      .demo-phase { min-height: 104px; padding: 14px; }
+      .demo-phase strong { margin-top: 28px; font-size: 10px; }
+      .demo-result-grid { grid-template-columns: 1fr; }
+      .demo-result-card { min-height: 0; padding: 20px 18px; box-shadow: 0 10px 24px rgba(30,34,42,.07); }
+      .demo-result-card h3 { padding-right: 30px; }
+      .timestamp { min-width: 72px; min-height: 36px; }
+      .shorts-preview li { min-height: 78px; }
+      .demo-results-head { align-items: flex-start; flex-direction: column; gap: 6px; }
+      .demo-finish { align-items: stretch; flex-direction: column; padding: 20px 18px; }
+      .demo-retry { width: 100%; }
+      .pipeline-board { min-height: 840px; border-radius: 25px; }
+      .pipeline-node { width: calc(100% - 32px); min-height: 140px; left: 16px; right: auto; padding: 18px; }
+      .pn1 { top: 16px; }
+      .pn2 { top: 172px; }
+      .pn3 { top: auto; bottom: 172px; }
+      .pn4 { bottom: 16px; }
+      .pipeline-node h3 { margin-top: 22px; font-size: 18px; }
+      .pipeline-core { width: 118px; height: 118px; }
+      .pipeline-core strong { font-size: 16px; }
+      .stages { grid-template-columns: 1fr; }
+      .stage-card { min-height: 230px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .stage-card:last-child { border-bottom: 0; }
+      .stage-card h3 { margin-top: 54px; }
+      .principle-title { font-size: clamp(44px, 14vw, 64px); }
+      .comparison { grid-template-columns: 1fr; gap: 12px; margin-top: 52px; }
+      .compare-card { min-height: 310px; padding: 26px; }
+      .compare-card h3 { margin-top: 56px; }
+      .compare-card.after { transform: rotate(.7deg); }
+      .compare-arrow { min-height: 46px; transform: rotate(90deg); }
+      .audience-grid { grid-template-columns: 1fr; }
+      .audience-card.featured { grid-column: auto; }
+      .team-note-inner { grid-template-columns: 1fr; gap: 22px; padding: 38px 0; }
+      .team-note-copy { font-size: 16px; }
+      .status-grid { grid-template-columns: 1fr; }
+      .status-main { min-height: 390px; padding: 27px; }
+      .footer-top { grid-template-columns: 1fr; }
+      .footer-links { justify-self: start; text-align: left; }
+      .business { grid-template-columns: 1fr; }
+      .business .corner { text-align: left; }
+    }
 
-        <section className="audience" id="audience" aria-labelledby="audience-title">
-          <div className="wrap">
-            <div className="section-head reveal">
-              <p className="kicker">FOR WHOM / START WITH YOUR WORK</p>
-              <div><h2 id="audience-title">AI는 빠른데,<br /><span className="blue">내 일은 그대로라면.</span></h2><p className="section-intro">새 도구를 더 배우기보다, 지금 가진 자료와 아이디어를 실제 업무 흐름으로 연결하고 싶은 사람과 팀을 생각했습니다.</p></div>
-            </div>
-            <div className="audience-grid">
-              <article className="audience-card featured reveal"><span className="audience-no">PRIMARY</span><h3>AI가 중요한 건 알지만, 어디서 어떻게 시작할지 막막한 분</h3><p>유행하는 도구를 좇기보다 내 업무·창작·사업에 맞는 실제 흐름부터 만들고 싶은 분께 잘 맞습니다.</p></article>
-              <article className="audience-card reveal" data-delay="1"><span className="audience-no">CONTENT TEAM</span><h3>반복 제작 시간을 줄이고 싶은 팀</h3><p>한 메시지를 채널마다 다시 만드는 대신 더 중요한 기획과 판단에 집중합니다.</p></article>
-              <article className="audience-card reveal" data-delay="2"><span className="audience-no">BRAND</span><h3>일관성과 속도를 함께 지키고 싶은 브랜드</h3><p>콘텐츠가 많아져도 우리다운 말투와 핵심 맥락을 놓치지 않습니다.</p></article>
-            </div>
-          </div>
-        </section>
-
-        <section className="team-note" aria-labelledby="team-title">
-          <div className="wrap team-note-inner reveal">
-            <h2 id="team-title">KNCA Labs는<br /><span className="blue">AI 콘텐츠 자동화</span><br />플랫폼을 만듭니다.</h2>
-            <div className="team-note-copy"><p>하나의 원천이 여러 가능성으로 이어지도록, 콘텐츠 제작의 반복을 줄이고 사람이 더 중요한 판단에 집중할 수 있는 퍼블리싱 인프라를 설계합니다.</p><p className="tech">BUILT ON CLAUDE API<br />HYBRID RAG · FUNCTION CALLING · HUMAN REVIEW</p></div>
-          </div>
-        </section>
-
-        <section className="status" id="status" aria-labelledby="status-title">
-          <div className="wrap">
-            <div className="section-head reveal">
-              <p className="kicker">BUILDING IN PUBLIC / 2026</p>
-              <div><h2 id="status-title">지금은 코어 알파를<br /><span className="blue">만들고 있어요.</span></h2><p className="section-intro">작은 단위로 직접 시험하고 다듬으며, 네 단계의 흐름을 실제 제품으로 연결하고 있습니다.</p></div>
-            </div>
-            <div className="status-grid">
-              <article className="status-main reveal"><span className="status-live">CORE ALPHA IN PROGRESS</span><div><h3>One source in.<br />Complete workflow out.</h3><p>Phase 01의 코어 인프라를 마치고, Phase 02 퍼블리싱 파이프라인을 개발하고 있습니다. 다음 단계는 제한된 사용자와 함께하는 Closed Beta입니다.</p></div></article>
-              <div className="status-aside">
-                <article className="metric reveal" data-delay="1"><span>PHASES DESIGNED</span><strong ref={(el) => { counterRefs.current[0] = el; }} className="counter" data-count="4">00</strong><small>이해부터 배포 준비까지</small></article>
-                <article className="metric reveal" data-delay="2"><span>CURRENT PHASE</span><strong>02</strong><small>Publishing Pipeline / Building</small></article>
-                <article className="metric reveal" data-delay="3"><span>NEXT MILESTONE</span><strong>BETA</strong><small>Closed Beta / Planned</small></article>
-              </div>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <footer>
-        <div className="wrap">
-          <div className="footer-top"><p className="footer-statement">One Source.<br /><span className="blue">Many Possibilities.</span></p><div className="footer-links">KNCA Labs · AI Content Automation Platform<br />Operated by Stay C (스테이씨)<br /><a href="mailto:founder@kncalabs.com">founder@kncalabs.com</a> · <a href="https://kncalabs.com/" target="_blank" rel="noreferrer">kncalabs.com ↗</a></div></div>
-          <div className="business"><address>대표 김하늘 · 사업자등록번호 782-26-015552 · 제주특별자치도 제주시 애월읍 예원로 144 · 010-3298-3775</address><span className="corner">KNCA LABS © 2026<br />ALPHA / SOUTH KOREA</span></div>
-        </div>
-      </footer>
-    </div>
-  );
-}
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  
