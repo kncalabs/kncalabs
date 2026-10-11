@@ -532,7 +532,7 @@ export default function Home() {
             <form className="demo-form" id="demoForm" novalidate>
               <label htmlFor="youtubeUrl">PASTE A YOUTUBE SOURCE URL</label>
               <div className="demo-input-row">
-                <input className="demo-input" id="youtubeUrl" name="youtubeUrl" type="url" inputmode="url" autocomplete="url" value="https://youtu.be/P3jFI-VpyLg" aria-label="YouTube 영상 URL" aria-describedby="demoError" />
+                <input className="demo-input" id="youtubeUrl" name="youtubeUrl" type="url" inputmode="url" autocomplete="url" defaultValue="https://youtu.be/P3jFI-VpyLg" aria-label="YouTube 영상 URL" aria-describedby="demoError" />
                 <button className="demo-start" id="demoStart" type="submit" disabled>채널을 선택해 주세요</button>
               </div>
               <p className="demo-error" id="demoError" role="alert"></p>
