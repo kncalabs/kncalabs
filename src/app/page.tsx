@@ -5,7 +5,7 @@ import "./showreel.css";
 
 function initPage(root: HTMLElement) {
   const q = (sel: string): HTMLElement => root.querySelector(sel) as HTMLElement;
-  const qa = (sel: string): HTMLElement[] => Array.from(qa(sel)) as HTMLElement[];
+  const qa = (sel: string): HTMLElement[] => Array.from(root.querySelectorAll(sel)) as HTMLElement[];
 
   const listeners: Array<{ el: EventTarget; type: string; fn: EventListener; opts?: AddEventListenerOptions | boolean }> = [];
   const origWinAdd = window.addEventListener.bind(window);
