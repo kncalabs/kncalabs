@@ -580,7 +580,7 @@ function rankOpportunitiesForPlatform(opportunities, platform) {
 // StrategyLLM interface — Claude implementation
 // ------------------------------------------------------------
 class StrategyLLM {
-  constructor(apiKey, model = 'claude-sonnet-4-20250514') {
+  constructor(apiKey, model = 'claude-sonnet-5-5') {
     this.apiKey = apiKey;
     this.model = model;
   }
