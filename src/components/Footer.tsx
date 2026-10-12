@@ -22,6 +22,9 @@ export default function Footer() {
 
           {/* Right: Legal Links */}
           <div className="flex items-center gap-6">
+            <Link href="/toss-shopping" className="hover:text-white transition-colors">
+              Toss Shopping Automation
+            </Link>
             <Link href="/privacy" className="hover:text-white transition-colors">
               Privacy
             </Link>

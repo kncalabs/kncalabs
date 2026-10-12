@@ -4,9 +4,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ solid = false }: { solid?: boolean }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const showSolid = solid || isScrolled;
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,7 +21,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
+        showSolid
           ? "bg-[#030712]/80 backdrop-blur-xl border-b border-white/5 py-4"
           : "bg-transparent py-6"
       }`}
