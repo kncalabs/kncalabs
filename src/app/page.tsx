@@ -333,7 +333,6 @@ function initPage(root: HTMLElement) {
       function updateDemoWithRealData(snippet, stats) {
         // Update demo UI with real video data
         var thumbUrl = snippet.thumbnails && snippet.thumbnails.medium ? snippet.thumbnails.medium.url : (snippet.thumbnails.default.url);
-        // Store for result cards
         window._demoVideoData = {
           title: snippet.title,
           channel: snippet.channelTitle,
@@ -343,6 +342,16 @@ function initPage(root: HTMLElement) {
           description: snippet.description || ''
         };
         demoState.textContent = '실제 영상 정보를 가져왔어요';
+        // Update result cards with real video title
+        var shortTitle = snippet.title.length > 30 ? snippet.title.substring(0, 30) + '...' : snippet.title;
+        demoCards.forEach(function(card) {
+          var h3 = card.querySelector('h3');
+          if (h3 && h3.textContent.indexOf('예시') !== -1) {
+            // Keep the format but indicate it's based on real video
+            var type = card.getAttribute('data-output');
+            h3.textContent = shortTitle + ' 기반 ' + h3.textContent.replace(/예시/g, '제안');
+          }
+        });
       }
       function runDemo(videoId) {
         clearDemoTimers();
