@@ -824,7 +824,7 @@ Return ONLY valid JSON (no markdown fences, no explanation):
         },
         body: JSON.stringify({
           model: this.model,
-          max_tokens: 8000,
+          max_tokens: 16000,
           messages: [{ role: 'user', content: prompt }],
         }),
       });
