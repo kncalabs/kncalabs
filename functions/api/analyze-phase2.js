@@ -505,8 +505,13 @@ Common mistakes: ${(research.commonMistakes || []).join(' | ')}
 ${(examples || []).length === 0 ? '(No verified recent examples available — do not invent any)' : (examples || []).map((e, i) => `
 Example ${i + 1}: ${e.title} (${e.sourceType})
 URL: ${e.url}
+${e.views ? `Views: ${e.views}` : ''}${e.followersOrSubscribers ? ` | Followers: ${e.followersOrSubscribers}` : ''}${e.views && e.followersOrSubscribers ? ` | Breakout ratio: ${(e.views / e.followersOrSubscribers).toFixed(1)}x` : ''}
 Why relevant: ${e.whyRelevant || ''}
-Why it worked: ${e.whyItWorked || ''}`).join('\n')}
+Why it worked: ${e.whyItWorked || ''}
+Similarity to source: ${e.similarityToSource || ''}`).join('\n')}
+
+When analyzing examples, prioritize breakout performance (views/followers ratio) over absolute view counts.
+A small account with 500K views is more instructive than a large account with 1M views.
 
 ## RULES
 - Select angle based on the opportunity scores and platform focus
@@ -515,6 +520,59 @@ Why it worked: ${e.whyItWorked || ''}`).join('\n')}
 - NEVER invent metrics, URLs, or examples
 - Provide hook DIRECTION (not final copy)
 - List concrete things to avoid for this platform
+
+## PLATFORM-SPECIFIC OUTPUT REQUIREMENTS
+${platform === 'x_thread' ? `
+For X Thread, structure must be a numbered thread sequence:
+"structure": [{"post": 1, "purpose": "Hook", "direction": "..."}, {"post": 2, "purpose": "...", "direction": "..."}]
+` : ''}${platform === 'facebook_card_news' ? `
+For Facebook Card News, structure must be slide-by-slide:
+"structure": [{"slide": 1, "purpose": "Hook", "visualDirection": "...", "textDirection": "..."}, {"slide": 2, ...}]
+` : ''}${platform === 'newsletter' ? `
+For Newsletter, include:
+"subjectLine": "", "previewText": "", "openingHook": ""
+` : ''}${platform === 'blog' ? `
+For Blog, include:
+"seoTitle": "", "metaDescription": "", "headingStructure": []
+` : ''}${['youtube_shorts', 'tiktok', 'instagram_reels'].includes(platform) ? `
+For short video, structure must be time-based:
+"structure": [{"timestamp": "0-3s", "purpose": "Hook", "visualDirection": "...", "audioDirection": "..."}, ...]
+Include in productionGuide: screenComposition, bRollUsage, captionStyle, pacing, musicDirection
+` : ''}
+
+## AI PROMPT REQUIREMENTS
+The "aiPrompt" field must be a complete, copy-paste-ready prompt containing ALL of these sections:
+ROLE: Who the AI should act as
+SOURCE CONTENT: Title, core message, selected opportunity with timestamp
+PLATFORM: ${meta.label} with its constraints
+TARGET AUDIENCE: Who this is for
+OBJECTIVE: What success looks like
+ANGLE: The recommended angle
+HOOK: Hook direction (not final copy)
+STRUCTURE: Step-by-step structure
+TONE: Appropriate tone for platform
+LENGTH: Specific length/duration
+EDITING DIRECTION: Visual/audio/editing guidance
+CTA: Call to action
+DO NOT: List of prohibitions (no invented facts, no generic advice, etc.)
+QUALITY CRITERIA: How to evaluate the output
+IMPORTANT RULE: Do not invent or change facts from the source. Only use provided information.
+
+## PRODUCTION GUIDE REQUIREMENTS
+The "productionGuide" object must include practical, actionable details:
+{
+  "duration": "Specific (e.g. 35-45 seconds)",
+  "screenComposition": "How to frame shots",
+  "bRollUsage": "What B-roll to use and when",
+  "cutDirection": "Cut pacing and style",
+  "captionStyle": "Caption appearance and timing",
+  "emphasisPoints": "What to emphasize visually",
+  "narrationDirection": "Voiceover style if applicable",
+  "musicDirection": "Music/sound approach",
+  "pacing": "Overall rhythm",
+  "ctaPlacement": "Where and how to place CTA"
+}
+(Include only fields relevant to the platform; omit irrelevant ones)
 
 Return ONLY valid JSON (no markdown fences, no explanation):
 {
@@ -525,6 +583,7 @@ Return ONLY valid JSON (no markdown fences, no explanation):
   "recommendedLength": "",
   "structure": [],
   "editingDirection": [],
+  "productionGuide": {},
   "cta": "",
   "thingsToAvoid": [],
   "whyExamplesWorked": [],
