@@ -17,6 +17,25 @@ export async function onRequest(context) {
 
   const ytKey = context.env.YOUTUBE_API_KEY;
   const claudeKey = context.env.CLAUDE_API_KEY;
+  const ANALYSIS_VERSION = 'phase1-v1';
+  const MODEL = 'claude-sonnet-4-20250514';
+  
+  // Cache check using Cloudflare Cache API
+  const cacheKey = `phase1:${videoId}:${ANALYSIS_VERSION}:${MODEL}`;
+  const cache = caches.default;
+  const cacheUrl = new URL(`/cache/${cacheKey}`, url.origin);
+  const cachedRes = await cache.match(cacheUrl);
+  if (cachedRes) {
+    const cached = await cachedRes.json();
+    cached.fromCache = true;
+    return new Response(JSON.stringify(cached), {
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'X-Cache': 'HIT'
+      }
+    });
+  }
   
   if (!ytKey) {
     return new Response(JSON.stringify({ 
@@ -75,32 +94,108 @@ export async function onRequest(context) {
     // STEP 3: Clean transcript (remove repetitions, keep timestamps)
     const cleanedTranscript = cleanTranscript(transcriptData.segments);
     
-    // STEP 4: AI Analysis via Claude
-    const analysisPrompt = buildAnalysisPrompt(video, cleanedTranscript);
-    const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': claudeKey,
-        'anthropic-version': '2023-06-01'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 8000,
-        messages: [{ role: 'user', content: analysisPrompt }]
-      })
-    });
+    // STEP 4: AI Analysis via Claude (with chunking for long transcripts)
+    const chunks = chunkTranscript(cleanedTranscript);
+    let analysisText = '';
     
-    const claudeData = await claudeRes.json();
-    const analysisText = claudeData.content?.[0]?.text || '';
+    if (chunks.length === 1) {
+      // Short enough for direct analysis
+      const analysisPrompt = buildAnalysisPrompt(video, cleanedTranscript);
+      const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': claudeKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: MODEL,
+          max_tokens: 8000,
+          messages: [{ role: 'user', content: analysisPrompt }]
+        })
+      });
+      const claudeData = await claudeRes.json();
+      analysisText = claudeData.content?.[0]?.text || '';
+    } else {
+      // Long transcript: chunk-level extraction + global synthesis
+      const chunkResults = [];
+      for (let i = 0; i < chunks.length; i++) {
+        const chunkPrompt = buildChunkPrompt(video, chunks[i], i + 1, chunks.length);
+        const chunkRes = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': claudeKey,
+            'anthropic-version': '2023-06-01'
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            max_tokens: 4000,
+            messages: [{ role: 'user', content: chunkPrompt }]
+          })
+        });
+        const chunkData = await chunkRes.json();
+        chunkResults.push(chunkData.content?.[0]?.text || '');
+      }
+      // Global synthesis
+      const synthesisPrompt = buildSynthesisPrompt(video, chunkResults);
+      const synthRes = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': claudeKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: MODEL,
+          max_tokens: 8000,
+          messages: [{ role: 'user', content: synthesisPrompt }]
+        })
+      });
+      const synthData = await synthRes.json();
+      analysisText = synthData.content?.[0]?.text || '';
+    }
     
-    // Parse structured output
-    let analysis;
-    try {
-      // Extract JSON from response
-      const jsonMatch = analysisText.match(/\{[\s\S]*\}/);
-      analysis = JSON.parse(jsonMatch ? jsonMatch[0] : analysisText);
-    } catch (e) {
+    // Parse structured output with retry
+    let analysis = null;
+    let parseAttempts = 0;
+    const maxParseAttempts = 3;
+    let currentPrompt = analysisPrompt;
+    let currentText = analysisText;
+    
+    while (parseAttempts < maxParseAttempts && !analysis) {
+      try {
+        const jsonMatch = currentText.match(/\{[\s\S]*\}/);
+        let jsonStr = jsonMatch ? jsonMatch[0] : currentText;
+        // Remove markdown fences if present
+        jsonStr = jsonStr.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
+        analysis = JSON.parse(jsonStr);
+      } catch (e) {
+        parseAttempts++;
+        if (parseAttempts >= maxParseAttempts) break;
+        // Retry with stricter prompt
+        const retryRes = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-api-key': claudeKey,
+            'anthropic-version': '2023-06-01'
+          },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-20250514',
+            max_tokens: 8000,
+            messages: [{ 
+              role: 'user', 
+              content: '이전 응답을 JSON으로 파싱할 수 없었습니다. 지정된 JSON schema만 반환하십시오. Markdown fence, 설명문, 추가 텍스트를 포함하지 마십시오.\n\n' + currentPrompt 
+            }]
+          })
+        });
+        const retryData = await retryRes.json();
+        currentText = retryData.content?.[0]?.text || '';
+      }
+    }
+    
+    if (!analysis) {
       return new Response(JSON.stringify({ 
         error: 'AI parse failed',
         message: '콘텐츠 생성 중 오류가 발생했습니다. 다시 시도해주세요.'
@@ -110,10 +205,10 @@ export async function onRequest(context) {
       });
     }
     
-    // STEP 5: Return structured result
-    return new Response(JSON.stringify({
-      analysisVersion: 'v1',
-      model: 'claude-sonnet-4-20250514',
+    // STEP 5: Build result and cache it
+    const result = {
+      analysisVersion: ANALYSIS_VERSION,
+      model: MODEL,
       createdAt: new Date().toISOString(),
       video: {
         videoId,
@@ -129,10 +224,18 @@ export async function onRequest(context) {
       },
       coreKnowledge: analysis.coreKnowledge,
       contentOpportunities: analysis.contentOpportunities
-    }), {
+    };
+    
+    // Store in cache
+    await cache.put(cacheUrl, new Response(JSON.stringify(result), {
+      headers: { 'Content-Type': 'application/json' }
+    }));
+    
+    return new Response(JSON.stringify(result), {
       headers: { 
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
+        'Access-Control-Allow-Origin': '*',
+        'X-Cache': 'MISS'
       }
     });
     
@@ -148,15 +251,16 @@ export async function onRequest(context) {
 }
 
 function cleanTranscript(segments) {
-  // Remove excessive whitespace, keep timestamps, deduplicate
   const cleaned = [];
   let lastText = '';
   for (const seg of segments) {
     const text = seg.text.trim().replace(/\s+/g, ' ');
     if (text && text !== lastText && text.length > 2) {
       cleaned.push({
-        start: formatTimestamp(seg.start),
-        end: formatTimestamp(seg.start + seg.duration),
+        start: seg.start,
+        end: seg.start + seg.duration,
+        startStr: formatTimestamp(seg.start),
+        endStr: formatTimestamp(seg.start + seg.duration),
         text
       });
       lastText = text;
@@ -165,10 +269,83 @@ function cleanTranscript(segments) {
   return cleaned;
 }
 
+function estimateTokens(text) {
+  return Math.ceil(text.length / 4);
+}
+
+function chunkTranscript(segments, maxChunkTokens = 6000, overlapSegments = 5) {
+  const chunks = [];
+  let currentChunk = [];
+  let currentTokens = 0;
+  
+  for (let i = 0; i < segments.length; i++) {
+    const seg = segments[i];
+    const segTokens = estimateTokens(seg.text);
+    
+    if (currentTokens + segTokens > maxChunkTokens && currentChunk.length > 0) {
+      chunks.push([...currentChunk]);
+      // Overlap: keep last N segments for context
+      currentChunk = currentChunk.slice(-overlapSegments);
+      currentTokens = currentChunk.reduce((sum, s) => sum + estimateTokens(s.text), 0);
+    }
+    
+    currentChunk.push(seg);
+    currentTokens += segTokens;
+  }
+  
+  if (currentChunk.length > 0) {
+    chunks.push(currentChunk);
+  }
+  
+  return chunks;
+}
+
 function formatTimestamp(seconds) {
   const m = Math.floor(seconds / 60);
   const s = Math.floor(seconds % 60);
   return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+}
+
+function buildChunkPrompt(video, chunkSegments, chunkNum, totalChunks) {
+  const text = chunkSegments.map(t => `[${t.startStr}-${t.endStr}] ${t.text}`).join('\n');
+  return `Analyze this segment (part ${chunkNum}/${totalChunks}) of a YouTube video. Extract key topics, claims, and notable moments with timestamps.
+
+VIDEO: ${video.snippet.title}
+
+SEGMENT TRANSCRIPT:
+${text}
+
+Return JSON: {"topics": [], "keyMoments": [{"timestamp": "", "summary": "", "score": 0}], "claims": []}`;
+}
+
+function buildSynthesisPrompt(video, chunkResults) {
+  return `Synthesize these chunk analyses into final Core Knowledge and TOP 5 Content Opportunities for the video "${video.snippet.title}".
+
+CHUNK ANALYSES:
+${chunkResults.join('\n\n---\n\n')}
+
+Return ONLY valid JSON in this exact structure:
+{
+  "coreKnowledge": {
+    "mainTopic": "", "coreMessage": "", "targetAudience": [],
+    "keyClaims": [], "supportingEvidence": [], "importantNumbers": [],
+    "examples": [], "storyElements": [], "emotionalTriggers": [],
+    "audienceProblems": [], "solutions": [], "keyTakeaways": []
+  },
+  "contentOpportunities": [
+    {
+      "rank": 1, "topic": "", "summary": "",
+      "timestampStart": "MM:SS", "timestampEnd": "MM:SS",
+      "viralScore": 0, "hookStrength": 0, "curiosity": 0,
+      "emotionalIntensity": 0, "surprise": 0, "informationValue": 0,
+      "novelty": 0, "standaloneQuality": 0, "shareability": 0,
+      "commentPotential": 0, "shortFormConversionPotential": 0,
+      "whyItMatters": "", "recommendedAngle": ""
+    }
+  ]
+}
+
+Select TOP 5 across all chunks, re-ranked globally.`;
 }
 
 function buildAnalysisPrompt(video, transcript) {
