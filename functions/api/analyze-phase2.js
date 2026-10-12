@@ -830,7 +830,20 @@ Return ONLY valid JSON (no markdown fences, no explanation):
       });
       if (res.ok) {
         const data = await res.json();
-        const text = data.content?.[0]?.text || '';
+        const blocks = Array.isArray(data.content) ? data.content : [];
+        const textBlock = blocks.find(b => b && b.type === 'text' && typeof b.text === 'string');
+        const blockTypes = blocks.map(b => (b && b.type) || 'unknown');
+        if (!textBlock) {
+          const err = new Error('Claude response has no text block');
+          err.diag = {
+            stop_reason: data.stop_reason,
+            output_tokens: data.usage?.output_tokens,
+            input_tokens: data.usage?.input_tokens,
+            block_types: blockTypes,
+          };
+          throw err;
+        }
+        const text = textBlock.text;
         this.lastDiag = {
           stop_reason: data.stop_reason,
           output_tokens: data.usage?.output_tokens,
