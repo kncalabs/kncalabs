@@ -830,7 +830,14 @@ Return ONLY valid JSON (no markdown fences, no explanation):
       });
       if (res.ok) {
         const data = await res.json();
-        return data.content?.[0]?.text || '';
+        const text = data.content?.[0]?.text || '';
+        console.log('[phase2] CLAUDE RESP', JSON.stringify({
+          stop_reason: data.stop_reason,
+          output_tokens: data.usage?.output_tokens,
+          input_tokens: data.usage?.input_tokens,
+          text_len: text.length,
+        }));
+        return text;
       }
       lastError = new Error(`Claude API error: ${res.status}`);
       if (res.status === 401 || res.status === 403) break;
@@ -841,9 +848,17 @@ Return ONLY valid JSON (no markdown fences, no explanation):
   parseStrategy(text, originalPrompt) {
     const cleaned = text.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
     const match = cleaned.match(/\{[\s\S]*\}/);
+    const jsonStr = match ? match[0] : cleaned;
     try {
-      return JSON.parse(match ? match[0] : cleaned);
-    } catch {
+      return JSON.parse(jsonStr);
+    } catch (e) {
+      console.error('[phase2] JSON PARSE FAIL', JSON.stringify({
+        error_name: e?.name,
+        error_msg: (e?.message || '').slice(0, 120),
+        json_len: jsonStr.length,
+        has_match: !!match,
+        tail_100: jsonStr.slice(-100),
+      }));
       throw new Error('Strategy JSON parse failed');
     }
   }
