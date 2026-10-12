@@ -831,12 +831,13 @@ Return ONLY valid JSON (no markdown fences, no explanation):
       if (res.ok) {
         const data = await res.json();
         const text = data.content?.[0]?.text || '';
-        console.log('[phase2] CLAUDE RESP', JSON.stringify({
+        this.lastDiag = {
           stop_reason: data.stop_reason,
           output_tokens: data.usage?.output_tokens,
           input_tokens: data.usage?.input_tokens,
           text_len: text.length,
-        }));
+        };
+        console.log('[phase2] CLAUDE RESP', JSON.stringify(this.lastDiag));
         return text;
       }
       lastError = new Error(`Claude API error: ${res.status}`);
@@ -852,14 +853,16 @@ Return ONLY valid JSON (no markdown fences, no explanation):
     try {
       return JSON.parse(jsonStr);
     } catch (e) {
-      console.error('[phase2] JSON PARSE FAIL', JSON.stringify({
+      const diag = {
         error_name: e?.name,
         error_msg: (e?.message || '').slice(0, 120),
         json_len: jsonStr.length,
         has_match: !!match,
-        tail_100: jsonStr.slice(-100),
-      }));
-      throw new Error('Strategy JSON parse failed');
+      };
+      console.error('[phase2] JSON PARSE FAIL', JSON.stringify(diag));
+      const err = new Error('Strategy JSON parse failed');
+      err.diag = { ...(this.lastDiag || {}), ...diag };
+      throw err;
     }
   }
 }
@@ -1004,7 +1007,9 @@ export async function onRequest(context) {
         headers: { 'Content-Type': 'application/json' }
       }));
     } catch (e) {
-      errors.push({ platform, error: String(e.message || e).slice(0, 300) });
+      const entry = { platform, error: String(e.message || e).slice(0, 300) };
+      if (e.diag) entry.debug = e.diag;
+      errors.push(entry);
     }
   }
 
