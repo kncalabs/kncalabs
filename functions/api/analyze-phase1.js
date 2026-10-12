@@ -18,7 +18,7 @@ export async function onRequest(context) {
   const ytKey = context.env.YOUTUBE_API_KEY;
   const claudeKey = context.env.CLAUDE_API_KEY;
   const ANALYSIS_VERSION = 'phase1-v1';
-  const MODEL = 'claude-sonnet-4-20250514';
+  const MODEL = 'claude-sonnet-5-5';
   
   // Cache check using Cloudflare Cache API
   const cacheKey = `phase1:${videoId}:${ANALYSIS_VERSION}:${MODEL}`;
@@ -182,7 +182,7 @@ export async function onRequest(context) {
             'anthropic-version': '2023-06-01'
           },
           body: JSON.stringify({
-            model: 'claude-sonnet-4-20250514',
+            model: 'claude-sonnet-5-5',
             max_tokens: 8000,
             messages: [{ 
               role: 'user', 
