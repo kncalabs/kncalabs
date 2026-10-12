@@ -58,6 +58,7 @@ export async function onRequest(context) {
   }
 
   try {
+    console.log('[analyze-phase1] STEP 1 START');
     // STEP 1: Fetch video metadata
     const videoUrl = `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics,contentDetails&id=${videoId}&key=${ytKey}`;
     const videoRes = await fetch(videoUrl);
@@ -74,12 +75,18 @@ export async function onRequest(context) {
     }
     
     const video = videoData.items[0];
+    console.log('[analyze-phase1] STEP 1 DONE');
     
+    console.log('[analyze-phase1] STEP 2 START');
     // STEP 2: Fetch transcript via internal function
     const transcriptUrl = new URL('/api/transcript', url.origin);
     transcriptUrl.searchParams.set('id', videoId);
+    console.log('[analyze-phase1] STEP 2 self-fetch URL:', transcriptUrl.pathname + '?id=' + videoId);
+    console.log('[analyze-phase1] STEP 2 fetch begin');
     const transcriptRes = await fetch(transcriptUrl.toString());
+    console.log('[analyze-phase1] STEP 2 fetch HTTP status:', transcriptRes.status);
     const transcriptData = await transcriptRes.json();
+    console.log('[analyze-phase1] STEP 2 DONE');
     
     if (transcriptData.error) {
       return new Response(JSON.stringify({ 
@@ -91,16 +98,21 @@ export async function onRequest(context) {
       });
     }
     
+    console.log('[analyze-phase1] STEP 3 START');
     // STEP 3: Clean transcript (remove repetitions, keep timestamps)
     const cleanedTranscript = cleanTranscript(transcriptData.segments);
     
+    console.log('[analyze-phase1] STEP 3 DONE, cleaned segments:', cleanedTranscript.length);
+    console.log('[analyze-phase1] STEP 4 START');
     // STEP 4: AI Analysis via Claude (with chunking for long transcripts)
     const chunks = chunkTranscript(cleanedTranscript);
+    console.log('[analyze-phase1] STEP 4 chunks:', chunks.length);
     let analysisText = '';
     
     if (chunks.length === 1) {
       // Short enough for direct analysis
       const analysisPrompt = buildAnalysisPrompt(video, cleanedTranscript);
+      console.log('[analyze-phase1] CLAUDE CALL model:', MODEL, 'prompt_len:', analysisPrompt.length, 'max_tokens:', 8000);
       const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
@@ -114,7 +126,9 @@ export async function onRequest(context) {
           messages: [{ role: 'user', content: analysisPrompt }]
         })
       });
+      console.log('[analyze-phase1] CLAUDE HTTP status:', claudeRes.status);
       const claudeData = await claudeRes.json();
+      console.log('[analyze-phase1] CLAUDE stop_reason:', claudeData.stop_reason, 'content_len:', (claudeData.content?.[0]?.text || '').length);
       analysisText = claudeData.content?.[0]?.text || '';
     } else {
       // Long transcript: chunk-level extraction + global synthesis
@@ -163,14 +177,18 @@ export async function onRequest(context) {
     let currentPrompt = analysisPrompt;
     let currentText = analysisText;
     
+    console.log('[analyze-phase1] JSON EXTRACTION START');
     while (parseAttempts < maxParseAttempts && !analysis) {
       try {
+        console.log('[analyze-phase1] JSON PARSE START attempt:', parseAttempts + 1);
         const jsonMatch = currentText.match(/\{[\s\S]*\}/);
         let jsonStr = jsonMatch ? jsonMatch[0] : currentText;
         // Remove markdown fences if present
         jsonStr = jsonStr.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim();
         analysis = JSON.parse(jsonStr);
+        console.log('[analyze-phase1] JSON PARSE SUCCESS');
       } catch (e) {
+        console.error('[analyze-phase1] JSON PARSE ERROR', { message: e?.message });
         parseAttempts++;
         if (parseAttempts >= maxParseAttempts) break;
         // Retry with stricter prompt
@@ -240,9 +258,15 @@ export async function onRequest(context) {
     });
     
   } catch (e) {
-    return new Response(JSON.stringify({ 
+    console.error('[analyze-phase1] UNHANDLED_ERROR', {
+      name: e?.name,
+      message: e?.message,
+      stack: (e?.stack || '').slice(0, 500)
+    });
+    return new Response(JSON.stringify({
       error: 'Analysis failed',
-      message: '분석 중 오류가 발생했습니다. 다시 시도해주세요.'
+      message: '분석 중 오류가 발생했습니다. 다시 시도해주세요.',
+      debug: { name: e?.name, message: e?.message }
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }
