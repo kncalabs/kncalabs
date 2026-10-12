@@ -89,13 +89,24 @@ function validateEvidence(ev) {
 // Quality checklist scoring
 // ------------------------------------------------------------
 function scoreChecklist(checklist) {
-  if (!checklist || typeof checklist !== 'object') return { score: 0, grade: 'Poor' };
+  if (!checklist || typeof checklist !== 'object') return { score: 0, grade: 'Poor', criticalFailed: true };
   const keys = ['hook', 'platformNative', 'clearValue', 'strongStructure', 'appropriateLength', 'visualOrTextClarity', 'strongCTA', 'avoidsGenericAdvice', 'evidenceBacked'];
+  // Critical dimensions — if any fail, cap the grade
+  const critical = ['hook', 'platformNative', 'evidenceBacked'];
   let passed = 0;
-  for (const k of keys) if (checklist[k] === true) passed++;
-  const score = Math.round((passed / keys.length) * 100);
-  const grade = score >= 90 ? 'Excellent' : score >= 75 ? 'Good' : score >= 60 ? 'Needs Work' : 'Poor';
-  return { score, grade, passed, total: keys.length };
+  let criticalFailed = false;
+  for (const k of keys) {
+    if (checklist[k] === true) passed++;
+    else if (critical.includes(k)) criticalFailed = true;
+  }
+  let score = Math.round((passed / keys.length) * 100);
+  // Critical gate: if a critical dimension fails, max grade is 'Needs Work'
+  let grade = score >= 90 ? 'Excellent' : score >= 75 ? 'Good' : score >= 60 ? 'Needs Work' : 'Poor';
+  if (criticalFailed && (grade === 'Excellent' || grade === 'Good')) {
+    grade = 'Needs Work';
+    score = Math.min(score, 74);
+  }
+  return { score, grade, passed, total: keys.length, criticalFailed };
 }
 
 // ------------------------------------------------------------
@@ -408,6 +419,128 @@ const PLATFORM_FOCUS = {
 };
 
 // ------------------------------------------------------------
+// Platform Audience Matrix — used in strategy generation
+// ------------------------------------------------------------
+const PLATFORM_AUDIENCE = {
+  youtube_shorts: {
+    primaryAudience: 'Discovery-mode mobile viewers',
+    audienceIntent: 'Quick discovery and entertainment',
+    consumptionContext: 'Vertical feed, swiping rapidly',
+    attentionState: 'Low — 2-3 seconds to decide',
+    primaryPainPoints: ['Too much content, too little time', 'Boring intros', 'Irrelevant recommendations'],
+    desiredOutcome: 'Instant value or entertainment payoff',
+    contentExpectations: ['Immediate hook', 'Fast pacing', 'Clear payoff'],
+    nativeBehavior: ['Swipe', 'Replay loop', 'Quick like/share'],
+  },
+  tiktok: {
+    primaryAudience: 'Discovery-mode viewers seeking cultural participation',
+    audienceIntent: 'Entertainment + community belonging',
+    consumptionContext: 'For You feed, sound-on often',
+    attentionState: 'Low-medium — trend context helps',
+    primaryPainPoints: ['Inauthentic brand content', 'Slow setup', 'No community angle'],
+    desiredOutcome: 'Feel in-the-know, participate in conversation',
+    contentExpectations: ['Native feel', 'Conversational tone', 'Comment-worthy'],
+    nativeBehavior: ['Comment', 'Duet/Stitch', 'Share to friends'],
+  },
+  instagram_reels: {
+    primaryAudience: 'Visual-first scrollers',
+    audienceIntent: 'Inspiration, aspiration, aesthetics',
+    consumptionContext: 'Explore feed, visual browsing',
+    attentionState: 'Medium — visuals buy time',
+    primaryPainPoints: ['Low-quality visuals', 'Overly salesy', 'No save value'],
+    desiredOutcome: 'Save for later or share with aesthetic appreciation',
+    contentExpectations: ['High visual quality', 'Aspirational angle', 'Clean composition'],
+    nativeBehavior: ['Save', 'Share to stories', 'Follow for more'],
+  },
+  x: {
+    primaryAudience: 'Information-seeking scrollers',
+    audienceIntent: 'Sharp insights, opinions, news',
+    consumptionContext: 'Timeline, text-first',
+    attentionState: 'Medium — will stop for strong take',
+    primaryPainPoints: ['Generic advice', 'Thread-bait without payoff', 'No clear stance'],
+    desiredOutcome: 'Learn something quotable or debatable',
+    contentExpectations: ['Strong opinion', 'Concise insight', 'Conversation starter'],
+    nativeBehavior: ['Repost', 'Quote', 'Reply debate'],
+  },
+  x_thread: {
+    primaryAudience: 'Deep-dive readers',
+    audienceIntent: 'Structured learning in digestible chunks',
+    consumptionContext: 'Thread view, sequential reading',
+    attentionState: 'Medium-high once hooked by post 1',
+    primaryPainPoints: ['Weak opening post', 'Rambling without structure', 'No payoff'],
+    desiredOutcome: 'Complete mental model on a topic',
+    contentExpectations: ['Strong hook post', 'Progressive reveal', 'Clear takeaway'],
+    nativeBehavior: ['Bookmark', 'Share thread', 'Follow author'],
+  },
+  blog: {
+    primaryAudience: 'Search-driven learners',
+    audienceIntent: 'Solve specific problem or understand topic deeply',
+    consumptionContext: 'Google search → article page',
+    attentionState: 'High — actively seeking information',
+    primaryPainPoints: ['Thin content', 'Clickbait without depth', 'Poor structure'],
+    desiredOutcome: 'Actionable understanding',
+    contentExpectations: ['Clear title matching intent', 'Scannable headings', 'Credible evidence'],
+    nativeBehavior: ['Bookmark', 'Share link', 'Subscribe'],
+  },
+  facebook: {
+    primaryAudience: 'Community-oriented scrollers',
+    audienceIntent: 'Social connection + relatable content',
+    consumptionContext: 'Feed among friends/family updates',
+    attentionState: 'Medium — emotional resonance stops scroll',
+    primaryPainPoints: ['Overly promotional', 'Jargon-heavy', 'No discussion value'],
+    desiredOutcome: 'Feel connected, share with circle',
+    contentExpectations: ['Emotional relevance', 'Accessible language', 'Discussion prompt'],
+    nativeBehavior: ['Share', 'Comment with friends', 'React'],
+  },
+  facebook_card_news: {
+    primaryAudience: 'Visual learners in feed',
+    audienceIntent: 'Quick structured information',
+    consumptionContext: 'Carousel swipe in feed',
+    attentionState: 'Medium — first card decides',
+    primaryPainPoints: ['Text-heavy cards', 'Unclear progression', 'No save value'],
+    desiredOutcome: 'Complete understanding in swipeable format',
+    contentExpectations: ['Strong first card', 'One idea per card', 'Visual clarity'],
+    nativeBehavior: ['Swipe through', 'Save', 'Share'],
+  },
+  linkedin: {
+    primaryAudience: 'Professionals seeking career value',
+    audienceIntent: 'Learn from peers, build credibility',
+    consumptionContext: 'Professional feed during work breaks',
+    attentionState: 'Medium-high for relevant insights',
+    primaryPainPoints: ['Generic motivation', 'No real experience', 'Disguised sales pitch'],
+    desiredOutcome: 'Actionable professional insight',
+    contentExpectations: ['First-person experience', 'Concrete lesson', 'Business relevance'],
+    nativeBehavior: ['Comment with perspective', 'Repost with thoughts', 'Connect'],
+  },
+  newsletter: {
+    primaryAudience: 'Subscribed loyal readers',
+    audienceIntent: 'Curated insight from trusted voice',
+    consumptionContext: 'Inbox, intentional reading time',
+    attentionState: 'High — they chose to subscribe',
+    primaryPainPoints: ['Generic content', 'No personal voice', 'Wasted time'],
+    desiredOutcome: 'Feel smarter, take one action',
+    contentExpectations: ['Strong subject line', 'Personal voice', 'One clear takeaway'],
+    nativeBehavior: ['Reply', 'Forward', 'Click CTA'],
+  },
+};
+
+// ------------------------------------------------------------
+// Hook type mapping per platform
+// ------------------------------------------------------------
+const PLATFORM_HOOK_TYPES = {
+  youtube_shorts: ['curiosity', 'result_first', 'shock'],
+  tiktok: ['curiosity', 'story', 'question'],
+  instagram_reels: ['story', 'shock', 'curiosity'],
+  x: ['contrarian', 'question', 'shock'],
+  x_thread: ['curiosity', 'question', 'problem'],
+  blog: ['question', 'problem', 'curiosity'],
+  facebook: ['story', 'problem', 'shock'],
+  facebook_card_news: ['curiosity', 'problem', 'question'],
+  linkedin: ['contrarian', 'story', 'problem'],
+  newsletter: ['story', 'curiosity', 'question'],
+};
+
+// ------------------------------------------------------------
 // Opportunity → platform fit scoring
 // Uses Phase 1 opportunity scores, weighted by platform type.
 // ------------------------------------------------------------
@@ -467,8 +600,11 @@ class StrategyLLM {
   buildPrompt({ phase1, platform, research, examples, selectedOpportunity }) {
     const meta = PLATFORM_META[platform];
     const focus = (PLATFORM_FOCUS[platform] || []).join(', ');
+    const audience = PLATFORM_AUDIENCE[platform] || {};
+    const hookTypes = (PLATFORM_HOOK_TYPES[platform] || []).join(', ');
     const ck = phase1.coreKnowledge || {};
     const opp = selectedOpportunity;
+    const sourceAudience = (ck.targetAudience || []).join(', ') || 'General viewers of the source video';
 
     return `You are a ${meta.label} content strategist. Generate a platform-native content strategy based on REAL data below. Do NOT invent metrics, URLs, or examples.
 
@@ -495,6 +631,31 @@ Focus areas: ${focus}
 ${meta.aspectRatio ? `Aspect ratio: ${meta.aspectRatio}` : ''}
 ${meta.maxLength ? `Max length: ${meta.maxLength}` : ''}
 ${meta.maxChars ? `Max chars: ${meta.maxChars}` : ''}
+
+## AUDIENCE BRIDGE (critical — connect source to platform)
+Source Audience: ${sourceAudience}
+Platform Audience: ${audience.primaryAudience || ''}
+Platform Intent: ${audience.audienceIntent || ''}
+Consumption Context: ${audience.consumptionContext || ''}
+Attention State: ${audience.attentionState || ''}
+Pain Points: ${(audience.primaryPainPoints || []).join(' | ')}
+Desired Outcome: ${audience.desiredOutcome || ''}
+Native Behaviors: ${(audience.nativeBehavior || []).join(', ')}
+
+You MUST explicitly connect:
+Source Audience → Platform Audience → Specific Need → Pain Point → Content Promise → Recommended Angle
+
+## HOOK GUIDANCE
+Preferred hook types for ${meta.label}: ${hookTypes}
+Hook structure required:
+{
+  "type": "curiosity|contrarian|question|shock|story|problem|result_first",
+  "rationale": "Why this hook type for this platform and audience",
+  "firstLine": "Direction for opening (not final copy, but concrete)",
+  "firstVisual": "What viewer sees first",
+  "firstAction": "What happens in first moments",
+  "firstSeconds": "Goal for first 2-3 seconds"
+}
 
 ## PLATFORM RESEARCH
 ${(research.officialGuidelines || []).map(g => `- [${g.type}] ${g.sourceName}: ${g.claim}`).join('\n')}
@@ -558,6 +719,26 @@ DO NOT: List of prohibitions (no invented facts, no generic advice, etc.)
 QUALITY CRITERIA: How to evaluate the output
 IMPORTANT RULE: Do not invent or change facts from the source. Only use provided information.
 
+## PLATFORM-SPECIFIC PRODUCTION GUIDANCE
+${platform === 'x' ? `
+X Post: Single 280-char post. Lead with the take. No thread needed.
+Make it quotable — aim for repost-worthy phrasing.` : ''}${platform === 'x_thread' ? `
+X Thread: Post 1 = Hook + Promise. Each subsequent post = one idea.
+Posts 2-4 = Context/Insight/Evidence. Final post = Takeaway + CTA.
+Each post must read well standalone.` : ''}${platform === 'blog' ? `
+Blog: SEO title (55-60 chars), meta description, H1/H2/H3 hierarchy.
+Answer-first: give the answer early, then evidence, then depth.
+Include FAQ section for search intent coverage.` : ''}${platform === 'facebook_card_news' ? `
+Card News: Slide 1 = Hook. One idea per slide. Large readable text.
+Slide progression: Hook → Problem → Context → Insight → Evidence → Takeaway → CTA.
+Adjust slide count to content (typically 5-8).` : ''}${platform === 'linkedin' ? `
+LinkedIn: First-person professional voice. Start with experience, extract lesson.
+End with discussion question. Use line breaks for readability.
+Lead with credibility signal.` : ''}${platform === 'newsletter' ? `
+Newsletter: Subject line (curiosity + specificity). Preview text matters.
+Opening: personal/editorial hook in first 2-3 lines.
+One main insight, one practical takeaway, clear CTA.` : ''}
+
 ## PRODUCTION GUIDE REQUIREMENTS
 The "productionGuide" object must include practical, actionable details:
 {
@@ -598,8 +779,35 @@ Return ONLY valid JSON (no markdown fences, no explanation):
   },
   "evidence": [
     {"type": "official_guideline", "sourceName": "", "url": "", "claim": ""}
-  ]
+  ],
+  "confidence": {
+    "score": 0,
+    "level": "high|medium|low",
+    "reasons": []
+  },
+  "audienceBridge": {
+    "sourceAudience": "",
+    "platformAudience": "",
+    "specificNeed": "",
+    "painPoint": "",
+    "contentPromise": "",
+    "angleRationale": ""
+  },
+  "hookStrategy": {
+    "type": "",
+    "rationale": "",
+    "firstLine": "",
+    "firstVisual": "",
+    "firstAction": "",
+    "firstSeconds": ""
+  }
 }`;
+
+Confidence levels:
+- high: official guidelines + recent examples + strong source relevance
+- medium: some evidence but gaps in source match or recency
+- low: mostly general reasoning, limited evidence
+Be honest — do not inflate confidence.
   }
 
   async callClaude(prompt, maxRetries = 2) {
