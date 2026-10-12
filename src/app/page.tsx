@@ -205,7 +205,7 @@ function initPage(root: HTMLElement) {
         var referenceTitle = document.createElement('strong');
         referenceTitle.textContent = '지난 7일, 비슷한 콘텐츠 3개';
         var referenceNote = document.createElement('small');
-        referenceNote.textContent = '예시 데이터입니다';
+        referenceNote.textContent = '실시간 데이터';
         referenceHead.appendChild(referenceTitle);
         referenceHead.appendChild(referenceNote);
         referenceSection.appendChild(referenceHead);
@@ -330,6 +330,32 @@ function initPage(root: HTMLElement) {
         outputChoices.forEach(function (choice) { choice.disabled = false; });
         updateSelectionState();
       }
+      function updateViralReferences(query) {
+        fetch('/api/youtube-search?q=' + encodeURIComponent(query))
+          .then(function(res) { return res.json(); })
+          .then(function(data) {
+            if (data.items && data.items.length > 0) {
+              var lists = root.querySelectorAll('.viral-list');
+              lists.forEach(function(list) {
+                list.innerHTML = '';
+                data.items.forEach(function(item, index) {
+                  var s = item.snippet;
+                  var article = document.createElement('article');
+                  article.className = 'viral-item';
+                  article.innerHTML = '<span class="viral-thumb" aria-hidden="true"><img src="' + s.thumbnails.default.url + '" alt="" style="width:100%;height:100%;object-fit:cover"/></span>' +
+                    '<div class="viral-copy"><span class="viral-channel">' + s.channelTitle + '</span>' +
+                    '<strong>' + s.title + '</strong></div>';
+                  list.appendChild(article);
+                });
+              });
+              // Update notes
+              root.querySelectorAll('.viral-reference-head small').forEach(function(el) {
+                el.textContent = '실시간 데이터';
+              });
+            }
+          })
+          .catch(function() {});
+      }
       function updateDemoWithRealData(snippet, stats) {
         // Update demo UI with real video data
         var thumbUrl = snippet.thumbnails && snippet.thumbnails.medium ? snippet.thumbnails.medium.url : (snippet.thumbnails.default.url);
@@ -342,6 +368,9 @@ function initPage(root: HTMLElement) {
           description: snippet.description || ''
         };
         demoState.textContent = '실제 영상 정보를 가져왔어요';
+        // Fetch similar videos for viral references
+        var searchQuery = snippet.title.split(' ').slice(0, 3).join(' ');
+        updateViralReferences(searchQuery);
         // Update result cards with real video title
         var shortTitle = snippet.title.length > 30 ? snippet.title.substring(0, 30) + '...' : snippet.title;
         demoCards.forEach(function(card) {
