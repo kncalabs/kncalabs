@@ -330,6 +330,20 @@ function initPage(root: HTMLElement) {
         outputChoices.forEach(function (choice) { choice.disabled = false; });
         updateSelectionState();
       }
+      function updateDemoWithRealData(snippet, stats) {
+        // Update demo UI with real video data
+        var thumbUrl = snippet.thumbnails && snippet.thumbnails.medium ? snippet.thumbnails.medium.url : (snippet.thumbnails.default.url);
+        // Store for result cards
+        window._demoVideoData = {
+          title: snippet.title,
+          channel: snippet.channelTitle,
+          thumbnail: thumbUrl,
+          publishedAt: snippet.publishedAt,
+          viewCount: stats.viewCount || '0',
+          description: snippet.description || ''
+        };
+        demoState.textContent = '실제 영상 정보를 가져왔어요';
+      }
       function runDemo(videoId) {
         clearDemoTimers();
         // Fetch real video data from YouTube API via proxy
