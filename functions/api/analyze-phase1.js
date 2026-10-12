@@ -108,10 +108,12 @@ export async function onRequest(context) {
     const chunks = chunkTranscript(cleanedTranscript);
     console.log('[analyze-phase1] STEP 4 chunks:', chunks.length);
     let analysisText = '';
+    let retryPrompt = '';
     
     if (chunks.length === 1) {
       // Short enough for direct analysis
       const analysisPrompt = buildAnalysisPrompt(video, cleanedTranscript);
+      retryPrompt = analysisPrompt;
       console.log('[analyze-phase1] CLAUDE CALL model:', MODEL, 'prompt_len:', analysisPrompt.length, 'max_tokens:', 8000);
       const claudeRes = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
@@ -153,6 +155,7 @@ export async function onRequest(context) {
       }
       // Global synthesis
       const synthesisPrompt = buildSynthesisPrompt(video, chunkResults);
+      retryPrompt = synthesisPrompt;
       const synthRes = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
@@ -174,7 +177,7 @@ export async function onRequest(context) {
     let analysis = null;
     let parseAttempts = 0;
     const maxParseAttempts = 3;
-    let currentPrompt = analysisPrompt;
+    let currentPrompt = retryPrompt;
     let currentText = analysisText;
     
     console.log('[analyze-phase1] JSON EXTRACTION START');
