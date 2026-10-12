@@ -125,7 +125,6 @@ function buildCacheKey({ videoId, phase1Version, platform, researchVersion }) {
 // NO invented algorithm claims.
 // ============================================================
 
-import { RESEARCH_VERSION } from './types.js';
 
 const TODAY = new Date().toISOString().split('T')[0];
 
@@ -399,8 +398,6 @@ class ResearchProvider {
 // Claude-dependent parts are abstracted behind StrategyLLM.
 // ============================================================
 
-import { PLATFORMS, PLATFORM_META, isValidPlatform } from './types.js';
-import { getResearch } from './research.js';
 
 // ------------------------------------------------------------
 // Platform-specific strategy focus areas
@@ -801,14 +798,19 @@ Return ONLY valid JSON (no markdown fences, no explanation):
     "firstAction": "",
     "firstSeconds": ""
   }
-}`;
-
-Confidence levels:
-- high: official guidelines + recent examples + strong source relevance
-- medium: some evidence but gaps in source match or recency
-- low: mostly general reasoning, limited evidence
-Be honest — do not inflate confidence.
+  "confidence": {
+    "score": 0,
+    "level": "high|medium|low",
+    "reasons": []
   }
+}`;
+  }
+
+  // Confidence levels:
+  // - high: official guidelines + recent examples + strong source relevance
+  // - medium: some evidence but gaps in source match or recency
+  // - low: mostly general reasoning, limited evidence
+  // Be honest — do not inflate confidence.
 
   async callClaude(prompt, maxRetries = 2) {
     let lastError;
