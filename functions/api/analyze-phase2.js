@@ -649,10 +649,15 @@ Hook structure required:
   "type": "curiosity|contrarian|question|shock|story|problem|result_first",
   "rationale": "Why this hook type for this platform and audience",
   "firstLine": "Direction for opening (not final copy, but concrete)",
-  "firstVisual": "What viewer sees first",
-  "firstAction": "What happens in first moments",
+  "firstVisual": "NEW CREATIVE SUGGESTION for what the viewer should see first (you have NOT seen the source video — do not describe it as observed)",
+  "firstAction": "NEW CREATIVE SUGGESTION for what happens in first moments",
   "firstSeconds": "Goal for first 2-3 seconds"
 }
+
+SOURCE VS CREATION RULE (strict):
+- You have NOT seen the source video. All visualDirection and audioDirection values are NEW creative suggestions for the user's new content, NOT observations from the source video.
+- Never write visualDirection or audioDirection as if you observed the source video (e.g. never write "the clip shows..." or reference specific on-screen moments as fact).
+- Every structure beat must be buildable from the transcript-derived topic alone. If a direction requires knowing what the source video looks like, rewrite it as a general production suggestion instead.
 
 ## PLATFORM RESEARCH
 ${(research.officialGuidelines || []).map(g => `- [${g.type}] ${g.sourceName}: ${g.claim}`).join('\n')}

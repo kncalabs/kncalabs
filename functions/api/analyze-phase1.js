@@ -429,5 +429,12 @@ Analyze and return ONLY valid JSON in this exact structure:
   ]
 }
 
-Select TOP 5 content opportunities. Each must be standalone (understandable without full video context). Score 0-100. Base everything on actual video content - do not invent.`;
+Select TOP 5 content opportunities. Each must be standalone (understandable without full video context). Score 0-100.
+
+GROUNDING RULES (strict):
+- Your ONLY inputs are the video metadata and the transcript text above. You have NOT seen the video frames or heard the audio.
+- Describe ONLY what the transcript text supports. Do NOT describe camera angles, shot composition, on-screen visuals, facial expressions, background music, or sound effects — you cannot verify any of these.
+- For fields like storyElements and emotionalTriggers, ground each item in a specific transcript quote or timestamp. If an item cannot be tied to transcript text, mark it as "unverified" instead of writing it as fact.
+- Timestamps must reference positions that exist in the transcript above. Do not invent timestamps.
+- When uncertain, write "unverified" rather than a plausible-sounding detail. A missing field is better than a fabricated one.`;
 }
